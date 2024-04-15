@@ -48,7 +48,7 @@ class MyPhpMailer
         $subject = 'Conferma email';
         $body = "Il tuo codice di conferma è: " . DbStore::GenerateOTP($email);
 
-        $this->sendEmail($email, $subject, $body);
+        self::sendEmail($email, $subject, $body);
 
         // Salva l'ora dell'ultimo invio
         $_SESSION['last_email'] = time();

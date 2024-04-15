@@ -44,8 +44,8 @@ class ControllerPost
                 $token =  DbStore::storeTempUserData($nome, $cognome, $data_nascita, $password, $username, $email);
                 //echo $token;
                 //gestione eccezioni?
-                //$this->mailer->sendConfirmationEmail($email, false);  // commentata per debug
-                DbStore::GenerateOTP($email);                    // da commentare per non debug (genro OTP senza inviare email), otp visibilke nel db
+                MyPhpMailer::sendConfirmationEmail($email, false);  // commentata per debug
+                //DbStore::GenerateOTP($email);                    // da commentare per non debug (genro OTP senza inviare email), otp visibilke nel db
 
 
                 // salvo l'email in sessione per il controllo dell'OTP
