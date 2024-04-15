@@ -8,6 +8,8 @@ class ControllerGet
     public function getHome(Request $request, Response $response, $args)
     {
         $view = new View("pages/HomePage");
+        //aggiungo a data i dati dei giochi da stampare in homepage
+        $data['games'] = DbUtils::getGames();
 
         if (isset($_COOKIE['CapycodesTkn'])) {
 
@@ -20,12 +22,16 @@ class ControllerGet
                 $data['profile'] = DbUtils::getUserData($token, "session");
             }
         }
-        //aggiungo a data i dati dei giochi da stampare in homepage
-        $data['games'] = DbUtils::getGames();
         //$data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
-        $view->setData($data);
-        $response->getBody()->write($view->render());
-        return $response;
+
+        //restituisco i dati in formato JSON
+        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
+                //set response headers
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
+                    ->withHeader('Access-Control-Allow-Credentials', 'true') // Allow cookies
+                    ->withStatus(200); 
     }
 
     public function getLogin(Request $request, Response $response, $args)
