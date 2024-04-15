@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CapyCODEs</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f2f2f2;
+            border-radius: 10px;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .game {
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .game h2 {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .game img {
+            max-width: 200px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .game p {
+            margin-bottom: 10px;
+        }
+
+        .game input[type="submit"] {
+            margin-right: 10px;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .raw-data {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>CapyCODEs</h1>
+        <p>codes</p>
+        {{#profile}}
+        <div class="user-info">
+            <p>Benvenuto {{Username}}</p>
+            <button><a href="/profile">Profile</a></button>
+            <button><a href="/logout">logout</a></button>
+        </div>
+        {{/profile}}
+
+        {{^profile}}
+        <button><a href="/login">login</a></button>
+        {{/profile}}
+
+        <button><a href="/cart">View Cart</a></button>
+
+        {{#games}}
+        <div class="game">
+            <h2>{{name}}</h2>
+            <p>{{released}}</p>
+            <img src={{background_image}} alt="immagine di {{name}}" height="200">
+            <p>Piattaforme: 
+            {{#platforms}}
+                {{platform.name}}
+            {{/platforms}}
+            </p>
+            <p> Genere: 
+            {{#genres}}
+                {{name}}
+            {{/genres}}
+            </p>
+
+            <p>{{rating}}</p>
+            <p>{{metacritic}}</p>
+            <p>{{price}}</p>
+            <form action="/game/{{id}}" method="get">
+                <input type="hidden" name="id" value="{{id}}">
+                <input type="submit" value="Dettagli">
+            </form>
+            <form action="/game/{{id}}/add" method="post">
+                <input type="hidden" name="id" value="{{id}}">
+                <input type="submit" value="Aggiungi ai preferiti">
+            </form>
+            <form action="/cart/add/{{id}}" method="post"> <!-- 00 è il codice piattaforma momentaneo -->
+                <input type="hidden" name="id" value="{{id}}">
+                <input type="submit" value="Aggiungi al carrello"> 
+            </form>
+        </div>
+        {{/games}}
+
+        <div class="raw-data">
+            <p>{{raw}}</p>
+        </div>
+    </div>
+</body>
+</html>

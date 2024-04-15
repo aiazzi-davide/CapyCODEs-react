@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cart Page</title>
+    <style>
+        .cart-container {
+            margin: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            background-color: #f9f9f9;
+        }
+        
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        
+        .cart-item-name {
+            font-weight: bold;
+        }
+        
+        .cart-item-price {
+            margin-left: auto;
+        }
+        
+        .cart-total {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        
+        .cart-actions {
+            margin-top: 20px;
+        }
+        
+        .cart-actions button {
+            padding: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="cart-container">
+        <h1>Cart</h1>
+        
+        {{#items}}
+        {{#game}}
+        <div class="cart-item">
+            <img src="{{background_image}}" alt="{{name}}">
+            <div class="cart-item-details">
+                <div class="cart-item-name">{{name}}</div>
+                <div class="cart-item-price">{{price}}</div>
+            </div>
+            <form action="/cart/add/{{id}}" method="POST">
+                <input type="hidden" name="amount" value="1">
+                <button type="submit">+</button>
+            </form>
+            <form action="/cart/remove/{{id}}" method="POST">
+                <input type="hidden" name="amount" value="1">
+                <button type="submit">-</button>
+            </form>
+        </div>
+        {{/game}}
+        X{{Amount}}
+        {{/items}}
+        
+        <div class="cart-total">
+            Total: {{total}}
+        </div>
+        
+        <div class="cart-actions">
+            <button>Checkout</button>
+            <button>Clear Cart</button>
+        </div>
+    </div>
+    {{raw}}
+</body>
+</html>

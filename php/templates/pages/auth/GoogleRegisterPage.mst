@@ -1,0 +1,14 @@
+Complete your registration
+
+<form action="/register/google" method="POST">
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+
+    <label for="password_confirmation">Confirm Password:</label>
+    <input type="password" id="password_confirmation" name="password_confirmation" required>
+
+    <label for="birthday">Birthday:</label>
+    <input type="date" id="birthday" name="birthday" required>
+
+    <button type="submit">Register</button>
+</form>

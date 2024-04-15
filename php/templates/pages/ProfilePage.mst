@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function showForm() {
+            var form = document.getElementById('address-form');
+            form.style.display = 'block';
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="profile">
+            <h1>{{name}}</h1>
+            <p>Email: {{Email}}</p>
+            <p>Username: {{Username}}</p>
+            <p>Nome: {{Nome}}</p>
+            <p>Cognome: {{Cognome}}</p>
+            {{#Indirizzo}}
+                <p>Indirizzo: {{indirizzo}}</p>
+            {{/Indirizzo}}
+            {{^indirizzo}}
+                <button onclick="showForm()">Aggiungi Indirizzo</button>
+            {{/indirizzo}}    
+            <h2>Profile Options</h2>
+            <ul>
+                <li><a href="/edit-profile">Edit Profile</a></li>
+                <li><a href="/reset-password">Change Password</a></li>
+                <li><a href="/delete-account">Delete Account</a></li>
+            </ul>
+        </div>
+        <div id="address-form" style="display: none;">
+            <h2>Add Address</h2>
+            <form action="/add-address" method="post">
+                <input type="text" name="address" placeholder="Address">
+                <button type="submit">Add Address</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+{{raw}}

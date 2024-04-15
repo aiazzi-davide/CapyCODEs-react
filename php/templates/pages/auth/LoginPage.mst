@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login Page</title>
+</head>
+<body>
+    <h1>Login Page</h1>
+    
+    <form action="/login" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        
+        <button type="submit">Login</button>
+    </form>
+
+    <p>Login with <a href="/login/google">Google</a></p>
+    <p>Don't have an account? <a href="/register">Register</a></p>
+    <p>Forgot your password? <a href="/reset-password">Reset Password</a></p>
+    <p>Return to <a href="/">Home</a></p>
+    {{#error}}
+        credenziali errate
+    {{/error}}
+</body>
+</html>

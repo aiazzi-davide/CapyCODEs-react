@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Verification Page</title>
+</head>
+<body>
+    <h1>Verification Page</h1>
+    
+    <form action="/verify" method="POST">
+        <label for="otp">Enter OTP:</label>
+        <input type="text" id="otp" name="otp" pattern="[0-9]{6}" required>
+        <br>
+        <input type="submit" value="Verify">
+    </form>
+</body>
+</html>

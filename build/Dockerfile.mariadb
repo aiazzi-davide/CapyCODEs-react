@@ -1,0 +1,5 @@
+FROM mariadb
+ARG UID
+ARG GID
+RUN groupadd -f informatica -g$GID
+RUN adduser --disabled-password --uid $UID --gid $GID --gecos "" informatica
