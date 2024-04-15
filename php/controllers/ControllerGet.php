@@ -17,11 +17,11 @@ class ControllerGet
             // Verifica se il token è valido
             if (Auth::isTokenValid($token)) {
                 //setta dati per la view
-                $data['profile'] = dbUtils::getUserData($token, "session");
+                $data['profile'] = DbUtils::getUserData($token, "session");
             }
         }
         //aggiungo a data i dati dei giochi da stampare in homepage
-        $data['games'] = dbUtils::getGames();
+        $data['games'] = DbUtils::getGames();
         //$data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
         $view->setData($data);
         $response->getBody()->write($view->render());
@@ -56,7 +56,7 @@ class ControllerGet
     public function getVerify(Request $request, Response $response, $args){
         $token = $_SESSION['tokenTemp'];
         $view = new View('pages/auth/VerifyPage');
-        $view->setData(dbUtils::getUserData($token, "temp"));
+        $view->setData(DbUtils::getUserData($token, "temp"));
         $response->getBody()->write($view->render());
         return $response;
     }
@@ -66,7 +66,7 @@ class ControllerGet
         // Cancella il token dal database e dal cookie se l'utente è loggato
         if (isset($_COOKIE['CapycodesTkn'])) {
             $token = $_COOKIE['CapycodesTkn'];
-            dbUtils::logout($token);
+            DbUtils::logout($token);
         }
 
         header("Location: /home");
@@ -112,13 +112,13 @@ class ControllerGet
 
             if(Auth::isUserRegistered($email)){
                 // Genera un token e aggiorna il database
-                $user_id = dbUtils::getUserId($email);
-                $token =  dbStore::tokenUpdate($user_id);
-                dbStore::sessionUpdate($token);
+                $user_id = DbUtils::getUserId($email);
+                $token =  DbStore::tokenUpdate($user_id);
+                DbStore::sessionUpdate($token);
                 header("Location: /");
                 exit;
             } else {
-                $token =  dbStore::storeTempUserData($user->givenName, $user->familyName, null, null, $user->name, $email);
+                $token =  DbStore::storeTempUserData($user->givenName, $user->familyName, null, null, $user->name, $email);
                 $_SESSION['tokenTemp'] = $token;
                 header("Location: /register/google");
                 exit;
@@ -136,7 +136,7 @@ class ControllerGet
     {
         $token = $_SESSION['tokenTemp'];
         $view = new View('pages/auth/GoogleRegisterPage');
-        $view->setData(dbUtils::getUserData($token, "temp"));
+        $view->setData(DbUtils::getUserData($token, "temp"));
         $response->getBody()->write($view->render());
         return $response;
     }
@@ -147,9 +147,9 @@ class ControllerGet
         if($token = $_COOKIE['CapycodesTkn']){
 
             $user_id = Auth::isTokenValid($token);
-            $data['items'] = dbUtils::getCart($user_id);
+            $data['items'] = DbUtils::getCart($user_id);
             foreach ($data['items'] as $key => $item) {
-                $data['items'][$key]['game'] = dbUtils::getGame($item['ID_Game']);
+                $data['items'][$key]['game'] = DbUtils::getGame($item['ID_Game']);
             }
 
         } else {
@@ -165,7 +165,7 @@ class ControllerGet
     public function getGame(Request $request, Response $response, $args)
     {
         $view = new View('pages/GamePage');
-        $data = dbUtils::getGame($args['id']);
+        $data = DbUtils::getGame($args['id']);
         $data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
         $view->setData($data);
         $response->getBody()->write($view->render());
@@ -178,7 +178,7 @@ class ControllerGet
         $token = $_COOKIE['CapycodesTkn'] ?? null;
         
         if ($user_id = Auth::isTokenValid($token)) {
-            $data = dbUtils::getUserData($token, "session");
+            $data = DbUtils::getUserData($token, "session");
             $data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
             $view->setData($data);
             $response->getBody()->write($view->render());

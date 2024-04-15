@@ -17,7 +17,7 @@ class DbStore
         $expiryDate = date("Y-m-d H:i:s", strtotime($datetime . ' +1 month'));
 
         // Cancella i token dell'utente
-        dbUtils::delToken($user_id);
+        DbUtils::delToken($user_id);
 
         //hash del token
         $tokenHash = Crypt::encrypt($token);
@@ -55,7 +55,7 @@ class DbStore
     {
 
         //prendo i dati dell'utente
-        $userData = dbUtils::getTempUserData($tokenTemp);
+        $userData = DbUtils::getTempUserData($tokenTemp);
 
         $datetime = date("Y-m-d H:i:s");
         if (isset($args['Password'])) 
@@ -83,7 +83,7 @@ class DbStore
         $stmt->execute();
 
         //cancello i dati temporanei dell'utente
-        dbUtils::delTempUserData($userData['Email']);
+        DbUtils::delTempUserData($userData['Email']);
 
         return $userID;
     }
@@ -99,7 +99,7 @@ class DbStore
         $OTP = mt_rand(100000, 999999);
 
         //controllo se il codice è già presente nel database
-        $stmt = DB::conn()->prepare("SELECT * FROM OTP_Tokens WHERE OTP = ?");
+        $stmt = DB::conn()->prepare("SELECT * FROM OTP_tokens WHERE OTP = ?");
         $stmt->bind_param("s", $OTP);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -109,13 +109,13 @@ class DbStore
         }
 
         //cancello gli altri codici OTP associati all'email
-        dbUtils::delOTP($email);
+        DbUtils::delOTP($email);
 
         $datetime = date("Y-m-d H:i:s");
         $expiryDate = date("Y-m-d H:i:s", strtotime($datetime . ' +5 minutes'));
 
         //salvo il codice OTP nel database
-        $stmt = DB::conn()->prepare("INSERT INTO OTP_Tokens (Email, DataCreazione, DataScadenza, OTP) VALUES (?, ?, ?, ?)");
+        $stmt = DB::conn()->prepare("INSERT INTO OTP_tokens (Email, DataCreazione, DataScadenza, OTP) VALUES (?, ?, ?, ?)");
         $stmt->bind_param("ssss", $email, $datetime, $expiryDate, $OTP);
         $stmt->execute();
 
@@ -130,7 +130,7 @@ class DbStore
     static function confirmOTP($email, $otp)
     {
         // imposto il token come verificato
-        $stmt = DB::conn()->prepare("UPDATE OTP_Tokens SET Verified = 1 WHERE OTP = ? AND Email = ?");
+        $stmt = DB::conn()->prepare("UPDATE OTP_tokens SET Verified = 1 WHERE OTP = ? AND Email = ?");
         $stmt->bind_param("ss", $otp, $email);
         $stmt->execute();
 
@@ -268,7 +268,7 @@ class DbStore
         $stmt->execute();
 
         //cancello i token dell'utente
-        dbUtils::delToken($email);
+        DbUtils::delToken($email);
     }
 
 

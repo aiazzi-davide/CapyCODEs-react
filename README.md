@@ -40,6 +40,8 @@ All default values mentioned above are configurable in .env file
 - ~~profile page~~
 - profile page features
 - ~~get game page~~
+- ~~React implement~~
+- React front End
 - post game page
 - favorites system
 - loading animations
@@ -48,5 +50,4 @@ All default values mentioned above are configurable in .env file
 - security emails
 - errors and exceptions managment (try catch)
 - home page 25%
-- React
 - better documentation

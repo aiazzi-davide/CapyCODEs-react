@@ -120,7 +120,7 @@ class Auth
     {
 
         // Controllo se il codice OTP è presente nel database
-        $stmt = DB::conn()->prepare("SELECT * FROM OTP_Tokens WHERE OTP = ? AND Email = ?");
+        $stmt = DB::conn()->prepare("SELECT * FROM OTP_tokens WHERE OTP = ? AND Email = ?");
         $stmt->bind_param("ss", $code, $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -151,7 +151,7 @@ class Auth
     static function IsOTPVerified($email)
     {
         // Controllo se il codice OTP è stato verificato
-        $stmt = DB::conn()->prepare("SELECT * FROM OTP_Tokens WHERE Email = ? AND Verified = 1");
+        $stmt = DB::conn()->prepare("SELECT * FROM OTP_tokens WHERE Email = ? AND Verified = 1");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();

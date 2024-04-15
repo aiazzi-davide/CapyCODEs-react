@@ -46,7 +46,7 @@ class MyPhpMailer
 
         // Invia l'email di conferma
         $subject = 'Conferma email';
-        $body = "Il tuo codice di conferma è: " . dbStore::GenerateOTP($email);
+        $body = "Il tuo codice di conferma è: " . DbStore::GenerateOTP($email);
 
         $this->sendEmail($email, $subject, $body);
 

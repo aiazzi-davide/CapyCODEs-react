@@ -21,9 +21,9 @@ class DbUtils
             case "temp":
                 $stmt = DB::conn()->prepare("SELECT ID, Email, Username, Nome, Cognome, DataDiNascita FROM TempUserData WHERE token = ?");
                 break;
-            //se il tipo è otp, prendo i dati dell'utente dalla tabella OTP_Tokens INUTILIZZATO
+            //se il tipo è otp, prendo i dati dell'utente dalla tabella OTP_tokens INUTILIZZATO
             case "otp":
-                $stmt = DB::conn()->prepare("SELECT * FROM OTP_Tokens WHERE token = ?");
+                $stmt = DB::conn()->prepare("SELECT * FROM OTP_tokens WHERE token = ?");
                 break;
             default:
                 return false;
@@ -64,7 +64,7 @@ class DbUtils
      */
     static function delOTP($email)
     {
-        $stmt = DB::conn()->prepare("DELETE FROM OTP_Tokens WHERE Email = ?");
+        $stmt = DB::conn()->prepare("DELETE FROM OTP_tokens WHERE Email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
     }

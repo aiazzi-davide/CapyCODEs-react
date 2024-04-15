@@ -16,8 +16,8 @@ class ControllerPost
         if ($user_id) {
 
             // Genera un token e aggiorna il database
-            $token =  dbStore::tokenUpdate($user_id);
-            dbStore::sessionUpdate($token);
+            $token =  DbStore::tokenUpdate($user_id);
+            DbStore::sessionUpdate($token);
             header("Location: /");
             exit;
         } else {
@@ -41,11 +41,11 @@ class ControllerPost
         switch (Auth::CheckRegister($username, $email)) {
             case 0:
 
-                $token =  dbStore::storeTempUserData($nome, $cognome, $data_nascita, $password, $username, $email);
+                $token =  DbStore::storeTempUserData($nome, $cognome, $data_nascita, $password, $username, $email);
                 //echo $token;
                 //gestione eccezioni?
                 //$this->mailer->sendConfirmationEmail($email, false);  // commentata per debug
-                dbStore::GenerateOTP($email);                    // da commentare per non debug (genro OTP senza inviare email), otp visibilke nel db
+                DbStore::GenerateOTP($email);                    // da commentare per non debug (genro OTP senza inviare email), otp visibilke nel db
 
 
                 // salvo l'email in sessione per il controllo dell'OTP
@@ -74,11 +74,11 @@ class ControllerPost
         $token = $_SESSION['tokenTemp'];
 
         // Registra l'utente nel database
-        $user_id = dbStore::registerUser($token, ['Birthday' => $birthday, 'Password' => $password]);
+        $user_id = DbStore::registerUser($token, ['Birthday' => $birthday, 'Password' => $password]);
 
         // logga l'utente
-        $token =  dbStore::tokenUpdate($user_id);
-        dbStore::sessionUpdate($token);
+        $token =  DbStore::tokenUpdate($user_id);
+        DbStore::sessionUpdate($token);
         header("Location: /home");
         exit;
     }
@@ -91,7 +91,7 @@ class ControllerPost
 
         switch (Auth::CheckOTP($email, $otp)) {
             case 0:
-                $userID = dbStore::registerUser($tokenTemp, []);
+                $userID = DbStore::registerUser($tokenTemp, []);
                 header("Location: /login"); // Codice OTP presente e valido
                 break;
             case 1:
@@ -101,13 +101,14 @@ class ControllerPost
                 header("Location: /verify?&error=2"); // Codice OTP presente ma scaduto
                 break;
         }
+        exit;
     }
     public function sendOTP(Request $request, Response $response, $args)
     {
         $email = $request->getParsedBody()['email'];
         if (Auth::IsUserRegistered($email)) {
             //$this->mailer->sendConfirmationEmail($email, false); // commentata per debug
-            dbStore::GenerateOTP($email);  // da commentare per non debug (genro OTP senza inviare email), otp visibile nel db
+            DbStore::GenerateOTP($email);  // da commentare per non debug (genro OTP senza inviare email), otp visibile nel db
             $_SESSION['resetPswEmail'] = $email;
             header("Location: /reset-password?verified=1"); //-----------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "email sent" o "error sending email"
             exit;
@@ -124,7 +125,7 @@ class ControllerPost
             $email = $_SESSION['resetPswEmail'];
             switch (Auth::CheckOTP($email, $otp)) {
                 case 0:
-                    dbstore::confirmOTP($email, $otp);
+                    DbStore::confirmOTP($email, $otp);
                     header("Location: /new-password");
                     break;
                 case 1:
@@ -151,8 +152,8 @@ class ControllerPost
 
         if (Auth::IsOTPVerified($email)) { // Controllo se l'utente ha verificato il codice OTP
 
-            dbStore::updatePassword($email, $password);
-            dbUtils::delOTP($email);
+            DbStore::updatePassword($email, $password);
+            DbUtils::delOTP($email);
             header("Location: /login"); // Password aggiornata con successo
             //-----------------------------invio mail di sicurezza perche la password è stata cambiata--------------------------
             exit;
@@ -169,7 +170,7 @@ class ControllerPost
         //$platform_id = $args['id_platform'];
         $token = $_COOKIE['CapycodesTkn'] ?? null;
         if ($user_id = Auth::isTokenValid($token)) {
-            dbStore::addToCart($user_id, $game_id/*, $platform_id*/);
+            DbStore::addToCart($user_id, $game_id/*, $platform_id*/);
             header("Location: /cart"); //-------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "added successfully" o "error adding to cart"
         } else {
             header("Location: /login"); //se l'utente non è loggato, lo reindirizzo alla pagina di login
@@ -182,7 +183,7 @@ class ControllerPost
         $game_id = $args['id_game'];
         $token = $_COOKIE['CapycodesTkn'] ?? null;
         if ($user_id = Auth::isTokenValid($token)) {
-            dbStore::removeFromCart($user_id, $game_id);
+            DbStore::removeFromCart($user_id, $game_id);
             header("Location: /cart"); //-------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "removed successfully" o "error removing from cart"
             exit;
 
