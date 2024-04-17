@@ -76,8 +76,7 @@ class ControllerGet
             DbUtils::logout($token);
         }
 
-        header("Location: /home");
-        exit;
+        return $response->/*withHeader('Location', '/')->*/withStatus(302);
     }
 
     public function getResetPassword(Request $request, Response $response, $args){

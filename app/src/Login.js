@@ -1,19 +1,25 @@
+import { useState, useEffect } from 'react';
 
 function Login(profile) {
+  
+  const [data, setData] = useState(null);
+
   const logout = () => {
     fetch('http://localhost:81/logout', {
-      method: 'DELETE',
+      method: 'GET',
       credentials: 'include'
     })
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
+        setData(data);
         window.location.href = 'http://localhost:81/';
       })
       .catch(error => {
         console.error('There was an error!', error);
       });
   };
+
   let response;
   if (profile['data']) {
     response = (

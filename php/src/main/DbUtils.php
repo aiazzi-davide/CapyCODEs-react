@@ -111,6 +111,7 @@ class DbUtils
      */
     static function logout($token)
     {
+        $token = Crypt::encrypt($token);
         // Cancella il token dal database
         $stmt = DB::conn()->prepare("DELETE FROM Session_Tokens WHERE token = ?");
         $stmt->bind_param("s", $token);
