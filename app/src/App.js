@@ -6,7 +6,7 @@ import Footer from './Footer'
 import Login from './Login'
 
 function App() {
-  const [data, setData] = useState({ Username: '' });
+  const [data, setData] = useState({});
 
   useEffect(() => {
     fetch('http://localhost:81/', {
@@ -17,8 +17,6 @@ function App() {
       .then(data => {
         setData(data);
         console.log('Success:', data);
-        //stampo tipo di variabile
-        console.log(data.Username);
       })
       .catch(error => {
         console.error('There was an error!', error);
@@ -27,8 +25,8 @@ function App() {
 
   return (
     <>
-      <Header/>
-      <Login username={data.Username}/>
+      <Header />
+      <Login data={data.profile} />
       <Footer />
     </>
   );

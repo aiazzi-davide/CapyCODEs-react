@@ -18,14 +18,15 @@ class ControllerGet
 
             // Verifica se il token è valido
             if (Auth::isTokenValid($token)) {
-                //setta dati per la view
+                //setta dati utente
                 $data['profile'] = DbUtils::getUserData($token, "session");
+                $data['debug'] = ["token" => $token]; //debug
             }
         }
         //$data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
 
         //restituisco i dati in formato JSON
-        $response->getBody()->write(json_encode($data, JSON_PRETTY_PRINT));
+        $response->getBody()->write(json_encode($data));
                 //set response headers
                 return $response
                     ->withHeader('Content-Type', 'application/json')

@@ -36,7 +36,7 @@ $app->addRoutingMiddleware();
     $app->get('/verify', 'ControllerGet:getVerify');
     $app->get('/reset-password', 'ControllerGet:getResetPassword');
     $app->get('/new-password', 'ControllerGet:getNewPassword');
-    $app->get('/logout', 'ControllerGet:getLogout');
+    $app->delete('/logout', 'ControllerGet:getLogout');
     $app->get('/login/google', 'ControllerGet:getGoogleLogin');
     $app->get('/register/google', 'ControllerGet:getGoogleRegister');
 

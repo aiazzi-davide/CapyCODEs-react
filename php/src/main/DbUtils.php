@@ -13,7 +13,7 @@ class DbUtils
         switch ($type) {
             case "session":
                 //se il tipo è session, prendo i dati dell'utente dalla tabella Session_Tokens !!IN SESSION_TOKENS IL TOKEN è HASHATO!!
-                $stmt = DB::conn()->prepare("SELECT Users.ID, Users.Email, Users.Username, Users.DataCreazione, UserData.* FROM Users JOIN UserData ON Users.ID = UserData.ID_User JOIN Session_Tokens ON Users.ID = Session_Tokens.ID_Utente WHERE token = ?");
+                $stmt = DB::conn()->prepare("SELECT Users.ID, Users.Email, Users.Username, Users.DataCreazione, UserData.* FROM Users LEFT JOIN UserData ON Users.ID = UserData.ID_User LEFT JOIN Session_Tokens ON Users.ID = Session_Tokens.ID_Utente WHERE Session_Tokens.token = ?");
                 //hash del token
                 $token = Crypt::encrypt($token);
                 break;
@@ -36,6 +36,7 @@ class DbUtils
         $result = $stmt->get_result();
         $data = $result->fetch_assoc();
         return $data;
+        //return ["token" => $token];
     }
 
     static function getTempUserData($token) //funzione che passa tutti i dati (anche la password) dell'utente temporaneo
