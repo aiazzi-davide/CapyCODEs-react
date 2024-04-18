@@ -6,4 +6,5 @@ if [ ! -f package.json ]; then
   npx -y create-react-app . 
 fi
 npm install
+npm install react-router-dom
 npm start

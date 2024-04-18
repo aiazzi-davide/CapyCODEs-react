@@ -23,7 +23,7 @@ function Login(profile) {
   let response;
   if (profile['data']) {
     response = (
-      <div>
+      <div className='login'>
         <h1>Welcome, {profile['data'].Username}!</h1>
         <p>Your email is {profile['data'].Email}.</p>
         <button onClick={logout}>Logout</button>

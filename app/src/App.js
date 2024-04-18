@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './Header'
 import Footer from './Footer'
 import Login from './Login'
@@ -25,9 +26,14 @@ function App() {
 
   return (
     <>
-      <Header />
-      <Login data={data.profile} />
-      <Footer />
+      <Router>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Login data={data.profile} />} />
+          <Route path='/login' element={<Login />} />
+        </Routes>
+        <Footer />
+      </Router>
     </>
   );
 }
