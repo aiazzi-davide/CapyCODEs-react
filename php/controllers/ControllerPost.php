@@ -7,23 +7,38 @@ class ControllerPost
 {
     public function postLogin(Request $request, Response $response, $args)
     {
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+                ->withHeader('Access-Control-Allow-Credentials', 'true')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                ->withStatus(200);
+        }
         $password = $request->getParsedBody()['password'];
         $username = $request->getParsedBody()['username'];
         //$clientIP = $_SERVER['REMOTE_ADDR'];
 
         // CheckLogin ritorna l'ID dell'utente se le credenziali sono corrette
         $user_id =  Auth::CheckLogin($username, $password);
-        if ($user_id) {
 
+        if ($user_id) {
             // Genera un token e aggiorna il database
             $token =  DbStore::tokenUpdate($user_id);
             DbStore::sessionUpdate($token);
-            header("Location: /");
-            exit;
+            $response->getBody()->write(json_encode(["message" => "Login successful"]));
+            return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
+                    ->withHeader('Access-Control-Allow-Credentials', 'true') // Allow cookies
+                    ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+                    ->withStatus(200); 
         } else {
-
-            header("Location: /login?error=1");
-            exit;
+            $response->getBody()->write(json_encode(["message" => "Invalid credentials"]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+                ->withHeader('Access-Control-Allow-Credentials', 'true')
+                ->withStatus(401); // Allow cookies
         }
     }
 

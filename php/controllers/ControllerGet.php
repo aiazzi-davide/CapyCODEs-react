@@ -41,16 +41,27 @@ class ControllerGet
         if (isset($_COOKIE['CapycodesTkn'])) {
             $token = $_COOKIE['CapycodesTkn'];
             if (Auth::isTokenValid($token)) {
-                header("Location: /home");
-                exit;
+                $response->getBody()->write(json_encode(["message" => "User already logged in"]));
+
+                //redirect to home
+                return $response
+                    ->withHeader('Location', '/')
+                    ->withStatus(302)
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
+                    ->withHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies
             }
         } 
         //se non è loggato, mostra la pagina di login
-        $view = new View("pages/auth/LoginPage");
-        $error = $request->getQueryParams()['error'] ?? null;
-        $view->setData(['error' => $error]);
-        $response->getBody()->write($view->render());
-        return $response;
+        //$view = new View("pages/auth/LoginPage");
+        //$error = $request->getQueryParams()['error'] ?? null;
+        //$view->setData(['error' => $error]);
+        $response->getBody()->write(json_encode(["message" => "User not logged in"]));
+        return $response
+            ->withStatus(200)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
+            ->withHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies
     }
 
     public function getRegister(Request $request, Response $response, $args){
@@ -74,9 +85,17 @@ class ControllerGet
         if (isset($_COOKIE['CapycodesTkn'])) {
             $token = $_COOKIE['CapycodesTkn'];
             DbUtils::logout($token);
+
+            $response->getBody()->write(json_encode(["message" => "Logout successful"]));
+        } else {
+            $response->getBody()->write(json_encode(["message" => "User not logged in"]));
         }
 
-        return $response->/*withHeader('Location', '/')->*/withStatus(302);
+        return $response/*->withHeader('Location', '/')*/
+            ->withStatus(302)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
+            ->withHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies
     }
 
     public function getResetPassword(Request $request, Response $response, $args){
