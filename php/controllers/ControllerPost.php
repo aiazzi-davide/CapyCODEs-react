@@ -7,15 +7,11 @@ class ControllerPost
 {
     public function postLogin(Request $request, Response $response, $args)
     {
-        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            return $response
-                ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-                ->withHeader('Access-Control-Allow-Credentials', 'true')
-                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-                ->withStatus(200);
-        }
-        $password = $request->getParsedBody()['password'];
-        $username = $request->getParsedBody()['username'];
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $username = $data['email'];
+        $password = $data['password'];
+        //$password = $request->getParsedBody()['password'];
         //$clientIP = $_SERVER['REMOTE_ADDR'];
 
         // CheckLogin ritorna l'ID dell'utente se le credenziali sono corrette
@@ -28,17 +24,15 @@ class ControllerPost
             $response->getBody()->write(json_encode(["message" => "Login successful"]));
             return $response
                     ->withHeader('Content-Type', 'application/json')
-                    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
-                    ->withHeader('Access-Control-Allow-Credentials', 'true') // Allow cookies
-                    ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                     ->withStatus(200); 
         } else {
-            $response->getBody()->write(json_encode(["message" => "Invalid credentials"]));
+            $response->getBody()->write(json_encode([
+                "message" => "Invalid credentials",
+                "email" => $username,
+                "password" => $password]));
             return $response
                 ->withHeader('Content-Type', 'application/json')
-                ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
-                ->withHeader('Access-Control-Allow-Credentials', 'true')
-                ->withStatus(401); // Allow cookies
+                ->withStatus(401);
         }
     }
 

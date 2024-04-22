@@ -20,7 +20,7 @@ class ControllerGet
             if (Auth::isTokenValid($token)) {
                 //setta dati utente
                 $data['profile'] = DbUtils::getUserData($token, "session");
-                $data['debug'] = ["token" => $token]; //debug
+                //$data['debug'] = ["token" => $token]; //debug
             }
         }
         //$data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
@@ -30,8 +30,6 @@ class ControllerGet
                 //set response headers
                 return $response
                     ->withHeader('Content-Type', 'application/json')
-                    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
-                    ->withHeader('Access-Control-Allow-Credentials', 'true') // Allow cookies
                     ->withStatus(200); 
     }
 
@@ -45,11 +43,8 @@ class ControllerGet
 
                 //redirect to home
                 return $response
-                    ->withHeader('Location', '/')
-                    ->withStatus(302)
-                    ->withHeader('Content-Type', 'application/json')
-                    ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
-                    ->withHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies
+                    ->withStatus(200)
+                    ->withHeader('Content-Type', 'application/json');
             }
         } 
         //se non è loggato, mostra la pagina di login
@@ -59,9 +54,7 @@ class ControllerGet
         $response->getBody()->write(json_encode(["message" => "User not logged in"]));
         return $response
             ->withStatus(200)
-            ->withHeader('Content-Type', 'application/json')
-            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
-            ->withHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies
+            ->withHeader('Content-Type', 'application/json');
     }
 
     public function getRegister(Request $request, Response $response, $args){
@@ -92,10 +85,7 @@ class ControllerGet
         }
 
         return $response/*->withHeader('Location', '/')*/
-            ->withStatus(302)
-            ->withHeader('Content-Type', 'application/json')
-            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000') // Must be specific origin, not '*'
-            ->withHeader('Access-Control-Allow-Credentials', 'true'); // Allow cookies
+            ->withStatus(302);
     }
 
     public function getResetPassword(Request $request, Response $response, $args){

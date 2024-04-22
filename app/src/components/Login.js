@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
+import { php_url } from '../vars';
 
 function Login(props) {
   
   const [data, setData] = useState(null);
 
   const logout = () => {
-    fetch('http://localhost:81/logout', {
+    fetch(php_url + '/logout', {
       method: 'GET',
       credentials: 'include'
     })
@@ -21,7 +22,7 @@ function Login(props) {
   };
 
   let response;
-  console.log(props);
+  //console.log(props);
 
   if (props['profile']) {
     response = (

@@ -31,7 +31,6 @@ class Auth
 
         } else {
             return false;
-
         }
 
         //return $password; //debug

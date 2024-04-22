@@ -40,7 +40,12 @@ class DbStore
     {
         $_SESSION['token'] = Crypt::encrypt($token);
         $_SESSION['token_time'] = time();
-        setcookie("CapycodesTkn", $token, time() + (86400 * 30), "/");
+        setcookie("CapycodesTkn", $token, [
+            'expires' => time() + (86400 * 30),
+            'path' => '/',
+            'samesite' => 'None',
+            'secure' => true,  // SameSite=None requires the Secure attribute
+        ]);
     }
 
 

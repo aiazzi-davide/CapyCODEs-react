@@ -26,12 +26,12 @@ docker exec -i mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /some/
 All default values mentioned above are configurable in .env file
 
 ## ToDo
-- ~~login~~
-- ~~register (with otp)~~
+- ~~login~~ R
+- ~~register (with otp)~~ 
 - ~~change password~~
 - ~~confirm email~~
 - ~~docblock~~
-- ~~logout~~
+- ~~logout~~ R
 - ~~hashing~~
 - ~~password reset~~
 - ~~google auth~~
