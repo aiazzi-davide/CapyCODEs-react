@@ -63,8 +63,9 @@ class ControllerPost
                 //salvo il token in sessione INUTILIZZATO
                 $_SESSION['tokenTemp'] = $token;
 
-                header("Location: /verify"); // Redirect alla pagina di verifica
-                break;
+                return $response
+                    ->withHeader('Location', '/verify') //------------------redirecto alla pagina di verifica di react
+                    ->withStatus(302);
             case 1:
                 header("Location: /register?error=1"); // Username non valido
                 break;

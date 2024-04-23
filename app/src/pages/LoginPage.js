@@ -56,6 +56,27 @@ const LoginPage = () => {
             });
     };
 
+    const resetPassword = () => {
+        fetch(php_url + '/reset', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+            body: JSON.stringify({
+                email: email,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+                data.message === 'Email sent' ? alert('Email sent') : alert('Email not sent');
+            })
+            .catch((error) => {
+                console.error('There was an error!', error);
+            });
+    }
+
     
 
     useEffect(() => {
@@ -75,6 +96,8 @@ const LoginPage = () => {
                     <input type="password" value={password} onChange={handlePasswordChange} />
                     <br />
                     <button type="submit" onClick={handleSubmit}>Login</button>
+                    <button onClick={resetPassword}>forgot password?</button>
+                    <p>New here? <a href="/register">Sign up</a></p>
                 </form>
             </div>
         );
