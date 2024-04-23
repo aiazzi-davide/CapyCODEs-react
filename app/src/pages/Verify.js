@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import { php_url, react_url } from '../vars';
+import React, { useState, useEffect } from 'react';
+import { php_url, react_url, checkLogin } from '../vars';
 import { useParams } from 'react-router-dom';
 
 function Verify() {
     const { emailAddr } = useParams();
     const [email, setEmail] = useState(emailAddr);
     const [otp, setOtp] = useState('');
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -42,6 +43,12 @@ function Verify() {
                 console.error('There was an error!', error);
             });
     };
+
+    useEffect(() => {
+        //setTimeout(() => {
+            checkLogin(setIsLoaded);
+        //}, 1000);
+    }, []);
 
     return (
         <div>

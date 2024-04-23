@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { php_url } from "../vars";
+import { php_url, react_url, checkLogin } from "../vars";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -12,23 +12,6 @@ const LoginPage = () => {
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
-    };
-
-    const checkLogin = () => {
-        fetch(php_url + '/login', {
-            method: 'GET',
-            credentials: 'include',
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                
-                setIsLoaded(true);
-                console.log('Success:', data);
-                data.message === 'User already logged in' && window.location.replace('http://localhost:3000/');
-            })
-            .catch((error) => {
-                console.error('There was an error!', error);
-            });
     };
 
     const handleSubmit = (e) => {
@@ -81,7 +64,7 @@ const LoginPage = () => {
 
     useEffect(() => {
         //setTimeout(() => {
-            checkLogin();
+            checkLogin(setIsLoaded);
         //}, 1000);
     }, []);
     return (

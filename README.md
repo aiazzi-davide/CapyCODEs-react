@@ -26,21 +26,19 @@ docker exec -i mysql sh -c 'exec mysql -uroot -p"$MYSQL_ROOT_PASSWORD"' < /some/
 All default values mentioned above are configurable in .env file
 
 ## ToDo
+
+# Reactable
 - ~~login~~ R
 - ~~register (with otp)~~ R (manca controlli passw, data, caratteri nell'username)
 - ~~change password~~
-- ~~confirm email~~
-- ~~docblock~~
 - ~~logout~~ R
-- ~~hashing~~
-- ~~password reset~~
 - ~~google auth~~
-- ~~Rawg API~~
 - ~~cart managment~~
 - ~~profile page~~
-- profile page features
 - ~~get game page~~
-- ~~React implement~~
+
+# post React
+- profile page features
 - React front End
 - post game page
 - favorites system
@@ -51,3 +49,12 @@ All default values mentioned above are configurable in .env file
 - errors and exceptions managment (try catch)
 - home page 25%
 - better documentation
+
+# minors
+- ~~React implement~~
+- ~~confirm email~~
+- docblock
+- ~~hashing~~
+- ~~Rawg API~~
+
+

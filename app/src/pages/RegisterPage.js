@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { php_url, react_url } from "../vars";
+import { useState, useEffect } from "react";
+import { php_url, react_url, checkLogin } from "../vars";
 
 function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -37,23 +37,6 @@ function RegisterPage() {
 
     const handleBirthdateChange = (e) => {
         setBirthdate(e.target.value);
-    }
-
-    const checkLogin = () => {
-        fetch(php_url + '/login', {
-            method: 'GET',
-            credentials: 'include',
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                
-                setIsLoaded(true);
-                console.log('Success:', data);
-                data.message === 'User already logged in' && window.location.replace('http://localhost:3000/');
-            })
-            .catch((error) => {
-                console.error('There was an error!', error);
-            });
     }
 
     const passwordMatch = () => {
@@ -95,6 +78,12 @@ function RegisterPage() {
             alert('Passwords do not match');
         }
     };
+
+    useEffect(() => {
+        //setTimeout(() => {
+            checkLogin(setIsLoaded);
+        //}, 1000);
+    }, []);
 
     return (
         <div>
