@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ControllerGet
 {
-    public function getHome(Request $request, Response $response, $args)
+    public function getHome(Request $request, Response $response, $args) //reacted
     {
         $view = new View("pages/HomePage");
         //aggiungo a data i dati dei giochi da stampare in homepage
@@ -33,7 +33,7 @@ class ControllerGet
                     ->withStatus(200); 
     }
 
-    public function getLogin(Request $request, Response $response, $args)
+    public function getLogin(Request $request, Response $response, $args) //reacted
     {
         //controllo se l'utente è già loggato e reindirizzo alla home
         if (isset($_COOKIE['CapycodesTkn'])) {
@@ -57,14 +57,14 @@ class ControllerGet
             ->withHeader('Content-Type', 'application/json');
     }
 
-    public function getRegister(Request $request, Response $response, $args){
+    public function getRegister(Request $request, Response $response, $args){ //inutilizzato
         $view = new View('pages/auth/RegisterPage');
         $response->getBody()->write($view->render());
         return $response;
         
     }
 
-    public function getVerify(Request $request, Response $response, $args){
+    public function getVerify(Request $request, Response $response, $args){ //inutilizzato
         $token = $_SESSION['tokenTemp'];
         $view = new View('pages/auth/VerifyPage');
         $view->setData(DbUtils::getUserData($token, "temp"));
@@ -72,7 +72,7 @@ class ControllerGet
         return $response;
     }
 
-    public function getLogout(Request $request, Response $response, $args){ //dovrebbe essere un metodo DELETE
+    public function getLogout(Request $request, Response $response, $args){ //dovrebbe essere un metodo DELETE //reacted
 
         // Cancella il token dal database e dal cookie se l'utente è loggato
         if (isset($_COOKIE['CapycodesTkn'])) {

@@ -101,7 +101,7 @@ class ControllerPost
         exit;
     }
 
-    public function postVerify(Request $request, Response $response, $args)
+    public function postVerify(Request $request, Response $response, $args) //reacted
     {
         //$tokenTemp = $_SESSION['tokenTemp'];
         $contents = $request->getBody()->getContents();
@@ -148,35 +148,45 @@ class ControllerPost
     }
     public function sendOTP(Request $request, Response $response, $args)
     {
-        $email = $request->getParsedBody()['email'];
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $email = $data['email'];
         if (Auth::IsUserRegistered($email)) {
             //$this->mailer->sendConfirmationEmail($email, false); // commentata per debug
             DbStore::GenerateOTP($email);  // da commentare per non debug (genro OTP senza inviare email), otp visibile nel db
-            $_SESSION['resetPswEmail'] = $email;
-            header("Location: /reset-password?verified=1"); //-----------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "email sent" o "error sending email"
-            exit;
+            //$_SESSION['resetPswEmail'] = $email;
+            $response->getBody()->write(json_encode(["message" => "OTP sent", "status" => "200"]));
+            return $response
+                ->withStatus(200);
         } else {
-            header("Location: /reset-password?verified=0");
-            exit;
+            $response->getBody()->write(json_encode(["message" => "Email not registered", "status" => "401"]));
+            return $response
+                ->withStatus(401);
         }
     }
 
     public function postResetPassword(Request $request, Response $response, $args)
     {
-        $otp = $request->getParsedBody()['otp'] ?? null;
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $otp = $data['otp'];
+        $email = $data['email']; //email passabile anche da args[]
+
         if ($otp) {
-            $email = $_SESSION['resetPswEmail'];
             switch (Auth::CheckOTP($email, $otp)) {
                 case 0:
                     DbStore::confirmOTP($email, $otp);
-                    header("Location: /new-password");
-                    break;
+                    $response->getBody()->write(json_encode(["message" => "OTP verified", "status" => "200"]));
+                    return $response
+                        ->withStatus(200);
                 case 1:
-                    header("Location: /reset-password?error=1"); // Codice OTP non corretto
-                    break;
+                    $response->getBody()->write(json_encode(["message" => "Invalid OTP", "status" => "401"]));
+                    return $response
+                        ->withStatus(401);
                 case 2:
-                    header("Location: /reset-password?error=2"); // Codice OTP presente ma scaduto
-                    break;
+                    $response->getBody()->write(json_encode(["message" => "OTP expired", "status" => "401"]));
+                    return $response
+                        ->withStatus(401);
             }
             exit;
         }

@@ -40,7 +40,7 @@ const LoginPage = () => {
     };
 
     const resetPassword = () => {
-        fetch(php_url + '/reset', {
+        fetch(php_url + '/reset-password', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,7 +79,8 @@ const LoginPage = () => {
                     <input type="password" value={password} onChange={handlePasswordChange} />
                     <br />
                     <button type="submit" onClick={handleSubmit}>Login</button>
-                    <button onClick={resetPassword}>forgot password?</button>
+                    <br />
+                    <p>Forgot your password? <a href="/reset-password">Reset Password</a></p>
                     <p>New here? <a href="/register">Sign up</a></p>
                 </form>
             </div>

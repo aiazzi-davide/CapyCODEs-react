@@ -7,4 +7,5 @@ if [ ! -f package.json ]; then
 fi
 npm install
 npm install react-router-dom
+npm install --save react-lottie
 npm start

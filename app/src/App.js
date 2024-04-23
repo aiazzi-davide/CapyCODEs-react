@@ -22,6 +22,7 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify/:emailAddr" element={<Verify />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />
@@ -29,5 +30,4 @@ function App() {
     </>
   );
 }
-//<Route path="/reset-password" element={<ResetPasswordPage />} />
 export default App;

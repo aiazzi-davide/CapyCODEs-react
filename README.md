@@ -49,6 +49,7 @@ All default values mentioned above are configurable in .env file
 - errors and exceptions managment (try catch)
 - home page 25%
 - better documentation
+- reserach system
 
 # minors
 - ~~React implement~~
