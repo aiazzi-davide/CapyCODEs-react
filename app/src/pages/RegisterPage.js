@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { php_url } from "../vars";
+import { php_url, react_url } from "../vars";
 
 function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -86,7 +86,7 @@ function RegisterPage() {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Success:', data);
-                    data.message === 'Registration successful' ? window.location.replace('http://localhost:3000/login') : alert('Registration failed');
+                    data.status == 200 ? window.location.replace(react_url + `/verify/${email}`) : alert(data.message);
                 })
                 .catch((error) => {
                     console.error('There was an error!', error);

@@ -27,7 +27,7 @@ All default values mentioned above are configurable in .env file
 
 ## ToDo
 - ~~login~~ R
-- ~~register (with otp)~~ 
+- ~~register (with otp)~~ R (manca controlli passw, data, caratteri nell'username)
 - ~~change password~~
 - ~~confirm email~~
 - ~~docblock~~

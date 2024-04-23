@@ -49,6 +49,21 @@ class DbUtils
         return $data;
     }
 
+    /**
+     * getTokenTemp($email) Restituisce il token temporaneo dell'utente
+     * @param string $email
+     * @return string
+     */
+    static function getTokenTemp($email)
+    {
+        $stmt = DB::conn()->prepare("SELECT Token FROM TempUserData WHERE Email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        return $data['Token'];
+    }
+
     static function getUserId($email){
         $stmt = DB::conn()->prepare("SELECT ID FROM Users WHERE Email = ?");
         $stmt->bind_param("s", $email);
@@ -88,8 +103,6 @@ class DbUtils
         $stmt->execute();
 
         //Rimozione dalla sessione
-        unset($_SESSION['token']);
-        unset($_SESSION['token_time']);
         setcookie("CapycodesTkn", "x", time() - 3600, "/");
     }
 
@@ -118,8 +131,6 @@ class DbUtils
         $stmt->execute();
 
         // Cancella il token dalla sessione
-        unset($_SESSION['token']);
-        unset($_SESSION['token_time']);
         setcookie("CapycodesTkn", "x", time() - 3600, "/");
     }
 

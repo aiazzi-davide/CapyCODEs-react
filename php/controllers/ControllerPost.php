@@ -39,12 +39,14 @@ class ControllerPost
     public function postRegister(Request $request, Response $response, $args)
     {
         //$page = $_SERVER['HTTP_REFERER'];
-        $nome = $request->getParsedBody()['nome'];
-        $cognome = $request->getParsedBody()['cognome'];
-        $data_nascita = $request->getParsedBody()['data_nascita'];
-        $password = $request->getParsedBody()['password'];
-        $username = $request->getParsedBody()['username'];
-        $email = $request->getParsedBody()['email'];
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $nome = $data['nome'];
+        $cognome = $data['cognome'];
+        $data_nascita = $data['data_nascita'];
+        $password = $data['password'];
+        $username = $data['username'];
+        $email = $data['email'];
 
         // Controllo se l'username e l'email non sono già presenti nel database
         switch (Auth::CheckRegister($username, $email)) {
@@ -58,20 +60,26 @@ class ControllerPost
 
 
                 // salvo l'email in sessione per il controllo dell'OTP
-                $_SESSION['email'] = $email;
+                $_SESSION['emailOTP'] = $email;
 
-                //salvo il token in sessione INUTILIZZATO
+                //salvo il token in sessione 
                 $_SESSION['tokenTemp'] = $token;
 
+                $response->getBody()->write(json_encode(["message" => "Waiting for OTP verification", "email" => $_SESSION['emailOTP'], "status" => "200"]));
                 return $response
-                    ->withHeader('Location', '/verify') //------------------redirecto alla pagina di verifica di react
-                    ->withStatus(302);
+                    ->withStatus(200);
             case 1:
-                header("Location: /register?error=1"); // Username non valido
-                break;
+                $response->getBody()->write(json_encode(["message" => "Username already in use", "status" => "401"]));
+                return $response
+                    ->withStatus(401);
             case 2:
-                header("Location: /register?error=2"); // Email non valida
-                break;
+                $response->getBody()->write(json_encode(["message" => "Email already in use", "status" => "401"]));
+                return $response
+                    ->withStatus(401);
+            case 3:
+                $response->getBody()->write(json_encode(["message" => "wrong input", "status" => "401", "email" => $email, "password" => $password, "username" => $username, "nome" => $nome, "cognome" => $cognome, "data_nascita" => $data_nascita]));
+                return $response
+                    ->withStatus(401);
         }
         exit;
     }
@@ -95,21 +103,46 @@ class ControllerPost
 
     public function postVerify(Request $request, Response $response, $args)
     {
-        $email = $_SESSION['email'];
-        $tokenTemp = $_SESSION['tokenTemp'];
-        $otp = $request->getParsedBody()['otp'];
+        //$tokenTemp = $_SESSION['tokenTemp'];
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $otp = $data['otp'];
+        $email = $data['email'];
 
         switch (Auth::CheckOTP($email, $otp)) {
+
             case 0:
+                $tokenTemp = DbUtils::getTokenTemp($email);
+                // Registra l'utente nel database
                 $userID = DbStore::registerUser($tokenTemp, []);
-                header("Location: /login"); // Codice OTP presente e valido
-                break;
+
+                // logga l'utente
+                $token =  DbStore::tokenUpdate($userID);
+                DbStore::sessionUpdate($token);
+
+                // Cancella l'OTP dal database
+                DbUtils::delOTP($email);
+
+                $response->getBody()->write(json_encode(["message" => "Verification successful", "status" => "200", "token" => $token]));
+                return $response
+                    ->withStatus(200);
+
             case 1:
-                header("Location: /verify?&error=1"); // Codice OTP non corretto
-                break;
+                $response->getBody()->write(json_encode(["message" => "Invalid OTP", "status" => "401", "otp" => $otp]));
+                return $response
+                    ->withStatus(401);
             case 2:
-                header("Location: /verify?&error=2"); // Codice OTP presente ma scaduto
-                break;
+                $response->getBody()->write(json_encode(["message" => "OTP expired", "status" => "401"]));
+                return $response
+                    ->withStatus(401);
+            case 3:
+                $response->getBody()->write(json_encode(["message" => "Empty email", "status" => "401", "email" => $email]));
+                return $response
+                    ->withStatus(401);
+            case 4:
+                $response->getBody()->write(json_encode(["message" => "Empty OTP", "status" => "401", "otp" => $otp]));
+                return $response
+                    ->withStatus(401);
         }
         exit;
     }

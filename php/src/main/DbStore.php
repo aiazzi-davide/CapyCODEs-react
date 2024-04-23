@@ -38,8 +38,7 @@ class DbStore
      */
     static function sessionUpdate($token)
     {
-        $_SESSION['token'] = Crypt::encrypt($token);
-        $_SESSION['token_time'] = time();
+        //aggiorno la sessione
         setcookie("CapycodesTkn", $token, [
             'expires' => time() + (86400 * 30),
             'path' => '/',

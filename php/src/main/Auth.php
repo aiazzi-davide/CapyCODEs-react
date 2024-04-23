@@ -86,6 +86,9 @@ class Auth
     */
     static function CheckRegister($username, $email)
     {
+        if (empty($username) || empty($email)) {
+            return 3; //codice errore 3: campi vuoti
+        }
 
         //controllo se il nome utente è già registrato
         $stmt = DB::conn()->prepare("SELECT * FROM Users WHERE username = ?");
@@ -117,6 +120,12 @@ class Auth
     */
     static function CheckOTP($email, $code)
     {
+        if (is_null($email)){
+            return 3; // Email non corretta
+        }
+        if (is_null($code)){
+            return 4; // Codice OTP non corretto
+        }
 
         // Controllo se il codice OTP è presente nel database
         $stmt = DB::conn()->prepare("SELECT * FROM OTP_tokens WHERE OTP = ? AND Email = ?");
