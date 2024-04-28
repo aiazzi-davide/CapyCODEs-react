@@ -130,19 +130,23 @@ class ControllerGet
                 $user_id = DbUtils::getUserId($email);
                 $token =  DbStore::tokenUpdate($user_id);
                 DbStore::sessionUpdate($token);
-                header("Location: /");
-                exit;
+                //header("Location: /profile");
             } else {
                 $token =  DbStore::storeTempUserData($user->givenName, $user->familyName, null, null, $user->name, $email);
-                $_SESSION['tokenTemp'] = $token;
+                //$_SESSION['tokenTemp'] = $token;
                 header("Location: /register/google");
                 exit;
             }
 
         } else {
             $auth_url = $client->createAuthUrl();
-            header("Location: $auth_url");
-            exit;
+            /*header("Location: $auth_url");
+            exit;*/
+
+            $response->getBody()->write(json_encode(["url" => $auth_url]));
+            return $response
+                ->withHeader('Location', $auth_url)
+                ->withStatus(200);
         }
         
     }

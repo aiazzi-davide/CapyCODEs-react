@@ -80,6 +80,7 @@ const LoginPage = () => {
                     <br />
                     <button type="submit" onClick={handleSubmit}>Login</button>
                     <br />
+                    <p> Or login with <a href="/login/google">Google</a></p>
                     <p>Forgot your password? <a href="/reset-password">Reset Password</a></p>
                     <p>New here? <a href="/register">Sign up</a></p>
                 </form>
