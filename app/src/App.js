@@ -10,7 +10,9 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import Verify from "./pages/Verify";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import NewPasswordPage from "./pages/NewPasswordPage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/verify/:emailAddr" element={<Verify />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/new-password/:emailAddr" element={<NewPasswordPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

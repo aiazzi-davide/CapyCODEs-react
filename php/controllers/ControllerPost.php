@@ -152,7 +152,7 @@ class ControllerPost
         $data = json_decode($contents, true);
         $email = $data['email'];
         if (Auth::IsUserRegistered($email)) {
-            //$this->mailer->sendConfirmationEmail($email, false); // commentata per debug
+            //Mailer::sendConfirmationEmail($email, false); // commentata per debug
             DbStore::GenerateOTP($email);  // da commentare per non debug (genro OTP senza inviare email), otp visibile nel db
             //$_SESSION['resetPswEmail'] = $email;
             $response->getBody()->write(json_encode(["message" => "OTP sent", "status" => "200"]));
@@ -180,7 +180,7 @@ class ControllerPost
                     return $response
                         ->withStatus(200);
                 case 1:
-                    $response->getBody()->write(json_encode(["message" => "Invalid OTP", "status" => "401"]));
+                    $response->getBody()->write(json_encode(["message" => "Invalid OTP", "status" => "401", "otp" => $otp, "email" => $email]));
                     return $response
                         ->withStatus(401);
                 case 2:
@@ -196,24 +196,31 @@ class ControllerPost
 
     public function postNewPassword(Request $request, Response $response, $args)
     {
-        $email = $_SESSION['resetPswEmail'] ?? null; //email passabile anche da args[]
-        $password = $request->getParsedBody()['password'] ?? null;
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $email = $data['email'];
+        $password = $data['password'];
+
         if (!$email || !$password) {
-            header("Location: /404");
-            exit;
+            $response->getBody()->write(json_encode(["message" => "Empty email or password", "status" => "401"]));
+            return $response
+                ->withStatus(401);
         }
 
         if (Auth::IsOTPVerified($email)) { // Controllo se l'utente ha verificato il codice OTP
 
             DbStore::updatePassword($email, $password);
             DbUtils::delOTP($email);
-            header("Location: /login"); // Password aggiornata con successo
-            //-----------------------------invio mail di sicurezza perche la password è stata cambiata--------------------------
-            exit;
+            MyPhpMailer::sendPasswordChangedEmail($email, false); // ------------non fa se l'utente cambbuia la password con l'username
+            $response->getBody()->write(json_encode(["message" => "Password updated", "status" => "200"]));
+            return $response
+                ->withStatus(200);
 
         } else {
-            header("Location: /reset-password"); // Codice OTP non verificato
-            exit;
+            // Codice OTP non verificato
+            $response->getBody()->write(json_encode(["message" => "OTP not verified", "status" => "401"]));
+            return $response
+                ->withStatus(401);
         }
     }
 

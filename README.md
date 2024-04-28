@@ -30,7 +30,7 @@ All default values mentioned above are configurable in .env file
 # Reactable
 - ~~login~~ R
 - ~~register (with otp)~~ R (manca controlli passw, data, caratteri nell'username)
-- ~~change password~~
+- ~~change password~~ R
 - ~~logout~~ R
 - ~~google auth~~
 - ~~cart managment~~

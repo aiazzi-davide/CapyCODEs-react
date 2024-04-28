@@ -7,7 +7,7 @@ class MyPhpMailer
 {
 
 
-    function sendEmail($recipientEmail, $subject, $body)
+    static function sendEmail($recipientEmail, $subject, $body)
     {
 
         // Create a new PHPMailer instance
@@ -33,11 +33,13 @@ class MyPhpMailer
         $mailer->send();
 
     }
-    function sendConfirmationEmail($email, $urgent)
-    {
 
-        //cooldown di 5 minuti
-        $cooldown = 300;
+
+    //prebuilt email functions
+    static function sendConfirmationEmail($email, $urgent)
+    {
+        //cooldown di 30 secondi
+        $cooldown = 30;
 
         // Verifica se è passato meno di 5 minuti dall'ultimo invio (se urgent = true skippa il controllo)
         if (!$urgent && isset($_SESSION['last_email']) && time() - $_SESSION['last_email'] < $cooldown) {
@@ -52,6 +54,24 @@ class MyPhpMailer
 
         // Salva l'ora dell'ultimo invio
         $_SESSION['last_email'] = time();
+    }
+
+    static function sendResetPasswordEmail($email, $urgent)
+    {
+        // Invia l'email di reset password
+        $subject = 'Reset password';
+        $body = "Il tuo codice di reset password è: " . DbStore::GenerateOTP($email);
+
+        self::sendEmail($email, $subject, $body);
+    }
+
+    static function sendPasswordChangedEmail($email, $urgent)
+    {
+        // Invia l'email di reset password
+        $subject = 'Nuova password';
+        $body = "La password del tuo account è stata resettata con successo.";
+
+        self::sendEmail($email, $subject, $body);
     }
 }
 
