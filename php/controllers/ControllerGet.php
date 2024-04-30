@@ -17,7 +17,7 @@ class ControllerGet
             //$email = $_SESSION['email'];
 
             // Verifica se il token è valido
-            if (Auth::isTokenValid($token)) {
+            if (Auth::isTokenValid($token, "session")) {
                 //setta dati utente
                 $data['profile'] = DbUtils::getUserData($token, "session");
                 //$data['debug'] = ["token" => $token]; //debug
@@ -38,7 +38,7 @@ class ControllerGet
         //controllo se l'utente è già loggato e reindirizzo alla home
         if (isset($_COOKIE['CapycodesTkn'])) {
             $token = $_COOKIE['CapycodesTkn'];
-            if (Auth::isTokenValid($token)) {
+            if (Auth::isTokenValid($token, "session")) {
                 $response->getBody()->write(json_encode(["message" => "User already logged in"]));
 
                 //redirect to home
@@ -113,6 +113,7 @@ class ControllerGet
 
     public function getGoogleLogin(Request $request, Response $response, $args)
     {
+        $react_url = "http://localhost:3000";
         $client = new Google\Client;
         $client->setAuthConfig('google_client_secret.json');
         $client->setScopes(['email', 'profile']);
@@ -130,18 +131,18 @@ class ControllerGet
                 $user_id = DbUtils::getUserId($email);
                 $token =  DbStore::tokenUpdate($user_id);
                 DbStore::sessionUpdate($token);
-                //header("Location: /profile");
+                header("Location: $react_url"); // unicom modo per reindirizzare a react per il momento
+                exit;
+                
             } else {
-                $token =  DbStore::storeTempUserData($user->givenName, $user->familyName, null, null, $user->name, $email);
+                $token =  DbStore::storeTempUserData($user->givenName, $user->familyName, null, null, $user->name, $email); //password e data di nascita null
                 //$_SESSION['tokenTemp'] = $token;
-                header("Location: /register/google");
+                header("Location: $react_url/login/google?token=$token");
                 exit;
             }
 
         } else {
-            $auth_url = $client->createAuthUrl();
-            /*header("Location: $auth_url");
-            exit;*/
+            $auth_url = $client->createAuthUrl(); //genera l'url per l'autenticazione
 
             $response->getBody()->write(json_encode(["url" => $auth_url]));
             return $response
@@ -165,7 +166,7 @@ class ControllerGet
         $view = new View('pages/CartPage');
         if($token = $_COOKIE['CapycodesTkn']){
 
-            $user_id = Auth::isTokenValid($token);
+            $user_id = Auth::isTokenValid($token, "session");
             $data['items'] = DbUtils::getCart($user_id);
             foreach ($data['items'] as $key => $item) {
                 $data['items'][$key]['game'] = DbUtils::getGame($item['ID_Game']);
@@ -196,7 +197,7 @@ class ControllerGet
         $view = new View('pages/ProfilePage');
         $token = $_COOKIE['CapycodesTkn'] ?? null;
         
-        if ($user_id = Auth::isTokenValid($token)) {
+        if ($user_id = Auth::isTokenValid($token, "session")) {
             $data = DbUtils::getUserData($token, "session");
             $data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
             $view->setData($data);

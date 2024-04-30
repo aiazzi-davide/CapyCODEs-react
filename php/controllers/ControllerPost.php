@@ -84,12 +84,19 @@ class ControllerPost
         exit;
     }
 
-    public function postGoogleRegister(Request $request, Response $response, $args) //da gestire errori
+    public function postGoogleRegister(Request $request, Response $response, $args) //da gestire errori Reacteed
     {
-        $birthday = $request->getParsedBody()['birthday'];
-        $password = $request->getParsedBody()['password'];
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $birthday = $data['birthday'];
+        $password = $data['password'];
+        $token = $data['token'];
 
-        $token = $_SESSION['tokenTemp'];
+        if (!Auth::IsTokenValid($token, "temp")) {
+            $response->getBody()->write(json_encode(["message" => "Invalid token", "status" => "401"]));
+            return $response
+                ->withStatus(401);
+        }
 
         // Registra l'utente nel database
         $user_id = DbStore::registerUser($token, ['Birthday' => $birthday, 'Password' => $password]);
@@ -97,9 +104,10 @@ class ControllerPost
         // logga l'utente
         $token =  DbStore::tokenUpdate($user_id);
         DbStore::sessionUpdate($token);
-        header("Location: /home");
-        exit;
-    }
+        $response->getBody()->write(json_encode(["message" => "Registration successful", "status" => "200", "token" => $token]));
+        return $response
+            ->withStatus(200);
+    }   
 
     public function postVerify(Request $request, Response $response, $args) //reacted
     {
@@ -229,7 +237,7 @@ class ControllerPost
         $game_id = $args['id_game'];
         //$platform_id = $args['id_platform'];
         $token = $_COOKIE['CapycodesTkn'] ?? null;
-        if ($user_id = Auth::isTokenValid($token)) {
+        if ($user_id = Auth::isTokenValid($token, "session")) {
             DbStore::addToCart($user_id, $game_id/*, $platform_id*/);
             header("Location: /cart"); //-------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "added successfully" o "error adding to cart"
         } else {
@@ -242,7 +250,7 @@ class ControllerPost
     {
         $game_id = $args['id_game'];
         $token = $_COOKIE['CapycodesTkn'] ?? null;
-        if ($user_id = Auth::isTokenValid($token)) {
+        if ($user_id = Auth::isTokenValid($token, "session")) {
             DbStore::removeFromCart($user_id, $game_id);
             header("Location: /cart"); //-------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "removed successfully" o "error removing from cart"
             exit;

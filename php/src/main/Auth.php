@@ -41,29 +41,54 @@ class Auth
     * @param string $token
     * @return int|bool restituisce userID se il token è valido, altrimenti restituisce false
     */
-    static function isTokenValid($token)
+    static function isTokenValid($token, $type)
     {
 
         // Controllo se il token è vuoto
         if (empty($token)) {
             return false;
         }
-        //hash del token
-        $token = Crypt::encrypt($token);
 
-        // Controllo se il token è presente nel database
-        $stmt = DB::conn()->prepare("SELECT * FROM Session_Tokens WHERE token = ? AND DataScadenza > NOW()");
-        $stmt->bind_param("s", $token);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            // Ottiene l'ID dell'utente
-            $user_id = $result->fetch_assoc()['ID_Utente'];
-            return $user_id;
-        } else {
-            return false;
+        switch ($type) {
+            case "session":
+                //hash del token
+                $token = Crypt::encrypt($token);
+
+                // Controllo se il token è presente nel database
+                $stmt = DB::conn()->prepare("SELECT * FROM Session_Tokens WHERE token = ? AND DataScadenza > NOW()");
+                $stmt->bind_param("s", $token);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    // Ottiene l'ID dell'utente
+                    $user_id = $result->fetch_assoc()['ID_Utente'];
+                    return $user_id;
+                } else {
+                    return false;
+                }
+
+            case "temp":
+                $stmt = DB::conn()->prepare("SELECT * FROM TempUserData WHERE token = ?");
+                $stmt->bind_param("s", $token);
+                $stmt->execute();
+                $result = $stmt->get_result();
+                
+                if ($result->num_rows > 0) {
+                    // Ottiene l'ID dell'utente
+                    $user_id = $result->fetch_assoc()['ID'];
+                    return $user_id;
+                } else {
+                    return false;
+                }
+            default:
+                return false;
         }
+        
+        
+
+        
+        
 
     }
 
