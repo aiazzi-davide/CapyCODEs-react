@@ -5,7 +5,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ControllerPost
 {
-    public function postLogin(Request $request, Response $response, $args)
+    public function postLogin(Request $request, Response $response, $args) //reacted
     {
         $contents = $request->getBody()->getContents();
         $data = json_decode($contents, true);
@@ -13,6 +13,12 @@ class ControllerPost
         $password = $data['password'];
         //$password = $request->getParsedBody()['password'];
         //$clientIP = $_SERVER['REMOTE_ADDR'];
+
+        if (empty($username) || empty($password)) {
+            $response->getBody()->write(json_encode(["message" => "Empty fields", "status" => "401"]));
+            return $response
+                ->withStatus(401);
+        }
 
         // CheckLogin ritorna l'ID dell'utente se le credenziali sono corrette
         $user_id =  Auth::CheckLogin($username, $password);
@@ -36,7 +42,7 @@ class ControllerPost
         }
     }
 
-    public function postRegister(Request $request, Response $response, $args)
+    public function postRegister(Request $request, Response $response, $args) //reacted
     {
         //$page = $_SERVER['HTTP_REFERER'];
         $contents = $request->getBody()->getContents();
@@ -47,6 +53,12 @@ class ControllerPost
         $password = $data['password'];
         $username = $data['username'];
         $email = $data['email'];
+
+        if (empty($nome) || empty($cognome) || empty($data_nascita) || empty($password) || empty($username) || empty($email)) {
+            $response->getBody()->write(json_encode(["message" => "Empty fields", "status" => "401"]));
+            return $response
+                ->withStatus(401);
+        }
 
         // Controllo se l'username e l'email non sono già presenti nel database
         switch (Auth::CheckRegister($username, $email)) {
@@ -60,10 +72,10 @@ class ControllerPost
 
 
                 // salvo l'email in sessione per il controllo dell'OTP
-                $_SESSION['emailOTP'] = $email;
+                //$_SESSION['emailOTP'] = $email;
 
                 //salvo il token in sessione 
-                $_SESSION['tokenTemp'] = $token;
+                //$_SESSION['tokenTemp'] = $token;
 
                 $response->getBody()->write(json_encode(["message" => "Waiting for OTP verification", "email" => $_SESSION['emailOTP'], "status" => "200"]));
                 return $response
@@ -84,7 +96,7 @@ class ControllerPost
         exit;
     }
 
-    public function postGoogleRegister(Request $request, Response $response, $args) //da gestire errori Reacteed
+    public function postGoogleRegister(Request $request, Response $response, $args)// Reacteed
     {
         $contents = $request->getBody()->getContents();
         $data = json_decode($contents, true);
@@ -94,6 +106,12 @@ class ControllerPost
 
         if (!Auth::IsTokenValid($token, "temp")) {
             $response->getBody()->write(json_encode(["message" => "Invalid token", "status" => "401"]));
+            return $response
+                ->withStatus(401);
+        }
+
+        if (empty($birthday) || empty($password) || empty($token)) {
+            $response->getBody()->write(json_encode(["message" => "Empty fields", "status" => "401"]));
             return $response
                 ->withStatus(401);
         }
@@ -116,6 +134,12 @@ class ControllerPost
         $data = json_decode($contents, true);
         $otp = $data['otp'];
         $email = $data['email'];
+
+        if (empty($email) || empty($otp)) {
+            $response->getBody()->write(json_encode(["message" => "Empty email or OTP", "status" => "401"]));
+            return $response
+                ->withStatus(401);
+        }
 
         switch (Auth::CheckOTP($email, $otp)) {
 
@@ -154,11 +178,18 @@ class ControllerPost
         }
         exit;
     }
-    public function sendOTP(Request $request, Response $response, $args)
+    public function sendOTP(Request $request, Response $response, $args) //reacted
     {
         $contents = $request->getBody()->getContents();
         $data = json_decode($contents, true);
         $email = $data['email'];
+
+        if (empty($email)) {
+            $response->getBody()->write(json_encode(["message" => "Empty email", "status" => "401"]));
+            return $response
+                ->withStatus(401);
+        }
+
         if (Auth::IsUserRegistered($email)) {
             //Mailer::sendConfirmationEmail($email, false); // commentata per debug
             DbStore::GenerateOTP($email);  // da commentare per non debug (genro OTP senza inviare email), otp visibile nel db

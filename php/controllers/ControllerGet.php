@@ -111,7 +111,7 @@ class ControllerGet
         }
     }
 
-    public function getGoogleLogin(Request $request, Response $response, $args)
+    public function getGoogleLogin(Request $request, Response $response, $args) //reacted
     {
         $react_url = "http://localhost:3000";
         $client = new Google\Client;
