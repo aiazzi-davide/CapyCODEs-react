@@ -95,10 +95,10 @@ CREATE TABLE ProductPrices (
     Discount DECIMAL(10,2)
 );
 
-CREATE TABLE FavoriteGames (
-  ID_Favorite INT AUTO_INCREMENT PRIMARY KEY,
-  ID_User INT,
-  ID_Game INT,
-  FOREIGN KEY (ID_User) REFERENCES Users(ID),
-  FOREIGN KEY (ID_Game) REFERENCES Games(ID_Game)
-);
+--CREATE TABLE FavoriteGames (
+--  ID_Favorite INT AUTO_INCREMENT PRIMARY KEY,
+--ID_User INT,
+--  ID_Game INT,
+--  FOREIGN KEY (ID_User) REFERENCES Users(ID),
+--  FOREIGN KEY (ID_Game) REFERENCES Games(ID_Game)
+--);
