@@ -152,7 +152,33 @@ class DbUtils
     static function getGame($id)
     {
         $rawg = new RawgAPI();
-        return $rawg->getGame($id);
+        $data = $rawg->getGame($id);
+
+        if ($data == null) {
+            return ["Error" => "Game not found"];
+        } else {
+            return $data;
+        }
+    }
+
+    /**
+     * getPrice($id) Restituisce il prezzo del gioco con l'ID specificato
+     * @param string $id
+     * @return array
+     */
+    static function getPrice($id)
+    {
+        $stmt = DB::conn()->prepare("SELECT Price FROM ProductPrices WHERE ProductID = ?");
+        $stmt->bind_param("s", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+
+        if ($data == null) {
+            return ["Price" => "Not available"];
+        } else {
+            return $data;
+        }
     }
 
     /**

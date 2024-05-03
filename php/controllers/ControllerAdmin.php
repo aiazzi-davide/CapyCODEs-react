@@ -4,18 +4,6 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ControllerAdmin
 {
-    //GET
-    public function getPrices(Request $request, Response $response, $args)
-    {
-        // Recupera tutti i prezzi dei giochi dal database
-        $prices = DbStore::getAllPrices();
-
-        // Restituisce i prezzi come risposta JSON
-        $response->getBody()->write(json_encode($prices));
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(200);
-    }
 
 
     //PUT

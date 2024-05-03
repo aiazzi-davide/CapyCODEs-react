@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { checkLogin } from '../vars';
 
-const AdminPage = () => {
+function AdminPage (){
     // State variables for game price, discount, and discount end date
     const [gamePrice, setGamePrice] = useState(0);
     const [gameDiscount, setGameDiscount] = useState(0);
@@ -28,6 +29,11 @@ const AdminPage = () => {
     const handleSetAdmin = (userId) => {
         // Logic to set the user with the given userId as admin
     };
+
+    useEffect(() => {
+        // Check if the user is logged in
+        checkLogin()
+    } , []);
 
     return (
         <div>

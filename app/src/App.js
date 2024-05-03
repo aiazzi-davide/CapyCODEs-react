@@ -12,6 +12,7 @@ import Verify from "./pages/Verify";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import AdminPage from "./pages/AdminPage";
+import GamePage from "./pages/GamePage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 
 
@@ -21,6 +22,8 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
+
+          //AUTHENTICATION ROUTES
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/login/google" element={<GoogleLoginPage />} />
@@ -29,6 +32,10 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/new-password/:emailAddr" element={<NewPasswordPage />} />
           <Route path="/admin" element={<AdminPage />} />
+
+          //GAME ROUTES
+          <Route path="/game/:id" element={<GamePage />} />
+          //ERROR ROUTES
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

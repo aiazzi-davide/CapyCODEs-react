@@ -126,12 +126,27 @@ class ControllerGet
 
     public function getGame(Request $request, Response $response, $args)
     {
-        $view = new View('pages/GamePage');
-        $data = DbUtils::getGame($args['id']);
-        $data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
-        $view->setData($data);
-        $response->getBody()->write($view->render());
-        return $response;  //->withHeader('Content-Type', 'application/json');
+        $id = $args['id'];
+        $data = DbUtils::getGame($id);
+        $response->getBody()->write(json_encode($data));
+
+        if ($data['Error']) {
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(404);
+        }
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
+    }
+
+    public function getPrice(Request $request, Response $response, $args)
+    {
+        $data = DbUtils::getPrice($args['id']);
+        $response->getBody()->write(json_encode($data));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
     }
 
     public function getProfile(Request $request, Response $response, $args)

@@ -33,18 +33,18 @@ All default values mentioned above are configurable in .env file
 - ~~change password~~ R
 - ~~logout~~ R
 - ~~google auth~~ R
-- ~~get game page~~
+- ~~get game page~~ R
 - ~~cart managment~~
 - ~~profile page~~
 
 
 # post React
+- prices and discount managment with admin page !!!!
 - profile page features
 - React front End
 - post game page
 - favorites system
 - loading animations
-- prices and discount managment with admin page !!!!
 - news letter
 - security emails
 - errors and exceptions managment (try catch)

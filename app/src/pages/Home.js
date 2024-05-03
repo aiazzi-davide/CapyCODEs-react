@@ -36,7 +36,7 @@ function Home() {
       <div className="container">
         {data.games.map((game) => (
           
-            <GameCard key={game.id} game={game} />
+          <GameCard key={game.id} game={game} />
         ))
         }
       </div>
