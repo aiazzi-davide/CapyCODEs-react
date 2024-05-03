@@ -32,10 +32,11 @@ All default values mentioned above are configurable in .env file
 - ~~register (with otp)~~ R (manca controlli passw, data, caratteri nell'username)
 - ~~change password~~ R
 - ~~logout~~ R
-- ~~google auth~~
+- ~~google auth~~ R
+- ~~get game page~~
 - ~~cart managment~~
 - ~~profile page~~
-- ~~get game page~~
+
 
 # post React
 - profile page features
@@ -43,7 +44,7 @@ All default values mentioned above are configurable in .env file
 - post game page
 - favorites system
 - loading animations
-- prices and discount managment with admin page
+- prices and discount managment with admin page !!!!
 - news letter
 - security emails
 - errors and exceptions managment (try catch)

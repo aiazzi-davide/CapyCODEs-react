@@ -15,6 +15,7 @@ CREATE TABLE Users (
     Email VARCHAR(100) UNIQUE NOT NULL,
     Username VARCHAR(50) UNIQUE NOT NULL,
     Password VARCHAR(100),
+    Admin BOOLEAN default 0,
     DataCreazione DATE
 );
 
@@ -88,12 +89,14 @@ CREATE TABLE CartItems (
 
 CREATE TABLE ProductPrices (
     ID_Price INT AUTO_INCREMENT PRIMARY KEY,
-    ProductID INT,
+    ProductID INT UNIQUE NOT NULL,
     Price DECIMAL(10,2),
     DateEffectiveFrom DATETIME,
     DateEffectiveTo DATETIME,
     Discount DECIMAL(10,2)
 );
+
+
 
 --CREATE TABLE FavoriteGames (
 --  ID_Favorite INT AUTO_INCREMENT PRIMARY KEY,

@@ -8,6 +8,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 session_start();
 
+// ------------------------ AUTOLOADER ------------------------
 function autoloader($class) {
     $dirs = ['/','/controllers','/src/main','/src/engine','/views','/model', '/src'];
     foreach ($dirs as $d) {
@@ -32,14 +33,13 @@ $app->addRoutingMiddleware();
 
     // ------------------------ AUTH ------------------------
     $app->get('/login', 'ControllerGet:getLogin');
-    $app->get('/register', 'ControllerGet:getRegister');
-    $app->get('/verify', 'ControllerGet:getVerify');
+    //$app->get('/register', 'ControllerGet:getRegister');
+    //$app->get('/verify', 'ControllerGet:getVerify');
     $app->get('/reset-password', 'ControllerGet:getResetPassword');
     $app->get('/new-password', 'ControllerGet:getNewPassword');
-    $app->get('/logout', 'ControllerGet:getLogout');
     $app->get('/login/google', 'ControllerGet:getGoogleLogin');
     $app->get('/register/google', 'ControllerGet:getGoogleRegister');
-
+    
     // ------------------------ PROFILE ------------------------
     $app->get('/profile', 'ControllerGet:getProfile');
 
@@ -48,6 +48,10 @@ $app->addRoutingMiddleware();
 
     // ------------------------ GAME ------------------------
     $app->get('/game/{id}', 'ControllerGet:getGame');
+    $app->get('/game/{id}/price', 'ControllerAdmin:getPrices');
+
+
+
 
 // ------------------------ ROUTES POST ------------------------
 
@@ -68,6 +72,32 @@ $app->addRoutingMiddleware();
     $app->post('/cart/add/{id_game}', 'ControllerPost:AddToCart');
     $app->post('/cart/remove/{id_game}', 'ControllerPost:RemoveFromCart');
     //$app->post('/cart/checkout', 'ControllerPost:postCheckout');
+
+
+
+
+// ------------------------ ROUTES PUT ------------------------
+
+    // ------------------------ PROFILE ------------------------
+    //$app->put('/profile', 'ControllerPost:postProfile');
+    $app->put('/game/{id}/price', 'ControllerAdmin:updatePrice');
+    $app->put('/game/{id}/discount', 'ControllerAdmin:updateDiscount');
+
+    // ------------------------ CART ------------------------
+    //$app->put('/cart/update/{id_game}', 'ControllerPost:UpdateCart');
+
+
+
+
+// ------------------------ ROUTES DELETE ------------------------
+    
+        // ------------------------ AUTH ------------------------
+        $app->delete('/logout', 'ControllerGet:DeleteLogout');
+
+        // ------------------------ CART ------------------------
+        //$app->delete('/cart', 'ControllerPost:EmptyCart');
+
+
 
 
 // ------------------------ ERROR PAGES ------------------------

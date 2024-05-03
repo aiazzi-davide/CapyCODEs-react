@@ -92,6 +92,24 @@ class Auth
 
     }
 
+    /**
+     * isAdmin($token) Verifica se l'utente è un amministratore
+     * @param string $token
+     * @return bool
+     */
+    static function isAdmin($token)
+    {
+        //prendo l'ID dell'utente
+        $user_id = Auth::isTokenValid($token, "session");
+
+        // Controllo se l'utente è un amministratore
+        $stmt = DB::conn()->prepare("SELECT * FROM Users WHERE ID = ? AND Admin = 1");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+
+        return $stmt->get_result()->num_rows == 1;
+    }
+
     static function isUserRegistered($username)
     {
         //controllo se il nome utente è già registrato

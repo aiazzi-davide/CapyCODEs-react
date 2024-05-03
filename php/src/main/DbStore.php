@@ -276,5 +276,47 @@ class DbStore
     }
 
 
+    /**
+     * updatePrice($game_id, $new_price) Aggiorna il prezzo di un gioco nel database
+     * @param mixed $game_id
+     * @param mixed $new_price
+     * @return void
+     */
+    static function updatePrice($game_id, $new_price)
+    {
+        //aggiorno il prezzo del gioco
+        $stmt = DB::conn()->prepare("UPDATE ProductPrices SET Price = ? WHERE ProductID = ?");
+        $stmt->bind_param("ss", $new_price, $game_id);
+        $stmt->execute();
+    }
+
+    /**
+     * getAllPrices() Restituisce tutti i prezzi dei giochi dal database
+     * @return mixed
+     */
+    static function getAllPrices()
+    {
+        //recupero tutti i prezzi dei giochi
+        $stmt = DB::conn()->prepare("SELECT * FROM ProductPrices");
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    /**
+     * updateDiscount($game_id, $new_discount) Aggiorna lo sconto di un gioco nel database
+     * @param mixed $game_id
+     * @param mixed $new_discount
+     * @return void
+     */
+    static function updateDiscount($game_id, $new_discount, $end_date)
+    {
+        //aggiorno lo sconto del gioco
+        $stmt = DB::conn()->prepare("UPDATE ProductPrices SET Discount = ? WHERE ProductID = ?");
+        $stmt->bind_param("ss", $new_discount, $game_id);
+        $stmt->execute();
+    }
+
 
 }

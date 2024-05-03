@@ -3,7 +3,8 @@ import Login from "../components/Login";
 import Footer from "../components/Footer";
 import { useState, useEffect } from "react";
 import GameCard from "../components/GameCard";
-import  {php_url} from "../vars";
+import { php_url } from "../vars";
+import "../css/App.css";
 
 function Home() {
   const [data, setData] = useState({});
@@ -19,7 +20,6 @@ function Home() {
         setData(data);
         console.log("Success:", data);
         setIsLoaded(true);
-        //console.log(data.profile);
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -32,13 +32,14 @@ function Home() {
 
   return isLoaded ? (
     <div>
-
-      <Login profile={data.profile} />
-
-      {data.games.map((game) => (
-        <GameCard key={game.id} game={game} />
-      ))
-      }
+      <Login profile={data.profile} admin={data.admin} />
+      <div className="container">
+        {data.games.map((game) => (
+          
+            <GameCard key={game.id} game={game} />
+        ))
+        }
+      </div>
     </div>
   ) : (
     <h1>Loading...</h1>

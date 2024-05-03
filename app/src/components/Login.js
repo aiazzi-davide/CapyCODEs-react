@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { php_url } from '../vars';
+import { php_url, react_url} from '../vars';
 
 function Login(props) {
   
@@ -7,14 +7,14 @@ function Login(props) {
 
   const logout = () => {
     fetch(php_url + '/logout', {
-      method: 'GET',
+      method: 'DELETE',
       credentials: 'include'
     })
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
         setData(data);
-        window.location.href = 'http://localhost:3000/';
+        window.location.href = react_url;
       })
       .catch(error => {
         console.error('There was an error!', error);
@@ -25,11 +25,13 @@ function Login(props) {
   //console.log(props);
 
   if (props['profile']) {
+    console.log(props);
     response = (
       <div className='login'>
         <h1>Welcome, {props['profile'].Username}!</h1>
         <p>Your email is {props['profile'].Email}.</p>
         <button onClick={logout}>Logout</button>
+        {props['admin'] && <button onClick={() => window.location.href = react_url + '/admin'}>Admin</button>}
       </div>
     );
 

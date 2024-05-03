@@ -2,9 +2,8 @@ import logo from "./logo.svg";
 import "./css/App.css";
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Login from "./components/Login";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import GoogleLoginPage from "./pages/GoogleLoginPage";
@@ -12,6 +11,7 @@ import RegisterPage from "./pages/RegisterPage";
 import Verify from "./pages/Verify";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
+import AdminPage from "./pages/AdminPage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 
 
@@ -19,7 +19,7 @@ function App() {
   return (
     <>
       <Router>
-        <Header />
+        <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />
@@ -28,6 +28,7 @@ function App() {
           <Route path="/verify/:emailAddr" element={<Verify />} />
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/new-password/:emailAddr" element={<NewPasswordPage />} />
+          <Route path="/admin" element={<AdminPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

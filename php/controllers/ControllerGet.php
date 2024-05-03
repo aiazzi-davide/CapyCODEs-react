@@ -22,6 +22,11 @@ class ControllerGet
                 $data['profile'] = DbUtils::getUserData($token, "session");
                 //$data['debug'] = ["token" => $token]; //debug
             }
+
+            //controllo se l'utente è admin
+            if (Auth::isAdmin($token)) {
+                $data['admin'] = true;
+            }
         }
         //$data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
 
@@ -55,60 +60,6 @@ class ControllerGet
         return $response
             ->withStatus(200)
             ->withHeader('Content-Type', 'application/json');
-    }
-
-    public function getRegister(Request $request, Response $response, $args){ //inutilizzato
-        $view = new View('pages/auth/RegisterPage');
-        $response->getBody()->write($view->render());
-        return $response;
-        
-    }
-
-    public function getVerify(Request $request, Response $response, $args){ //inutilizzato
-        $token = $_SESSION['tokenTemp'];
-        $view = new View('pages/auth/VerifyPage');
-        $view->setData(DbUtils::getUserData($token, "temp"));
-        $response->getBody()->write($view->render());
-        return $response;
-    }
-
-    public function getLogout(Request $request, Response $response, $args){ //dovrebbe essere un metodo DELETE //reacted
-
-        // Cancella il token dal database e dal cookie se l'utente è loggato
-        if (isset($_COOKIE['CapycodesTkn'])) {
-            $token = $_COOKIE['CapycodesTkn'];
-            DbUtils::logout($token);
-
-            $response->getBody()->write(json_encode(["message" => "Logout successful"]));
-        } else {
-            $response->getBody()->write(json_encode(["message" => "User not logged in"]));
-        }
-
-        return $response/*->withHeader('Location', '/')*/
-            ->withStatus(302);
-    }
-
-    public function getResetPassword(Request $request, Response $response, $args){
-        $verified = $request->getQueryParams()['verified'] ?? null;
-        $view = new View('pages/auth/ResetPasswordPage');
-        $view->setData(['verified' => $verified, 'std' => is_null($verified)]);
-        $response->getBody()->write($view->render());
-
-        return $response;
-    }
-
-    public function getNewPassword(Request $request, Response $response, $args){
-
-        if (Auth::IsOTPVerified($_SESSION['resetPswEmail'])) {
-            $email = $_SESSION['resetPswEmail'];
-            $view = new View('pages/auth/NewPasswordPage');
-            $view->setData(['email' => $email]);
-            $response->getBody()->write($view->render());
-            return $response;
-        } else {
-            header("Location: /reset-password");
-            exit;
-        }
     }
 
     public function getGoogleLogin(Request $request, Response $response, $args) //reacted
@@ -150,15 +101,6 @@ class ControllerGet
                 ->withStatus(200);
         }
         
-    }
-
-    public function getGoogleRegister(Request $request, Response $response, $args)
-    {
-        $token = $_SESSION['tokenTemp'];
-        $view = new View('pages/auth/GoogleRegisterPage');
-        $view->setData(DbUtils::getUserData($token, "temp"));
-        $response->getBody()->write($view->render());
-        return $response;
     }
 
     public function getCart(Request $request, Response $response, $args)
@@ -209,5 +151,65 @@ class ControllerGet
         }
     }
 
+
+    public function DeleteLogout(Request $request, Response $response, $args){ //reacted
+
+        // Cancella il token dal database e dal cookie se l'utente è loggato
+        if (isset($_COOKIE['CapycodesTkn'])) {
+            $token = $_COOKIE['CapycodesTkn'];
+            DbUtils::logout($token);
+
+            $response->getBody()->write(json_encode(["message" => "Logout successful"]));
+        } else {
+            $response->getBody()->write(json_encode(["message" => "User not logged in"]));
+        }
+
+        return $response/*->withHeader('Location', '/')*/
+            ->withStatus(302);
+    }
+
+    //------------------------ Mustache OLD ------------------------
+    public function getGoogleRegister(Request $request, Response $response, $args) //inutilizzato
+    {
+        $token = $_SESSION['tokenTemp'];
+        $view = new View('pages/auth/GoogleRegisterPage');
+        $view->setData(DbUtils::getUserData($token, "temp"));
+        $response->getBody()->write($view->render());
+        return $response;
+    }
+    public function getResetPassword(Request $request, Response $response, $args){ //inutilizzato
+        $verified = $request->getQueryParams()['verified'] ?? null;
+        $view = new View('pages/auth/ResetPasswordPage');
+        $view->setData(['verified' => $verified, 'std' => is_null($verified)]);
+        $response->getBody()->write($view->render());
+
+        return $response;
+    }
+    public function getNewPassword(Request $request, Response $response, $args){ //inutilizzato
+
+        if (Auth::IsOTPVerified($_SESSION['resetPswEmail'])) {
+            $email = $_SESSION['resetPswEmail'];
+            $view = new View('pages/auth/NewPasswordPage');
+            $view->setData(['email' => $email]);
+            $response->getBody()->write($view->render());
+            return $response;
+        } else {
+            header("Location: /reset-password");
+            exit;
+        }
+    }
+    public function getRegister(Request $request, Response $response, $args){ //inutilizzato
+        $view = new View('pages/auth/RegisterPage');
+        $response->getBody()->write($view->render());
+        return $response;
+        
+    }
+    public function getVerify(Request $request, Response $response, $args){ //inutilizzato
+        $token = $_SESSION['tokenTemp'];
+        $view = new View('pages/auth/VerifyPage');
+        $view->setData(DbUtils::getUserData($token, "temp"));
+        $response->getBody()->write($view->render());
+        return $response;
+    }
 
 }
