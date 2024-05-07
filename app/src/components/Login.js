@@ -28,8 +28,7 @@ function Login(props) {
     console.log(props);
     response = (
       <div className='login'>
-        <h1>Welcome, {props['profile'].Username}!</h1>
-        <p>Your email is {props['profile'].Email}.</p>
+        <b>{props['profile'].Username}</b>
         <button onClick={logout}>Logout</button>
         {props['admin'] && <button onClick={() => window.location.href = react_url + '/admin'}>Admin</button>}
       </div>
@@ -39,8 +38,6 @@ function Login(props) {
   } else {
     response = (
       <div>
-        <h1>Welcome!</h1>
-        <p>Please log in to view your profile.</p>
         <button onClick={() => window.location.href = react_url + '/login'}>Login</button>
       </div>
     );

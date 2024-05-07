@@ -17,22 +17,27 @@ class ControllerGet
             //$email = $_SESSION['email'];
 
             // Verifica se il token è valido
-            if (Auth::isTokenValid($token, "session")) {
+            if ($user_id = Auth::isTokenValid($token, "session")) {
                 //setta dati utente
                 $data['profile'] = DbUtils::getUserData($token, "session");
                 //$data['debug'] = ["token" => $token]; //debug
+                //controllo se l'utente è admin
+                if (Auth::isAdmin($user_id)) {
+                    $data['admin'] = true;
+                }
+            } else {
+                //se il token non è valido, cancellalo
+                DbUtils::logout($token);
             }
 
-            //controllo se l'utente è admin
-            if (Auth::isAdmin($token)) {
-                $data['admin'] = true;
-            }
+            
         }
         //$data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
 
         //restituisco i dati in formato JSON
         $response->getBody()->write(json_encode($data));
                 //set response headers
+                //sleep(1); //simula latenza
                 return $response
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(200); 
@@ -101,6 +106,16 @@ class ControllerGet
                 ->withStatus(200);
         }
         
+    }
+
+    public function getSearch(Request $request, Response $response, $args) //reacted
+    {
+        $search = $request->getQueryParams()['query'] ?? null;
+        $data = DbUtils::searchGames($search);
+        $response->getBody()->write(json_encode($data));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
     }
 
     public function getCart(Request $request, Response $response, $args)

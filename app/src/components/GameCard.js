@@ -33,7 +33,7 @@ function GameCard(props) {
     return (
         <div className="game-card" id = {game.id} onClick={() => window.location.href = '/game/' + game.id}>
             <img src={game.background_image} alt={game.name} />
-            <h2>{game.name}</h2>
+            <b>{game.name}</b>
             {isLoaded ? <p>{data.Price}</p> : <Skeleton />}            
         </div>
     );

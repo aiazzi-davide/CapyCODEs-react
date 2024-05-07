@@ -30,6 +30,7 @@ $app->addRoutingMiddleware();
     // ------------------------ HOME ------------------------
     $app->get('/', 'ControllerGet:getHome');
     $app->get('/home', 'ControllerGet:getHome');
+    $app->get('/search', 'ControllerGet:getSearch');
 
     // ------------------------ AUTH ------------------------
     $app->get('/login', 'ControllerGet:getLogin');

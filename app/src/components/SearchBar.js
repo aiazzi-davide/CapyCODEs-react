@@ -9,7 +9,7 @@ const SearchBar = () => {
 
     const handleSearch = () => {
         // redirect to search results page
-        window.location.href = `/search?q=${searchTerm}`;
+        window.location.href = `/?q=${searchTerm}`;
         
     };
 

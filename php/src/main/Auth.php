@@ -97,10 +97,8 @@ class Auth
      * @param string $token
      * @return bool
      */
-    static function isAdmin($token)
+    static function isAdmin($user_id)
     {
-        //prendo l'ID dell'utente
-        $user_id = Auth::isTokenValid($token, "session");
 
         // Controllo se l'utente è un amministratore
         $stmt = DB::conn()->prepare("SELECT * FROM Users WHERE ID = ? AND Admin = 1");

@@ -161,6 +161,12 @@ class DbUtils
         }
     }
 
+    static function SearchGames($query)
+    {
+        $rawg = new RawgAPI();
+        return $rawg->SearchGames($query);
+    }
+
     /**
      * getPrice($id) Restituisce il prezzo del gioco con l'ID specificato
      * @param string $id
