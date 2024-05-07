@@ -1,10 +1,30 @@
-
-
-.card-img {
-    border-radius: 10px;
-    width: 300px; 
+.game-card-container {
+    position: relative; /* Aggiungi questa linea */
+    width: 222px;
+    height: 282px;
+    padding: 5px;
+    margin: 5px;
+}
+.game-card {
+    padding: 4px;
+    border-radius: 14px;
+    width: 220px;
+    height: 290px; 
+    background-color: rgba(255, 255, 255, 0.164); 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    filter: drop-shadow(0 30px 10px rgba(0,0,0,0.125));
+    box-sizing: border-box;
+    border: 3px solid transparent;
 }
 
+.game-card:hover {
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+    border-color: rgba(255, 0, 255, 0.5);
+    transform: scale(1.02);
+}
 .img-div {
     display: flex; 
     justify-content: center;
@@ -14,41 +34,61 @@
     overflow: hidden;
 }
 
-
-.game-card {
-    padding: 10px;
-    margin: 10px;
-    border-radius: 5px;
-    width: 200px;
-    height: 270px; 
-    background-color: rgba(255, 255, 255, 0.25); 
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: height 0.2s ease;
-    cursor: pointer;
-    backdrop-filter: blur(16px) saturate(180%);
-    filter: drop-shadow(0 30px 10px rgba(0,0,0,0.125));
-    box-sizing: border-box;
-    border: 3px solid transparent;
+.card-img {
+    border-radius: 10px;
+    height: 170px;
 }
+
+
 .title-div {
+    height: 40px;
+    margin-top: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100px;
-    border-radius: 10px;
-    overflow: hidden;
 }
 
-.game-card:hover {
-    box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
-    border-color: rgba(255, 0, 255, 0.5);
-}
-
-.game-title {
-    margin-top: 10px;
+.price-div {
+    height: 60px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
 }
 
 .game-price {
-    margin-top: 10px;
     font-weight: bold;
 }
+
+.card-bg {
+    position: absolute;
+    bottom: 10px;
+    right: 4%;
+    width: 40%;
+    height: 45px;
+    background-color: fuchsia;
+    z-index: -1;
+    transition: all 0.2s;
+    border-radius: 12px;
+}
+
+.game-card:hover ~ .card-bg {
+    transform:translateY(5px) scale(1.02);
+}
+
+.add-cart-button {
+    background-color: rgba(174, 0, 255, 0.644);
+    padding: 8px;
+    border-radius: 8px;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: 3px;
+}
+
+.add-cart-button:hover {
+    transform: scale(1.04);
+}
+
+.price{
+    text-align: right;
+}
+

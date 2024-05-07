@@ -20,6 +20,25 @@ nav{
   text-align: center;
 }
 
+button {
+  padding: 10px 20px;
+  background-color: #008CBA; /* Colore di sfondo */
+  color: white; /* Colore del testo */
+  border: none; /* Rimuove il bordo */
+  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s; /* Durata dell'effetto di transizione */
+}
+
+button:hover {
+  background-color: #4CAF50; /* Colore di sfondo al passaggio del mouse */
+  color: white; /* Colore del testo al passaggio del mouse */
+}
+
 .cdiv{
   width: 80%;
   margin: 0 auto;
