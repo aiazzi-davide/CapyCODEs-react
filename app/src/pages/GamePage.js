@@ -32,19 +32,6 @@ function GamePage() {
             .catch((error) => {
                 console.error("There was an error!", error);
             });
-        
-        fetch(php_url + '/game/' + id + '/price', {
-            method: "GET",
-            credentials: "include", // Include cookies
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setPrice(data.Price);
-                console.log("Success:", data);
-            })
-            .catch((error) => {
-                console.error("There was an error!", error);
-            });
     }
 
     /*function AddToCart() {

@@ -164,6 +164,7 @@ class DbUtils
         if ($data == null) {
             return ["Error" => "Game not found"];
         } else {
+            $data['price'] = DbUtils::getPrice($id)['Price'];
             return $data;
         }
     }

@@ -42,23 +42,22 @@ All default values mentioned above are configurable in .env file
 - ~~logout~~ R
 - ~~google auth~~ R
 - ~~get game page~~ R
-- ~~cart managment~~
+- ~~cart managment~~ 90%
 - ~~profile page~~
 
 # post React
 
+- ~~reserach system~~
+- ~~loading animations~~
 - prices and discount managment with admin page !!!!
 - profile page features
-- React front End
 - post game page
-- favorites system
-- loading animations
+- favorites system ABORTED
 - news letter
 - security emails
 - errors and exceptions managment (try catch)
-- home page 25%
+- home page 70%
 - better documentation
-- reserach system
 - darkmode
 
 # minors

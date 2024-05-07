@@ -17,7 +17,7 @@ const SearchResults = (props) => {
         {isQuery && <h3>Results for "{props.query}"</h3>}
         <div className="container">
             {props.data.games.map((game) => (
-                <GameCard game={game} key={game.id} />
+                <GameCard game={game} key={game.id} addToCart={props.addToCart} />
             ))}
         </div>
     </div>

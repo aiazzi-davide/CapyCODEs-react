@@ -4,7 +4,9 @@ import SearchBar from './SearchBar';
 import Login from './Login';
 import '../css/Navbar.css';
 import { useState, useEffect } from 'react';
-import { php_url, react_url} from '../vars';
+import { php_url, react_url } from '../vars';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
+import { faShoppingCart} from '@fortawesome/free-solid-svg-icons'
 
 function Navbar(props) {
     
@@ -23,7 +25,7 @@ function Navbar(props) {
                 <Login profile={props.profile} admin={props.admin} />
             </div>
             <div className="cart-button">
-                <img src="" alt="Cart" />
+                <FontAwesomeIcon icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'}/>
             </div>
         </nav>
     );

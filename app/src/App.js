@@ -1,8 +1,5 @@
-import logo from "./logo.svg";
 import "./css/App.css";
-import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
@@ -13,7 +10,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NewPasswordPage from "./pages/NewPasswordPage";
 import AdminPage from "./pages/AdminPage";
 import GamePage from "./pages/GamePage";
-import SearchResultsPage from "./components/SearchResults";
+import CartPage from "./pages/CartPage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 
 function App() {
@@ -30,6 +27,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/new-password/:emailAddr" element={<NewPasswordPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/cart" element={<CartPage />} />
           //GAME ROUTES
           <Route path="/game/:id" element={<GamePage />} />
           //ERROR ROUTES

@@ -110,7 +110,6 @@ class ControllerGet
 
     public function getCart(Request $request, Response $response, $args)
     {
-        $view = new View('pages/CartPage');
         if($token = $_COOKIE['CapycodesTkn']){
 
             $user_id = Auth::isTokenValid($token, "session");
@@ -120,13 +119,16 @@ class ControllerGet
             }
 
         } else {
-            header("Location: /login");
+            $response->getBody()->write(json_encode(["message" => "User not logged in"]));
+            return $response
+                ->withStatus(200)
+                ->withHeader('Content-Type', 'application/json');
         }
-        $data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
-        $view->setData($data);
 
-        $response->getBody()->write($view->render());
-        return $response;
+        $response->getBody()->write(json_encode($data));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
     }
 
     public function getGame(Request $request, Response $response, $args)

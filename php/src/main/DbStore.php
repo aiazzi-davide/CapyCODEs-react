@@ -217,7 +217,7 @@ class DbStore
 
             //se il gioco non è presente nel carrello, lo aggiungo
             $stmt = DB::conn()->prepare("INSERT INTO CartItems (ID_Cart, ID_Game /*, ID_Platform*/, Amount) VALUES ((SELECT ID_Cart FROM Cart WHERE ID_User = ?), ?, 1)");
-        $stmt->bind_param("ss", $user_id, $game_id /*, $platform_id*/);
+            $stmt->bind_param("ss", $user_id, $game_id /*, $platform_id*/);
             $stmt->execute();
         }
 

@@ -35,12 +35,34 @@ function Home() {
   useEffect(() => {
     LoadData(query);
   }, [query]);
+
+  const addToCart = (e, game_id) => {
+    e.stopPropagation();
+
+    fetch(php_url + "/cart/add/" + game_id, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        credentials: "include",
+    })
+    .then((response) => response.json())
+        .then((data) => {
+        console.log("Success:", data);
+          data.status == 200 ? 
+          alert("Added to cart!")
+          : alert(data.message);
+    })
+    .catch((error) => {
+        console.error("Error:", error);
+    });
+}
   
   return (
     <div>
-      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} />
+      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery}/>
       {isLoaded ? (
-        <SearchResults data={data} query={query} />
+        <SearchResults data={data} query={query} addToCart={addToCart} />
       ) : (
         <Loading />
       )}

@@ -22,7 +22,7 @@ nav{
 
 button {
   padding: 10px 20px;
-  background-color: #008CBA; /* Colore di sfondo */
+  background-color: #0060ba; /* Colore di sfondo */
   color: white; /* Colore del testo */
   border: none; /* Rimuove il bordo */
   cursor: pointer; /* Cambia il cursore al passaggio del mouse */
@@ -35,7 +35,7 @@ button {
 }
 
 button:hover {
-  background-color: #4CAF50; /* Colore di sfondo al passaggio del mouse */
+  background-color: #984caf; /* Colore di sfondo al passaggio del mouse */
   color: white; /* Colore del testo al passaggio del mouse */
 }
 

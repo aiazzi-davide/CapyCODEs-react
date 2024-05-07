@@ -33,7 +33,7 @@ const LoginPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
-                data.message === 'Login successful' ? window.location.replace('http://localhost:3000/'): alert('Login failed');
+                data.message === 'Login successful' ? window.location.replace(react_url): alert('Login failed');
             })
             .catch((error) => {
                 console.error('There was an error!', error);

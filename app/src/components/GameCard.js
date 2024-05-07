@@ -8,6 +8,7 @@ import { faShoppingCart, faCartPlus} from '@fortawesome/free-solid-svg-icons'
 function GameCard(props) {
     const game = props.game;
 
+    
     return (
         <div className="game-card-container">
             <div
@@ -24,7 +25,7 @@ function GameCard(props) {
                 </div>
                 <div className='price-div'>
                     <div className='add-cart-button'>
-                        <FontAwesomeIcon icon={faCartPlus} size='xl' />
+                        <FontAwesomeIcon icon={faCartPlus} size='xl' onClick={ (event) => props.addToCart(event, game.id)}/>
                     </div>
                     <b className="price">{game.price}</b>
                 </div> 

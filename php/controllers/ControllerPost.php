@@ -204,7 +204,7 @@ class ControllerPost
         }
     }
 
-    public function postResetPassword(Request $request, Response $response, $args)
+    public function postResetPassword(Request $request, Response $response, $args) //reacted
     {
         $contents = $request->getBody()->getContents();
         $data = json_decode($contents, true);
@@ -233,7 +233,7 @@ class ControllerPost
 
    
 
-    public function postNewPassword(Request $request, Response $response, $args)
+    public function postNewPassword(Request $request, Response $response, $args) //reacted
     {
         $contents = $request->getBody()->getContents();
         $data = json_decode($contents, true);
@@ -263,18 +263,23 @@ class ControllerPost
         }
     }
 
-    public function AddToCart(Request $request, Response $response, $args)
+    public function AddToCart(Request $request, Response $response, $args) //reacted
     {
         $game_id = $args['id_game'];
         //$platform_id = $args['id_platform'];
-        $token = $_COOKIE['CapycodesTkn'] ?? null;
+        $token = $_COOKIE['CapycodesTkn'];
         if ($user_id = Auth::isTokenValid($token, "session")) {
             DbStore::addToCart($user_id, $game_id/*, $platform_id*/);
-            header("Location: /cart"); //-------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "added successfully" o "error adding to cart"
+            $response->getBody()->write(json_encode(["message" => "Game added to cart", "status" => "200"]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
         } else {
-            header("Location: /login"); //se l'utente non è loggato, lo reindirizzo alla pagina di login
+            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401", "token" => $token, "user_id" => $user_id]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(401);
         }
-        exit;
     }
 
     public function RemoveFromCart(Request $request, Response $response, $args)
