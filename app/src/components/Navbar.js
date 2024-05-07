@@ -7,20 +7,6 @@ import { useState, useEffect } from 'react';
 import { php_url, react_url} from '../vars';
 
 function Navbar(props) {
-    const logout = () => {
-        fetch(php_url + '/logout', {
-          method: 'DELETE',
-          credentials: 'include'
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log('Success:', data);
-            window.location.href = react_url;
-          })
-          .catch(error => {
-            console.error('There was an error!', error);
-          });
-    };
     
     const redirectHome = () => {
         window.location.href = "/";
@@ -31,7 +17,7 @@ function Navbar(props) {
                 <Logo />
             </div>
             <div className="search-bar">
-                <SearchBar />
+                <SearchBar setQuery = {props.setQuery} />
             </div>
             <div className="profile-button">
                 <Login profile={props.profile} admin={props.admin} />

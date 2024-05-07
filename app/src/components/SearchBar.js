@@ -1,31 +1,28 @@
 import React, { useState } from 'react';
 
-const SearchBar = () => {
-    const [searchTerm, setSearchTerm] = useState('');
+const SearchBar = (props) => {
 
     const handleInputChange = (event) => {
-        setSearchTerm(event.target.value);
+        setTimeout(() => {
+            props.setQuery(event.target.value);
+        }, 1000);
     };
 
-    const handleSearch = () => {
-        // redirect to search results page
-        window.location.href = `/?q=${searchTerm}`;
-        
-    };
 
+    //onChange={handleInputChange}
     return (
         <div>
             <input
+                onChange={handleInputChange}
                 onKeyDown={(event) => {
                     if (event.key === 'Enter') {
-                        handleSearch();
+                        handleInputChange(event);
                     }
                 }}
                 className='input-search'
                 type="text"
                 placeholder="Search for games..."
-                value={searchTerm}
-                onChange={handleInputChange}
+                id = "search-bar"
             />
         </div>
     );

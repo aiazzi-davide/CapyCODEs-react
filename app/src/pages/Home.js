@@ -9,14 +9,16 @@ import GameCard from "../components/GameCard";
 import { php_url } from "../vars";
 import "../css/App.css";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [data, setData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
-  const [search, setSearch] = useState(false);
+  const [query, setQuery] = useState("");
 
-  function LoadData() {
-    fetch(php_url, {
+  function LoadData(query) {
+
+    fetch(php_url + "?query=" + query, {
       method: "GET",
       credentials: "include", // Include cookies
     })
@@ -30,37 +32,18 @@ function Home() {
         console.error("There was an error!", error);
       });
   }
-
   useEffect(() => {
-    if (window.location.search) {
-      setSearch(true);
-    } else {
-      LoadData();
-    }
-  }, []);
-
+    LoadData(query);
+  }, [query]);
+  
   return (
     <div>
-      <Navbar profile={data.profile} admin={data.admin} />
-      {
-        search ? (
-          <SearchResults />
-        ) : (
-          isLoaded ? (
-            <div>
-              <Header />
-              <div className="container">
-                {data.games.map((game) => (
-                  <GameCard game={game} key={game.id} />
-                ))}
-              </div>
-              <Footer />
-            </div>
-          ) : (
-            <Loading />
-          )
-        )
-      }
+      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} />
+      {isLoaded ? (
+        <SearchResults data={data} query={query} />
+      ) : (
+        <Loading />
+      )}
     </div>
   );
 

@@ -6,37 +6,26 @@ import "../css/App.css";
 import Skeleton from 'react-loading-skeleton';
 
 function GameCard(props) {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [data, setData] = useState({});
     const game = props.game;
 
-    function LoadData() {
-        fetch(php_url + '/game/' + game.id + '/price', {
-            method: "GET",
-            credentials: "include", // Include cookies
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setData(data);
-                console.log("Success:", data);
-                setIsLoaded(true);
-                return data.price;
-            })
-            .catch((error) => {
-                console.error("There was an error!", error);
-            });
-    }
-    
-    useEffect(() => {
-        LoadData();
-    }, []);
     return (
-        <div className="game-card" id = {game.id} onClick={() => window.location.href = '/game/' + game.id}>
-            <img src={game.background_image} alt={game.name} />
-            <b>{game.name}</b>
-            {isLoaded ? <p>{data.Price}</p> : <Skeleton />}            
+        <div
+            key={game.id}
+            id={game.id} 
+            className="game-card"
+            onClick={() => (window.location.href = "/game/" + game.id)}
+        >
+            <div className='img-div'>
+                <img className='card-img' src={game.background_image} alt={game.name} />
+            </div>
+            <div className='title-div'>
+                <b className="game-title">{game.name}</b>
+            </div>
+            <p className="price">{game.price}</p>
         </div>
     );
 };
 
 export default GameCard;
+
+            //{isLoaded ? <p>{data.Price}</p> : <Skeleton />}            

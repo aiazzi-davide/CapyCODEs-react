@@ -7,9 +7,9 @@ class ControllerGet
 {
     public function getHome(Request $request, Response $response, $args) //reacted
     {
-        $view = new View("pages/HomePage");
+        $search = $request->getQueryParams()['query'] ?? null;
         //aggiungo a data i dati dei giochi da stampare in homepage
-        $data['games'] = DbUtils::getGames();
+        $data['games'] = DbUtils::getGames($search);
 
         if (isset($_COOKIE['CapycodesTkn'])) {
 
@@ -108,16 +108,6 @@ class ControllerGet
         
     }
 
-    public function getSearch(Request $request, Response $response, $args) //reacted
-    {
-        $search = $request->getQueryParams()['query'] ?? null;
-        $data = DbUtils::searchGames($search);
-        $response->getBody()->write(json_encode($data));
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus(200);
-    }
-
     public function getCart(Request $request, Response $response, $args)
     {
         $view = new View('pages/CartPage');
@@ -155,7 +145,7 @@ class ControllerGet
             ->withStatus(200);
     }
 
-    public function getPrice(Request $request, Response $response, $args)
+    public function getPrice(Request $request, Response $response, $args) //INUTILIZZATA
     {
         $data = DbUtils::getPrice($args['id']);
         $response->getBody()->write(json_encode($data));

@@ -138,10 +138,17 @@ class DbUtils
      * getGames() Restituisce i giochi
      * @return array
      */
-    static function getGames()
+    static function getGames($query)
     {
         $rawg = new RawgAPI();
-        return $rawg->getGames();
+        $games = $rawg->getGames($query);
+        
+        // Aggiunge il prezzo a ciascun gioco
+        foreach ($games as $key => $game) {
+            $price = DbUtils::getPrice($game['id']);
+            $games[$key]['price'] = $price['Price'];
+        }
+        return $games;
     }
 
     /**
@@ -159,12 +166,6 @@ class DbUtils
         } else {
             return $data;
         }
-    }
-
-    static function SearchGames($query)
-    {
-        $rawg = new RawgAPI();
-        return $rawg->SearchGames($query);
     }
 
     /**
