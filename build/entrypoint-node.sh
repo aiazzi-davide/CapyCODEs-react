@@ -9,4 +9,6 @@ sed -i 's/"start": "react-scripts start"/"start": "WATCHPACK_POLLING=true react-
 npm install
 npm install react-router-dom
 npm install react-google-login
+yarn add react-loading-skeleton
+npm install react-loading-skeleton
 npm start

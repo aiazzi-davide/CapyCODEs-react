@@ -7,6 +7,19 @@
   
 }
 
+body{
+  font-family: 'Roboto', sans-serif;
+  background-color: rgb(33, 7, 80);
+  color: white;
+}
+
+nav{
+  background: linear-gradient(to top, rgb(33, 7, 80), rgb(94, 56, 165));
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
 .cdiv{
   width: 80%;
   margin: 0 auto;

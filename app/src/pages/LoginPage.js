@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { php_url, react_url, checkLogin } from "../vars";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -68,7 +69,14 @@ const LoginPage = () => {
         //}, 1000);
     }, []);
     return (
-        !isLoaded ? <h1>Loading...</h1> :
+        !isLoaded ?
+            <SkeletonTheme baseColor="#202020" highlightColor="#444">
+                <p>
+                    <Skeleton variant="circular" width={40} height={40} />
+                    <Skeleton variant="rectangular" width={210} height={60} />
+                    <Skeleton variant="rounded" width={210} height={60} />
+                </p>
+            </SkeletonTheme>:
             <div>
                 <h1>Login Page</h1>
                 <form>

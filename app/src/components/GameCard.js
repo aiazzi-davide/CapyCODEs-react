@@ -3,6 +3,7 @@ import '../css/GameCard.css';
 import { useState, useEffect } from "react";
 import { php_url } from "../vars";
 import "../css/App.css";
+import Skeleton from 'react-loading-skeleton';
 
 function GameCard(props) {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -33,7 +34,7 @@ function GameCard(props) {
         <div className="game-card" id = {game.id} onClick={() => window.location.href = '/game/' + game.id}>
             <img src={game.background_image} alt={game.name} />
             <h2>{game.name}</h2>
-            {isLoaded ? <p>{data.Price}</p> : <p>Loading...</p>}            
+            {isLoaded ? <p>{data.Price}</p> : <Skeleton />}            
         </div>
     );
 };

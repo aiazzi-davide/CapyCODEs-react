@@ -41,7 +41,7 @@ function Login(props) {
       <div>
         <h1>Welcome!</h1>
         <p>Please log in to view your profile.</p>
-        <button onClick={() => window.location.href = 'http://localhost:3000/login'}>Log in</button>
+        <button onClick={() => window.location.href = react_url + '/login'}>Login</button>
       </div>
     );
 

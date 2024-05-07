@@ -8,8 +8,9 @@ const SearchBar = () => {
     };
 
     const handleSearch = () => {
-        // Implement your search logic here
-        console.log('Searching for:', searchTerm);
+        // redirect to search results page
+        window.location.href = `/search?q=${searchTerm}`;
+        
     };
 
     return (
