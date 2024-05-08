@@ -2,10 +2,15 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { php_url, react_url } from '../vars';
 import Loading from '../components/Loading';
+import '../css/CartPage.css';
+import Amount from '../components/Amount';
+import Item from '../components/Item';
 
 function CartPage() {
     const [cartItems, setCartItems] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [trigger, setTrigger] = useState(false);
+    const itemsPrice = cartItems.reduce((a, c) => a + c.game.price, 0);
 
     function loadCart() {
         fetch(php_url + '/cart', {
@@ -25,29 +30,24 @@ function CartPage() {
 
     useEffect(() => {
         loadCart();
-    }, []);
+    }, [trigger]);
     return isLoaded? 
-        <div>
+        <div className='cart-page'>
             <div className='cart-container'>
                 <h1>cart</h1>
-                <table>
-                    <thead>
+                <table className='table'>
                         <tr>
-                            <th>Nome</th>
-                            <th>Prezzo</th>
+                            <th>Prodotto</th>
                             <th>Quantità</th>
+                            <th>Prezzo</th>
                         </tr>
-                    </thead>
-                    <tbody>
                         {cartItems.map((item) => (
-                            <tr key={item.id}>
-                                <td>{item.name}</td>
-                                <td>{item.price}€</td>
-                                <td>{item.quantity}</td>
+                            <tr key={item.game.id} className='tr'>
+                                <td className='td-l'><Item item={item} /></td>
+                                <td className='td-c'><Amount item={item} trigger={trigger} setTrigger={setTrigger} /></td>
+                                <td className='td-r' >{item.game.price}€</td>
                             </tr>
                         ))}
-                    </tbody>
-                    <h2>Totale: {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}€</h2>
                 </table>
             </div>
             <div className='cart-buttons'>
