@@ -1,15 +1,10 @@
-import Header from "../components/Header";
-import Login from "../components/Login";
-import Footer from "../components/Footer";
+import Spacer from "../components/Spacer";
 import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import SearchResults from "../components/SearchResults";
 import { useState, useEffect } from "react";
-import GameCard from "../components/GameCard";
 import { php_url } from "../vars";
 import "../css/App.css";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
-import { useNavigate } from "react-router-dom";
 
 function Home() {
   const [data, setData] = useState({});
@@ -60,11 +55,12 @@ function Home() {
   
   return (
     <div>
-      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery}/>
+      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} isLoaded={isLoaded} />
+      <Spacer />
       {isLoaded ? (
         <SearchResults data={data} query={query} addToCart={addToCart} />
       ) : (
-        <Loading />
+        <Loading type={'spinner'}/>
       )}
     </div>
   );

@@ -3,40 +3,11 @@
   text-align: center;
 }
 
-.login{
-  cursor: pointer;
-}
 
 body{
   font-family: 'Roboto', sans-serif;
   background-color: rgb(33, 7, 80);
   color: white;
-}
-
-nav{
-  background: linear-gradient(to top, rgb(33, 7, 80), rgb(94, 56, 165));
-  color: white;
-  padding: 10px;
-  text-align: center;
-}
-
-button {
-  padding: 10px 20px;
-  background-color: #0060ba; /* Colore di sfondo */
-  color: white; /* Colore del testo */
-  border: none; /* Rimuove il bordo */
-  cursor: pointer; /* Cambia il cursore al passaggio del mouse */
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s; /* Durata dell'effetto di transizione */
-}
-
-button:hover {
-  background-color: #984caf; /* Colore di sfondo al passaggio del mouse */
-  color: white; /* Colore del testo al passaggio del mouse */
 }
 
 .cdiv{
@@ -46,6 +17,10 @@ button:hover {
   padding: 20px;
   border-radius: 10px;
   text-align: center;
+}
+
+.spacer{
+  margin: 120px;
 }
 
 .container {
@@ -72,3 +47,20 @@ button:hover {
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.button{
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.664);
+  margin-left: 5px;
+  border: 2px solid #ffffff;
+  font-weight: bold;
+  transition: all 0.2s;
+  width: fit-content;
+  }
+  
+  .button:hover{
+  background-color: white;
+  color: #210750;
+  }

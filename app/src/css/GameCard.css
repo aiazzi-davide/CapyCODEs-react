@@ -63,9 +63,9 @@
     position: absolute;
     bottom: 10px;
     right: 4%;
-    width: 40%;
+    width: 50%;
     height: 45px;
-    background-color: fuchsia;
+    background-color: #630ed1;
     z-index: -1;
     transition: all 0.2s;
     border-radius: 12px;
@@ -76,16 +76,13 @@
 }
 
 .add-cart-button {
-    background-color: rgba(174, 0, 255, 0.644);
+    background-color: #7a12bfd8;
     padding: 8px;
     border-radius: 8px;
     margin-right: auto;
     margin-top: auto;
-    margin-bottom: 3px;
-}
-
-.add-cart-button:hover {
-    transform: scale(1.04);
+    margin-left: 4px;
+    margin-bottom: 7px;
 }
 
 .price{

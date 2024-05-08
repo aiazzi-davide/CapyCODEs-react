@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { php_url, react_url, checkLogin } from "../vars";
-import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import Loading from "../components/Loading";
+import '../css/LoginPage.css';
+import '../css/Navbar.css';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -69,31 +73,31 @@ const LoginPage = () => {
         //}, 1000);
     }, []);
     return (
-        !isLoaded ?
-            <SkeletonTheme baseColor="#202020" highlightColor="#444">
-                <p>
-                    <Skeleton variant="circular" width={40} height={40} />
-                    <Skeleton variant="rectangular" width={210} height={60} />
-                    <Skeleton variant="rounded" width={210} height={60} />
-                </p>
-            </SkeletonTheme>:
-            <div>
-                <h1>Login Page</h1>
-                <form>
-                    <label>Email:</label>
-                    <input type="email" value={email} onChange={handleEmailChange} />
-                    <br />
-                    <label>Password:</label>
-                    <input type="password" value={password} onChange={handlePasswordChange} />
-                    <br />
-                    <button type="submit" onClick={handleSubmit}>Login</button>
-                    <br />
-                    <p> Or login with <a href="/login/google">Google</a></p>
-                    <p>Forgot your password? <a href="/reset-password">Reset Password</a></p>
-                    <p>New here? <a href="/register">Sign up</a></p>
-                </form>
+        isLoaded ?
+            <div className="login-page">
+                <div className="login-form">
+                    <h1>Login Page</h1>
+                    <form>
+                        <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" className="input" />
+                        <br />
+                        <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" className="input" />
+                        <br />
+                        <div className="buttons1">
+                            <div className="login-button button" type="submit" onClick={handleSubmit}>Login</div>
+                            <div className="button" onClick={() => window.location.href = react_url + '/register'}>SignUp</div>
+                        </div>
+                        <div className="buttons2">
+                            <div className="login-button button" onClick={() => window.location.href = '/login/google'}>
+                                Login with <FontAwesomeIcon icon={faGoogle} size='lg' />
+                            </div>
+                            <div className="button" onClick={() => window.location.href = '/reset-password'}>Forgot password?</div>
+                        </div>
+                    </form>
+                </div>
             </div>
-        );
+        :
+    <Loading />
+    );
 };
 
 export default LoginPage;

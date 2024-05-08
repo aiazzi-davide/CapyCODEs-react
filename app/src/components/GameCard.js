@@ -24,7 +24,7 @@ function GameCard(props) {
                     <b className="game-title">{game.name}</b>
                 </div>
                 <div className='price-div'>
-                    <div className='add-cart-button'>
+                    <div className='add-cart-button button'>
                         <FontAwesomeIcon icon={faCartPlus} size='xl' onClick={ (event) => props.addToCart(event, game.id)}/>
                     </div>
                     <b className="price">{game.price}</b>

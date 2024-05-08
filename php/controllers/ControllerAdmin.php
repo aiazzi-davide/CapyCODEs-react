@@ -43,4 +43,3 @@ class ControllerAdmin
             ->withStatus(200);
     }
 }
-?>

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { php_url, react_url } from '../vars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faShoppingCart} from '@fortawesome/free-solid-svg-icons'
+import Loading from './Loading';
 
 function Navbar(props) {
     
@@ -21,10 +22,12 @@ function Navbar(props) {
             <div className="search-bar">
                 <SearchBar setQuery = {props.setQuery} />
             </div>
-            <div className="profile-button">
-                <Login profile={props.profile} admin={props.admin} />
-            </div>
-            <div className="cart-button">
+
+                <div className="profile-button">
+                    <Login profile={props.profile} admin={props.admin} isLoaded={props.isLoaded}/>
+                </div>
+
+            <div className="cart-button button">
                 <FontAwesomeIcon icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'}/>
             </div>
         </nav>

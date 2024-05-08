@@ -26,20 +26,37 @@ function CartPage() {
     useEffect(() => {
         loadCart();
     }, []);
-    return isLoaded? (
+    return isLoaded? 
         <div>
-            <h1>Carrello</h1>
-            {cartItems.map((item, index) => (
-                <div key={index}>
-                    <h2>{item.game.name}</h2>
-                    <p>{item.game.price}€</p>
-                </div>
-            ))}
-            <h2>Totale: {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}€</h2>
+            <div className='cart-container'>
+                <h1>cart</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Prezzo</th>
+                            <th>Quantità</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {cartItems.map((item) => (
+                            <tr key={item.id}>
+                                <td>{item.name}</td>
+                                <td>{item.price}€</td>
+                                <td>{item.quantity}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                    <h2>Totale: {cartItems.reduce((total, item) => total + item.price * item.quantity, 0)}€</h2>
+                </table>
+            </div>
+            <div className='cart-buttons'>
+                <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
+                <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
+            </div>
+            
         </div>
-    ) : (
-        <Loading />
-    );
+     : <Loading />;
 }
 
 export default CartPage;

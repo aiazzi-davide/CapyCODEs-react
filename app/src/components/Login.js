@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import { php_url, react_url } from '../vars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import Loading from './Loading';
 
 function Login(props) {
-  
-  const [data, setData] = useState(null);
 
   const logout = () => {
     fetch(php_url + '/logout', {
@@ -15,7 +15,6 @@ function Login(props) {
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
-        setData(data);
         window.location.href = react_url;
       })
       .catch(error => {
@@ -25,28 +24,39 @@ function Login(props) {
 
   let response;
   //console.log(props);
+  if (props['isLoaded']) {
+    if (props['profile']) {
+      console.log(props);
+      response = (
+        <div className='profile'>
+          <div className='name button'>{props['profile'].Username} </div>
+          <div className='logout button'>
+            <FontAwesomeIcon icon={faRightFromBracket} size='lg' onClick={logout} />
+          </div>
+          {props['admin'] && <div className='admin-button button' onClick={() => window.location.href = react_url + '/admin'}>Admin</div>}
+        </div>
+      );
 
-  if (props['profile']) {
-    console.log(props);
-    response = (
-      <div className='login'>
-        <b>{props['profile'].Username}</b>
-        <FontAwesomeIcon icon={faRightFromBracket} size='lg' onClick={logout}/>
-        {props['admin'] && <button onClick={() => window.location.href = react_url + '/admin'}>Admin</button>}
-      </div>
-    );
+      console.log('loggato');
+    } else {
+      response = (
+        <div className='profile'>
+          <div className='login-button button' onClick={() => window.location.href = react_url + '/login'}>
+            Login <FontAwesomeIcon icon={faGoogle} size='lg' />
+          </div>
+        </div>
+      );
 
-    console.log('loggato');
+      console.log('non loggato');
+    }
+    return response;
   } else {
-    response = (
-      <div>
-        <button onClick={() => window.location.href = react_url + '/login'}>Login</button>
+    return (
+      <div className='login'>
+        <Loading type={'wm'}/>
       </div>
     );
-
-    console.log('non loggato');
   }
-  return response;
 }
 
 export default Login;

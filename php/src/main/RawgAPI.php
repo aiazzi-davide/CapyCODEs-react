@@ -23,7 +23,7 @@ class RawgAPI
         $this->api_params = [
             'key' => $this->api_key,
             'search' => $query,
-            'page_size' => 20
+            'page_size' => 24
         ];
         $this->api_response = $this->client->request('GET', $this->api_url, ['query' => $this->api_params]);
         $this->api_data = json_decode($this->api_response->getBody(), true);
