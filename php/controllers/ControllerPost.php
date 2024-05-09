@@ -269,13 +269,21 @@ class ControllerPost
         //$platform_id = $args['id_platform'];
         $token = $_COOKIE['CapycodesTkn'];
         if ($user_id = Auth::isTokenValid($token, "session")) {
-            DbStore::addToCart($user_id, $game_id/*, $platform_id*/);
-            $response->getBody()->write(json_encode(["message" => "Game added to cart", "status" => "200"]));
-            return $response
-                ->withHeader('Content-Type', 'application/json')
-                ->withStatus(200);
+
+            //controllo se è disponibile (add to cart = true se disponibile)
+            if (DbStore::addToCart($user_id, $game_id)) {
+                $response->getBody()->write(json_encode(["message" => "Game added to cart", "status" => "200"]));
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(200);
+            } else{
+                $response->getBody()->write(json_encode(["message" => "Game not available", "status" => "401", "game_id" => $game_id]));
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(401);
+            }
         } else {
-            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401", "token" => $token, "user_id" => $user_id]));
+            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401"]));
             return $response
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(401);

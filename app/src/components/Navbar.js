@@ -10,10 +10,13 @@ import { faShoppingCart} from '@fortawesome/free-solid-svg-icons'
 import Loading from './Loading';
 
 function Navbar(props) {
-    
     const redirectHome = () => {
         window.location.href = "/";
     };
+
+    useEffect(() => {
+        props.bounce && setTimeout(() => props.setBounce(false), 1000);
+    }, [props.bounce]);
     return (
         <nav>
             <div className="logo" onClick={redirectHome}>
@@ -28,7 +31,11 @@ function Navbar(props) {
                 </div>
 
             <div className="cart-button button">
-                <FontAwesomeIcon icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'}/>
+                {
+                    props.bounce ?
+                        <FontAwesomeIcon className='cart-icon' icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'} bounce /> :
+                        <FontAwesomeIcon className='cart-icon' icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'} />
+                }
             </div>
         </nav>
     );

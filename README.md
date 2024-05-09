@@ -42,7 +42,7 @@ All default values mentioned above are configurable in .env file
 - ~~logout~~ R
 - ~~google auth~~ R
 - ~~get game page~~ R
-- ~~cart managment~~ 90%
+- ~~cart managment~~ R
 - ~~profile page~~
 
 # post React
@@ -58,7 +58,6 @@ All default values mentioned above are configurable in .env file
 - errors and exceptions managment (try catch)
 - home page 70%
 - better documentation
-- darkmode
 
 # minors
 

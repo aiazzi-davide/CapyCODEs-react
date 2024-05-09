@@ -10,6 +10,16 @@ body{
   color: white;
 }
 
+footer{
+  background-color: #210750;
+  color: #aa85d4;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
 .cdiv{
   width: 80%;
   margin: 0 auto;
@@ -63,4 +73,15 @@ body{
   .button:hover{
   background-color: white;
   color: #210750;
+  }
+
+  .hithere {
+    animation: hithere 1s ease infinite;
+  }
+  @keyframes hithere {
+    30% { transform: scale(1.2); }
+    40%, 60% { transform: rotate(-20deg) scale(1.2); }
+    50% { transform: rotate(20deg) scale(1.2); }
+    70% { transform: rotate(0deg) scale(1.2); }
+    100% { transform: scale(1); }
   }

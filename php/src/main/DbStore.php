@@ -188,6 +188,15 @@ class DbStore
      * @param mixed $game_id
      */
     static function addToCart($user_id, $game_id/*, $platform_id*/){
+        //controllo se il gioco è disponibile
+        $stmt = DB::conn()->prepare("SELECT * FROM ProductPrices WHERE ProductID = ?");
+        $stmt->bind_param("s", $game_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) return false; //errore: gioco non disponibile
+
+
         //controllo se l'utente ha già un carrello          -------------------Il database non prevede che appena un utente si registra, gli venga creato un carrello per motivi di efficienza-------------------
         $stmt = DB::conn()->prepare("SELECT * FROM Cart WHERE ID_User = ?");
         $stmt->bind_param("s", $user_id);
@@ -220,7 +229,7 @@ class DbStore
             $stmt->bind_param("ss", $user_id, $game_id /*, $platform_id*/);
             $stmt->execute();
         }
-
+        return true;
     }
 
     /**

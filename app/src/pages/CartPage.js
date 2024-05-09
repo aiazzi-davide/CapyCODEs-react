@@ -10,7 +10,6 @@ function CartPage() {
     const [cartItems, setCartItems] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [trigger, setTrigger] = useState(false);
-    const itemsPrice = cartItems.reduce((a, c) => a + c.game.price, 0);
 
     function loadCart() {
         fetch(php_url + '/cart', {
@@ -31,32 +30,38 @@ function CartPage() {
     useEffect(() => {
         loadCart();
     }, [trigger]);
-    return isLoaded? 
-        <div className='cart-page'>
+
+    if (isLoaded) {
+        return <div className='cart-page'>
             <div className='cart-container'>
-                <h1>cart</h1>
-                <table className='table'>
-                        <tr>
-                            <th>Prodotto</th>
-                            <th>Quantità</th>
-                            <th>Prezzo</th>
-                        </tr>
-                        {cartItems.map((item) => (
-                            <tr key={item.game.id} className='tr'>
-                                <td className='td-l'><Item item={item} /></td>
-                                <td className='td-c'><Amount item={item} trigger={trigger} setTrigger={setTrigger} /></td>
-                                <td className='td-r' >{item.game.price}€</td>
+                {cartItems.length === 0 ?
+                    <h1>Il carrello è vuoto</h1>
+                    :
+                    <div>
+                    <h1>cart</h1>
+                    <table className='table'>
+                            <tr>
+                                <th>Prodotto</th>
+                                <th>Quantità</th>
+                                <th>Prezzo</th>
                             </tr>
-                        ))}
-                </table>
+                            {cartItems.map((item) => (
+                            <tr key={item.game.id} className='tr'>
+                                    <td className='td-l'><Item item={item} /></td>
+                                    <td className='td-c'><Amount item={item} trigger={trigger} setTrigger={setTrigger} /></td>
+                                    <td className='td-r' >{item.game.price}€</td>
+                            </tr>),)}
+                    </table>
+                    </div>
+                    }
+                </div>
+                <div className='cart-buttons'>
+                    <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
+                    <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
+                </div>
+                
             </div>
-            <div className='cart-buttons'>
-                <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
-                <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
-            </div>
-            
-        </div>
-     : <Loading />;
+    } else return <Loading />
 }
 
 export default CartPage;

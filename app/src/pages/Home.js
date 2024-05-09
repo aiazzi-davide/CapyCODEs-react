@@ -10,6 +10,8 @@ function Home() {
   const [data, setData] = useState({});
   const [isLoaded, setIsLoaded] = useState(false);
   const [query, setQuery] = useState("");
+  const [triggerCart, setTriggerCart] = useState(false);
+  const [triggerError, setTriggerError] = useState(false);
 
   function LoadData(query) {
 
@@ -44,9 +46,9 @@ function Home() {
     .then((response) => response.json())
         .then((data) => {
         console.log("Success:", data);
-          data.status == 200 ? 
-          alert("Added to cart!")
-          : alert(data.message);
+          data.status == 200 ?
+            setTriggerCart(!triggerCart)
+            : setTriggerError(data.game_id);
     })
     .catch((error) => {
         console.error("Error:", error);
@@ -55,10 +57,10 @@ function Home() {
   
   return (
     <div>
-      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} isLoaded={isLoaded} />
+      <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} isLoaded={isLoaded} bounce={triggerCart} setBounce={setTriggerCart} />
       <Spacer />
       {isLoaded ? (
-        <SearchResults data={data} query={query} addToCart={addToCart} />
+        <SearchResults data={data} query={query} addToCart={addToCart} triggerError={triggerError} setTriggerError={setTriggerError} />
       ) : (
         <Loading type={'spinner'}/>
       )}

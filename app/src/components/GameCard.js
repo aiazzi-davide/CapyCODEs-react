@@ -8,7 +8,11 @@ import { faShoppingCart, faCartPlus} from '@fortawesome/free-solid-svg-icons'
 function GameCard(props) {
     const game = props.game;
 
-    
+    if (props.errorId == game.id) {
+        setTimeout(() => {
+            props.setErrorId(null);
+        }, 1000);
+    }
     return (
         <div className="game-card-container">
             <div
@@ -27,7 +31,9 @@ function GameCard(props) {
                     <div className='add-cart-button button'>
                         <FontAwesomeIcon icon={faCartPlus} size='xl' onClick={ (event) => props.addToCart(event, game.id)}/>
                     </div>
-                    <b className="price">{game.price}</b>
+                    {
+                        props.errorId == game.id ? <b className="price hithere">{game.price} </b> : <b className="price">{game.price} {game.price != 'Not available' && <b>€</b>} </b>
+                    }
                 </div> 
             </div>
             <div className='card-bg' />

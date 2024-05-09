@@ -3,13 +3,12 @@
     background-color: #aa85d4;
     color: #210750;
     margin: 0 auto;
-    border: 2px solid #aa85d4;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     padding: 30px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.664);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.664);
     
 }  
 
@@ -73,6 +72,15 @@
     justify-content: center;
     padding: 20px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.664);
+}
+
+.cart-buttons div {
+    border: 2px solid #aa85d4;
+}
+
+.cart-buttons div:hover {
+    background-color: #aa85d4;
+    color: #210750;
 }
 
 .cart-page {
