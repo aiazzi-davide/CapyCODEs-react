@@ -3,7 +3,8 @@ import '../css/GameCard.css';
 import { useState, useEffect } from "react";
 import { php_url } from "../vars";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
-import { faShoppingCart, faCartPlus} from '@fortawesome/free-solid-svg-icons' 
+import { faShoppingCart, faCartPlus } from '@fortawesome/free-solid-svg-icons' 
+import Price from './Price';
 
 function GameCard(props) {
     const game = props.game;
@@ -31,9 +32,8 @@ function GameCard(props) {
                     <div className='add-cart-button button'>
                         <FontAwesomeIcon icon={faCartPlus} size='xl' onClick={ (event) => props.addToCart(event, game.id)}/>
                     </div>
-                    {
-                        props.errorId == game.id ? <b className="price hithere">{game.price} </b> : <b className="price">{game.price} {game.price != 'Not available' && <b>€</b>} </b>
-                    }
+                    {/*<Price price={game.price} discount={game.discount} gameId={game.id} errorId={props.errorId} />*/}
+                    {props.errorId == game.id ? <b className="price hithere">{game.price} </b> : <b className="price">{game.price} {game.price != 'Not available' && <b>€</b>} </b>}
                 </div> 
             </div>
             <div className='card-bg' />

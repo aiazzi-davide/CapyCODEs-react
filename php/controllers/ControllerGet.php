@@ -126,7 +126,7 @@ class ControllerGet
         }
 
         $response->getBody()->write(json_encode($data));
-        //sleep(1); //simula latenza
+        sleep(1); //simula latenza
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200);

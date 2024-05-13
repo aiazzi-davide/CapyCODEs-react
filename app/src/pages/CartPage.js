@@ -5,11 +5,13 @@ import Loading from '../components/Loading';
 import '../css/CartPage.css';
 import Amount from '../components/Amount';
 import Item from '../components/Item';
+import { parse } from '@fortawesome/fontawesome-svg-core';
 
 function CartPage() {
     const [cartItems, setCartItems] = useState([]);
     const [isLoaded, setIsLoaded] = useState(false);
     const [trigger, setTrigger] = useState(false);
+    const [totale, setTotale] = useState(0);
 
     function loadCart() {
         fetch(php_url + '/cart', {
@@ -34,6 +36,15 @@ function CartPage() {
         loadCart();
     }, [trigger]);
 
+    useEffect(() => {
+        let tot = 0;
+        cartItems.forEach(item => {
+            tot += parseFloat(item.game.price) * item.Amount;
+        }
+        );
+        setTotale(tot);
+    }, [cartItems]);
+
     if (isLoaded) {
         return <div className='cart-page'>
             <div className='cart-container'>
@@ -57,14 +68,15 @@ function CartPage() {
                     </table>
                     </div>
                     }
-                </div>
-                <div className='cart-buttons'>
-                    <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
-                    <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
-                </div>
-                
             </div>
-    } else return <Loading />
+            <div className='cart-buttons'>
+                <p className='totale'>Totale: {totale}€</p> <br/>
+                <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
+                <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
+            </div>
+                
+        </div>
+    } else return <Loading type='fp'/>
 }
 
 export default CartPage;
