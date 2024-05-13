@@ -157,20 +157,22 @@ class ControllerGet
             ->withStatus(200);
     }
 
-    public function getProfile(Request $request, Response $response, $args)
+    public function getProfile(Request $request, Response $response, $args) //reacted
     {
-        $view = new View('pages/ProfilePage');
         $token = $_COOKIE['CapycodesTkn'] ?? null;
         
         if ($user_id = Auth::isTokenValid($token, "session")) {
             $data = DbUtils::getUserData($token, "session");
-            $data['raw'] = json_encode($data, JSON_PRETTY_PRINT); //debug
-            $view->setData($data);
-            $response->getBody()->write($view->render());
-            return $response /*-> withHeader('Content-Type', 'application/json')*/;
+            $response->getBody()->write(json_encode($data));
+            sleep(1); //simula latenza
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
         } else {
-            header("Location: /login");
-            exit;
+            $response->getBody()->write(json_encode(["message" => "User not logged in"]));
+            return $response
+                ->withStatus(401)
+                ->withHeader('Content-Type', 'application/json');
         }
     }
 

@@ -43,6 +43,14 @@ footer{
   margin: 0 auto;
 }
 
+.pink-page{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #aa85d4;
+}
+
 .success{
   color: green;
 }

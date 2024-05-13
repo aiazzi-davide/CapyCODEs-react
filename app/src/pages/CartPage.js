@@ -18,6 +18,9 @@ function CartPage() {
         })
             .then((response) => response.json())
             .then((data) => {
+                if (data.message == 'User not logged in') {
+                    window.location.href = react_url + '/login';
+                }
                 setCartItems(data.items);
                 console.log("Success:", data);
                 setIsLoaded(true);
@@ -34,7 +37,7 @@ function CartPage() {
     if (isLoaded) {
         return <div className='cart-page'>
             <div className='cart-container'>
-                {cartItems.length === 0 ?
+                {cartItems.length == 0 ?
                     <h1>Il carrello è vuoto</h1>
                     :
                     <div>

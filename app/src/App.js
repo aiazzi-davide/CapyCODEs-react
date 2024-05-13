@@ -11,6 +11,7 @@ import NewPasswordPage from "./pages/NewPasswordPage";
 import AdminPage from "./pages/AdminPage";
 import GamePage from "./pages/GamePage";
 import CartPage from "./pages/CartPage";
+import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path="/new-password/:emailAddr" element={<NewPasswordPage />} />
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
           //GAME ROUTES
           <Route path="/game/:id" element={<GamePage />} />
           //ERROR ROUTES

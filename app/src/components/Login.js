@@ -6,6 +6,9 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import Loading from './Loading';
 
 function Login(props) {
+  const redirectProfile = () => {
+    window.location.href = react_url + '/profile';
+  };
 
   const logout = () => {
     fetch(php_url + '/logout', {
@@ -28,7 +31,7 @@ function Login(props) {
     if (props['profile']) {
       console.log(props);
       response = (
-        <div className='profile'>
+        <div className='profile' onClick={redirectProfile}>
           <div className='name button'>{props['profile'].Username} </div>
           <div className='logout button'>
             <FontAwesomeIcon icon={faRightFromBracket} size='lg' onClick={logout} />

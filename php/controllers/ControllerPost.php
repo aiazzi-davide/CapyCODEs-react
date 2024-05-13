@@ -283,7 +283,7 @@ class ControllerPost
                     ->withStatus(401);
             }
         } else {
-            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401"]));
+            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401", "game_id" => $game_id]));
             return $response
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(401);

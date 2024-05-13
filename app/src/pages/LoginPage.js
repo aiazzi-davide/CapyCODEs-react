@@ -5,6 +5,7 @@ import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import Loading from "../components/Loading";
 import '../css/LoginPage.css';
 import '../css/Navbar.css';
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -68,13 +69,11 @@ const LoginPage = () => {
     
 
     useEffect(() => {
-        //setTimeout(() => {
             checkLogin(setIsLoaded);
-        //}, 1000);
     }, []);
     return (
         isLoaded ?
-            <div className="login-page">
+            <div className="pink-page">
                 <div className="login-form">
                     <h1>Login Page</h1>
                     <form>
