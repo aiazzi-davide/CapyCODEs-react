@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import { php_url, react_url, checkLogin } from '../vars';
+import { php_url, react_url } from '../vars';
 
 function GoogleLoginPage() {
 
-    const [token, setToken] = useState('');
-    const [isLoaded, setIsLoaded] = useState(false);
     const [password, setPassword] = useState('');
     const [password_confirmation, setPasswordConfirmation] = useState('');
     const [birthday, setBirthday] = useState('');

@@ -40,6 +40,7 @@ $app->addRoutingMiddleware();
     $app->get('/new-password', 'ControllerGet:getNewPassword');
     $app->get('/login/google', 'ControllerGet:getGoogleLogin');
     $app->get('/register/google', 'ControllerGet:getGoogleRegister');
+    $app->get('/admin', 'ControllerGet:getAdmin');
     
     // ------------------------ PROFILE ------------------------
     $app->get('/profile', 'ControllerGet:getProfile');
@@ -64,6 +65,7 @@ $app->addRoutingMiddleware();
     $app->post('/reset-password', 'ControllerPost:postResetPassword');
     $app->post('/new-password', 'ControllerPost:postNewPassword');     //PUT
     $app->post('/register/google', 'ControllerPost:postGoogleRegister');
+    $app->post('/admin/setprice', 'ControllerAdmin:setPrice');
 
     // ------------------------ PROFILE ------------------------
     //$app->post('/profile', 'ControllerPost:postProfile'); //PUT
@@ -81,8 +83,6 @@ $app->addRoutingMiddleware();
 
     // ------------------------ PROFILE ------------------------
     //$app->put('/profile', 'ControllerPost:postProfile');
-    $app->put('/game/{id}/price', 'ControllerAdmin:updatePrice');
-    $app->put('/game/{id}/discount', 'ControllerAdmin:updateDiscount');
 
     // ------------------------ CART ------------------------
     //$app->put('/cart/update/{id_game}', 'ControllerPost:UpdateCart');

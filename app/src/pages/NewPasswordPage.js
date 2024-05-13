@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { checkLogin, php_url, react_url } from '../vars';
+import { php_url, react_url } from '../vars';
 import { useParams } from 'react-router-dom';
 const NewPasswordPage = () => {
     const [password, setPassword] = useState('');

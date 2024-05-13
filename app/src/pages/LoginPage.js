@@ -66,11 +66,10 @@ const LoginPage = () => {
             });
     }
 
-    
-
     useEffect(() => {
-            checkLogin(setIsLoaded);
+        checkLogin(setIsLoaded);
     }, []);
+
     return (
         isLoaded ?
             <div className="pink-page">

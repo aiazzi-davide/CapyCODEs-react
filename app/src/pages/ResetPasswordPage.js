@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { php_url, react_url, checkLogin } from '../vars';
+import { php_url, react_url} from '../vars';
 import '../css/App.css';
 const ResetPasswordPage = () => {
     const [email, setEmail] = useState('');

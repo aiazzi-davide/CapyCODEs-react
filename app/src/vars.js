@@ -18,6 +18,22 @@ export const checkLogin = (setIsLoaded) => {
         });
 };
 
+export const checkAdmin = (setIsLoaded) => {
+  fetch(php_url + '/admin', {
+      method: 'GET',
+      credentials: 'include',
+  })
+      .then((response) => response.json())
+      .then((data) => {
+          setIsLoaded(true);
+          console.log('Success:', data);
+          data.message === 'User is not an admin' && window.location.replace(react_url + '/');
+      })
+      .catch((error) => {
+          console.error('There was an error!', error);
+      });
+}
+
 export const LoadData = (query, setData, setIsLoaded) => {
 
     fetch(php_url + "?query=" + query, {

@@ -176,6 +176,32 @@ class ControllerGet
         }
     }
 
+    public function getAdmin(Request $request, Response $response, $args) //reacted
+    {
+        $token = $_COOKIE['CapycodesTkn'] ?? null;
+        
+        if ($user_id = Auth::isTokenValid($token, "session")) {
+            if (Auth::isAdmin($user_id)) {
+                $data = DbUtils::getUserData($token, "session");
+                $response->getBody()->write(json_encode($data));
+                sleep(1); //simula latenza
+                return $response
+                    ->withHeader('Content-Type', 'application/json')
+                    ->withStatus(200);
+            } else {
+                $response->getBody()->write(json_encode(["message" => "User is not an admin"]));
+                return $response
+                    ->withStatus(403)
+                    ->withHeader('Content-Type', 'application/json');
+            }
+        } else {
+            $response->getBody()->write(json_encode(["message" => "User not logged in"]));
+            return $response
+                ->withStatus(401)
+                ->withHeader('Content-Type', 'application/json');
+        }
+    }
+
 
     public function DeleteLogout(Request $request, Response $response, $args){ //reacted
 

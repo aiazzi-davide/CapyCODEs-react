@@ -76,12 +76,19 @@ footer{
   font-weight: bold;
   transition: all 0.2s;
   width: fit-content;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
   }
   
   .button:hover{
   background-color: white;
   color: #210750;
   }
+
+
 
   .hithere {
     animation: hithere 1s ease infinite;

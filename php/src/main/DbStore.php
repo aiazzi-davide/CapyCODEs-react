@@ -262,6 +262,38 @@ class DbStore
         return 0;
     }
 
+    /*--------------------------------------Amdin----------------------------------------*/
+    /**
+     * setPrice($game_id, $price, $discount) Imposta il prezzo di un gioco nel database
+     * @param mixed $game_id
+     * @param mixed $price
+     * @param mixed $discount
+     */
+
+    static function setPrice($game_id, $price, $discount, $end_date)
+    {
+        //controllo se il gioco è già presente nel database
+        $stmt = DB::conn()->prepare("SELECT * FROM ProductPrices WHERE ProductID = ?");
+        $stmt->bind_param("s", $game_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 0) {
+            //se il gioco non è presente nel database, lo aggiungo
+            $stmt = DB::conn()->prepare("INSERT INTO ProductPrices (ProductID, Price, DateEffectiveFrom, DateEffectiveTO, Discount) VALUES (?, ?, NOW(), ?, ?)");
+            $stmt->bind_param("ssss", $game_id, $price, $end_date, $discount);
+            $stmt->execute();
+        } else {
+            //se il gioco è già presente nel database, aggiorno il prezzo
+            $stmt = DB::conn()->prepare("UPDATE ProductPrices SET Price = ?, Discount = ?, DateEffectiveFrom = NOW(), DateEffectiveTO = ? WHERE ProductID = ?");
+            $stmt->bind_param("ssss", $price, $discount, $end_date, $game_id);
+            $stmt->execute();
+        }
+
+        if ($stmt->affected_rows > 0) return true;
+        return false;
+    }
+
     /*--------------------------------------OTHER----------------------------------------*/
     /**
      * updatePassword($email, $password) Aggiorna la password dell'utente nel database e la cripta

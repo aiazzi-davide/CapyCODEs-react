@@ -45,9 +45,7 @@ function Verify() {
     };
 
     useEffect(() => {
-        //setTimeout(() => {
             checkLogin(setIsLoaded);
-        //}, 1000);
     }, []);
 
     return (

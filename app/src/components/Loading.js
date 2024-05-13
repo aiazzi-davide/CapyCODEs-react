@@ -15,7 +15,9 @@ const Loading = ({ type }) => {
             );
         case 'ic':
             return (
-                <div className='ic' />
+                <div className='loading'>
+                    <div className='ic' />
+                </div>
             );
         case 'fp':
             return (

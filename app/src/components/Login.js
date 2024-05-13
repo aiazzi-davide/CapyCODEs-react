@@ -4,10 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa Font
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import Loading from './Loading';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
+  let navigate = useNavigate();
   const redirectProfile = () => {
-    window.location.href = react_url + '/profile';
+    navigate('/profile');
   };
 
   const logout = () => {
@@ -31,8 +33,8 @@ function Login(props) {
     if (props['profile']) {
       console.log(props);
       response = (
-        <div className='profile' onClick={redirectProfile}>
-          <div className='name button'>{props['profile'].Username} </div>
+        <div className='profile' >
+          <div className='name button' onClick={redirectProfile}>{props['profile'].Username} </div>
           <div className='logout button'>
             <FontAwesomeIcon icon={faRightFromBracket} size='lg' onClick={logout} />
           </div>
