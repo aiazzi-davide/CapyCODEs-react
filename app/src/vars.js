@@ -17,3 +17,20 @@ export const checkLogin = (setIsLoaded) => {
             console.error('There was an error!', error);
         });
 };
+
+export const LoadData = (query, setData, setIsLoaded) => {
+
+    fetch(php_url + "?query=" + query, {
+      method: "GET",
+      credentials: "include", // Include cookies
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setData(data);
+        console.log("Success:", data);
+        setIsLoaded(true);
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
+  }

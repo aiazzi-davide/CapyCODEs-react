@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import SearchResults from "../components/SearchResults";
 import { useState, useEffect } from "react";
-import { php_url } from "../vars";
+import { php_url, LoadData} from "../vars";
 import "../css/App.css";
 
 function Home() {
@@ -13,24 +13,8 @@ function Home() {
   const [triggerCart, setTriggerCart] = useState(false);
   const [triggerError, setTriggerError] = useState(false);
 
-  function LoadData(query) {
-
-    fetch(php_url + "?query=" + query, {
-      method: "GET",
-      credentials: "include", // Include cookies
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setData(data);
-        console.log("Success:", data);
-        setIsLoaded(true);
-      })
-      .catch((error) => {
-        console.error("There was an error!", error);
-      });
-  }
   useEffect(() => {
-    LoadData(query);
+    LoadData(query, setData, setIsLoaded);
   }, [query]);
 
   const addToCart = (e, game_id) => {
