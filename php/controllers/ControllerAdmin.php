@@ -41,7 +41,7 @@ class ControllerAdmin
             if (Auth::isAdmin($userId)) {
                 // Inserisce il prezzo nel database
                 if (DbStore::setPrice($game_id, $price, $discount, $end_date)) {
-                    $response->getBody()->write(json_encode(["message" => "Price set successfully"]));
+                    $response->getBody()->write(json_encode(["message" => "Price set successfully", 'status' => 200, 'gameID' => $game_id, 'price' => $price, 'discount' => $discount, 'end_date' => $end_date]));
                     return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(200);

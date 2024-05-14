@@ -4,16 +4,29 @@ import { useState, useEffect } from "react";
 import { php_url } from "../vars";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faShoppingCart, faCartPlus } from '@fortawesome/free-solid-svg-icons' 
-import Price from './Price';
 
 function GameCard(props) {
     const game = props.game;
+    const priceData = props.game.priceData;
+    const [finalPrice, setFinalPrice] = useState(priceData.Price);
 
     if (props.errorId == game.id) {
         setTimeout(() => {
             props.setErrorId(null);
         }, 1000);
     }
+
+    let final = 0;
+    useEffect(() => {
+        if (priceData.Price == 'Not available') {
+            setFinalPrice('Not available');
+            return;
+        }
+        final = (priceData.Price - (priceData.Price * (priceData.Discount / 100))).toFixed(2);
+        console.log(final);
+        setFinalPrice(final);
+    }, [priceData]);
+
     return (
         <div className="game-card-container">
             <div
@@ -32,8 +45,15 @@ function GameCard(props) {
                     <div className='add-cart-button button'>
                         <FontAwesomeIcon icon={faCartPlus} size='xl' onClick={ (event) => props.addToCart(event, game.id)}/>
                     </div>
-                    {/*<Price price={game.price} discount={game.discount} gameId={game.id} errorId={props.errorId} />*/}
-                    {props.errorId == game.id ? <b className="price hithere">{game.price} </b> : <b className="price">{game.price} {game.price != 'Not available' && <b>€</b>} </b>}
+                    {props.errorId == game.id ?
+                        <b className="price hithere">
+                            {finalPrice}
+                        </b> :
+                        <b className="price">
+                            {finalPrice != priceData.Price && <s>{priceData.Price}€</s>} <span> </span>
+                            {finalPrice}
+                            {priceData.Price != 'Not available' && <b>€</b>}
+                        </b>}
                 </div> 
             </div>
             <div className='card-bg' />

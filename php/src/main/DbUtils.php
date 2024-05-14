@@ -3,13 +3,13 @@ class DbUtils
 {
     /**
     // getUserData($token, $type) Restituisce i dati dell'utente
-        * @param string $token
-        * @param string $type session, temp, otp
-        * @return array|bool restituisce i dati dell'utente in array associativo se il token è valido, altrimenti restituisce false
-    */
+     * @param string $token
+     * @param string $type session, temp, otp
+     * @return array|bool restituisce i dati dell'utente in array associativo se il token è valido, altrimenti restituisce false
+     */
     static function getUserData($token, $type)
     {
-        
+
         switch ($type) {
             case "session":
                 //se il tipo è session, prendo i dati dell'utente dalla tabella Session_Tokens !!IN SESSION_TOKENS IL TOKEN è HASHATO!!
@@ -17,11 +17,11 @@ class DbUtils
                 //hash del token
                 $token = Crypt::encrypt($token);
                 break;
-            //se il tipo è temp, prendo i dati dell'utente dalla tabella TempUserData !!IN TEMPUSERDATA IL TOKEN NON è HASHATO!!
+                //se il tipo è temp, prendo i dati dell'utente dalla tabella TempUserData !!IN TEMPUSERDATA IL TOKEN NON è HASHATO!!
             case "temp":
                 $stmt = DB::conn()->prepare("SELECT ID, Email, Username, Nome, Cognome, DataDiNascita FROM TempUserData WHERE token = ?");
                 break;
-            //se il tipo è otp, prendo i dati dell'utente dalla tabella OTP_tokens INUTILIZZATO
+                //se il tipo è otp, prendo i dati dell'utente dalla tabella OTP_tokens INUTILIZZATO
             case "otp":
                 $stmt = DB::conn()->prepare("SELECT * FROM OTP_tokens WHERE token = ?");
                 break;
@@ -64,7 +64,8 @@ class DbUtils
         return $data['Token'];
     }
 
-    static function getUserId($email){
+    static function getUserId($email)
+    {
         $stmt = DB::conn()->prepare("SELECT ID FROM Users WHERE Email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -90,7 +91,7 @@ class DbUtils
      * @param string $user_id
      */
 
-     static function delToken($user_id)
+    static function delToken($user_id)
     {
         //Rimozione dal DB
         // Cancella i token scaduti
@@ -142,11 +143,11 @@ class DbUtils
     {
         $rawg = new RawgAPI();
         $games = $rawg->getGames($query);
-        
+
         // Aggiunge il prezzo a ciascun gioco
         foreach ($games as $key => $game) {
             $price = DbUtils::getPrice($game['id']);
-            $games[$key]['price'] = $price['Price'];
+            $games[$key]['priceData'] = $price;
         }
         return $games;
     }
@@ -164,7 +165,7 @@ class DbUtils
         if ($data == null) {
             return ["Error" => "Game not found"];
         } else {
-            $data['price'] = DbUtils::getPrice($id)['Price'];
+            $data['priceData'] = DbUtils::getPrice($id);
             return $data;
         }
     }
@@ -176,7 +177,7 @@ class DbUtils
      */
     static function getPrice($id)
     {
-        $stmt = DB::conn()->prepare("SELECT Price FROM ProductPrices WHERE ProductID = ?");
+        $stmt = DB::conn()->prepare("SELECT * FROM ProductPrices WHERE ProductID = ?");
         $stmt->bind_param("s", $id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -204,4 +205,3 @@ class DbUtils
         return $data;
     }
 }
-?>
