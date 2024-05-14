@@ -217,6 +217,16 @@ class ControllerGet
             ->withStatus(302);
     }
 
+    public function getGameImages(Request $request, Response $response, $args) //reacted
+    {
+        $id = $args['id'];
+        $data = DbUtils::getGameImages($id);
+        $response->getBody()->write(json_encode($data));
+        return $response
+            ->withHeader('Content-Type', 'application/json')
+            ->withStatus(200);
+    }
+
     //------------------------ Mustache OLD ------------------------
     public function getGoogleRegister(Request $request, Response $response, $args) //inutilizzato
     {

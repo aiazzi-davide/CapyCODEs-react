@@ -50,6 +50,7 @@ $app->addRoutingMiddleware();
 
     // ------------------------ GAME ------------------------
     $app->get('/game/{id}', 'ControllerGet:getGame');
+    $app->get('/game/{id}/images', 'ControllerGet:getGameImages');
     //$app->get('/game/{id}/price', 'ControllerGet:getPrice');
 
 

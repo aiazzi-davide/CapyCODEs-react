@@ -51,4 +51,15 @@ class RawgAPI
         $this->api_data = json_decode($this->api_response->getBody(), true);
         return $this->api_data['results'];
     }
+
+    public function getGameImages($id)
+    {
+        $this->api_url = $this->base_url . "games/" . $id . "/screenshots";
+        $this->api_params = [
+            'key' => $this->api_key
+        ];
+        $this->api_response = $this->client->request('GET', $this->api_url, ['query' => $this->api_params]);
+        $this->api_data = json_decode($this->api_response->getBody(), true);
+        return $this->api_data['results'];
+    }
 }

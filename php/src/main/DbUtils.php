@@ -204,4 +204,16 @@ class DbUtils
         $data = $result->fetch_all(MYSQLI_ASSOC);
         return $data;
     }
+
+    /**
+     * getGameImages($id) Restituisce le immagini del gioco con l'ID specificato
+     * @param string $id
+     * @return array
+     */
+    static function getGameImages($id)
+    {
+        $rawg = new RawgAPI();
+        $data = $rawg->getGameImages($id);
+        return $data;
+    }
 }

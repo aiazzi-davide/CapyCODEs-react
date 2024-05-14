@@ -20,6 +20,20 @@ footer{
   text-align: center;
 }
 
+.left-container {
+  width: 55%;
+  background-color: #aa85d4;
+  color: #210750;
+  margin: 0 auto;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 30px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.664);
+  border: 2px solid #000000;
+}
+
 .cdiv{
   width: 80%;
   margin: 0 auto;

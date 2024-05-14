@@ -55,34 +55,33 @@ function CartPage() {
 
     if (isLoaded) {
         return <div className='cart-page'>
-            <div className='cart-container'>
-                {cartItems.length == 0 ?
-                    <h1>Il carrello è vuoto</h1>
-                    :
-                    <div>
-                    <h1>cart</h1>
-                    <table className='table'>
-                            <tr>
-                                <th>Prodotto</th>
-                                <th>Quantità</th>
-                                <th>Prezzo</th>
-                            </tr>
-                            {cartItems.map((item) => (
-                            <tr key={item.game.id} className='tr'>
-                                    <td className='td-l'><Item item={item} /></td>
-                                    <td className='td-c'><Amount item={item} trigger={trigger} setTrigger={setTrigger} /></td>
-                                    <td className='td-r' >{item.game.priceData.Price != getFinalPrice(item) && <s>{item.game.priceData.Price}</s>}€ {getFinalPrice(item)} €</td>
-                            </tr>),)}
-                    </table>
-                    </div>
-                    }
-            </div>
-            <div className='cart-buttons'>
-                <p className='totale'>Totale: {totale}€</p> <br/>
-                <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
-                <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
-            </div>
-                
+          <div className='left-container'>
+            {cartItems.length == 0 ?
+              <h1>Il carrello è vuoto</h1>
+              :
+              <div>
+              <h1>cart</h1>
+              <table className='table'>
+                <tr>
+                    <th>Prodotto</th>
+                    <th>Quantità</th>
+                    <th>Prezzo</th>
+                </tr>
+                {cartItems.map((item) => (
+                <tr key={item.game.id} className='tr'>
+                    <td className='td-l' ><Item item={item} /></td>
+                        <td className='td-c'><Amount item={item} trigger={trigger} setTrigger={setTrigger} /></td>
+                        <td className='td-r' >{item.game.priceData.Price != getFinalPrice(item) && <s>{item.game.priceData.Price}</s>}€ {getFinalPrice(item)} €</td>
+                </tr>),)}
+              </table>
+              </div>
+            }
+          </div>
+          <div className='cart-buttons'>
+              <p className='totale'>Totale: {totale}€</p> <br/>
+              <div className='button' onClick={() => window.location.href = react_url + '/checkout'}>Checkout</div>
+              <div className='button' onClick={() => window.location.href = react_url + '/'}>Continua a comprare</div>
+          </div>
         </div>
     } else return <Loading type='fp'/>
 }

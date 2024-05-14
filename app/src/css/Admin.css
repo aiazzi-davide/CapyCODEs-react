@@ -24,7 +24,7 @@
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.664);
   }
 
-  .img-container{
+  .admin-img-container{
     display: flex;
     justify-content:center;
     align-items: center;

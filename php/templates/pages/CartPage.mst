@@ -3,7 +3,7 @@
 <head>
     <title>Cart Page</title>
     <style>
-        .cart-container {
+        .left-container {
             margin: 20px;
             padding: 20px;
             border: 1px solid #ccc;
@@ -46,7 +46,7 @@
     </style>
 </head>
 <body>
-    <div class="cart-container">
+    <div class="left-container">
         <h1>Cart</h1>
         
         {{#items}}
