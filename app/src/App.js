@@ -13,6 +13,7 @@ import GamePage from "./pages/GamePage";
 import CartPage from "./pages/CartPage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFoundPage from "./pages/errors/NotFoundPage";
+import ServerErrorPage from "./pages/errors/ServerErrorPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           //GAME ROUTES
           <Route path="/game/:id" element={<GamePage />} />
           //ERROR ROUTES
+          <Route path="/500" element={<ServerErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
         <Footer />

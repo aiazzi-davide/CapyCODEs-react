@@ -3,8 +3,9 @@ import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import SearchResults from "../components/SearchResults";
 import { useState, useEffect } from "react";
-import { php_url, LoadData} from "../vars";
+import { php_url, LoadData, react_url} from "../vars";
 import "../css/App.css";
+import ServerErrorPage from "./errors/ServerErrorPage";
 
 function Home() {
   const [data, setData] = useState({});
@@ -12,10 +13,16 @@ function Home() {
   const [query, setQuery] = useState("");
   const [triggerCart, setTriggerCart] = useState(false);
   const [triggerError, setTriggerError] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    LoadData(query, setData, setIsLoaded);
+    LoadData(query, setData, setIsLoaded, setError);
   }, [query]);
+
+
+  if (error) {
+    return <ServerErrorPage />;
+  }
 
   const addToCart = (e, game_id) => {
     e.stopPropagation();
@@ -37,7 +44,7 @@ function Home() {
     .catch((error) => {
         console.error("Error:", error);
     });
-}
+  }
   
   return (
     <div>

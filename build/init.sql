@@ -93,7 +93,7 @@ CREATE TABLE ProductPrices (
     Price DECIMAL(10,2),
     DateEffectiveFrom DATETIME,
     DateEffectiveTo DATETIME,
-    Discount DECIMAL(10,2)
+    Discount INT CHECK (Discount >= 0 AND Discount <= 100)
 );
 
 

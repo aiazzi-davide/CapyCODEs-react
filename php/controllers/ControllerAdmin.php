@@ -35,18 +35,32 @@ class ControllerAdmin
         $discount = $data['discount'];
         $end_date = $data['endDate'];
 
+        if ($end_date == "") {
+            $end_date = null;
+        }
+
+        if ($discount == "") {
+            $discount = null;
+        }
+        
         $token = $_COOKIE['CapycodesTkn'] ?? null;
 
         if ($userId = Auth::isTokenValid($token, "session")) {
             if (Auth::isAdmin($userId)) {
                 // Inserisce il prezzo nel database
-                if (DbStore::setPrice($game_id, $price, $discount, $end_date)) {
+                $result = DbStore::setPrice($game_id, $price, $discount, $end_date);
+                if ($result == 'success') {
                     $response->getBody()->write(json_encode(["message" => "Price set successfully", 'status' => 200, 'gameID' => $game_id, 'price' => $price, 'discount' => $discount, 'end_date' => $end_date]));
                     return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(200);
+                } else if ($result == 'input_error'){
+                    $response->getBody()->write(json_encode(["message" => "Input error", 'status' => 400, 'gameID' => $game_id, 'price' => $price, 'discount' => $discount, 'end_date' => $end_date]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(400);
                 } else {
-                    $response->getBody()->write(json_encode(["message" => "Error setting price", 'status' => 500, 'gameID' => $game_id, 'price' => $price, 'discount' => $discount, 'end_date' => $end_date]));
+                    $response->getBody()->write(json_encode(["message" => $result, 'status' => 500, 'gameID' => $game_id, 'price' => $price, 'discount' => $discount, 'end_date' => $end_date]));
                     return $response
                         ->withHeader('Content-Type', 'application/json')
                         ->withStatus(500);

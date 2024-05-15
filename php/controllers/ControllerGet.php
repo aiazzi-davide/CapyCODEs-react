@@ -35,7 +35,7 @@ class ControllerGet
         //restituisco i dati in formato JSON
         $response->getBody()->write(json_encode($data));
                 //set response headers
-                sleep(1); //simula latenza
+                //sleep(1); //simula latenza
                 return $response
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(200); 
@@ -124,7 +124,7 @@ class ControllerGet
         }
 
         $response->getBody()->write(json_encode($data));
-        sleep(1); //simula latenza
+        //sleep(1); //simula latenza
         return $response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus(200);
@@ -162,7 +162,7 @@ class ControllerGet
         if ($user_id = Auth::isTokenValid($token, "session")) {
             $data = DbUtils::getUserData($token, "session");
             $response->getBody()->write(json_encode($data));
-            sleep(1); //simula latenza
+            //sleep(1); //simula latenza
             return $response
                 ->withHeader('Content-Type', 'application/json')
                 ->withStatus(200);
@@ -182,7 +182,7 @@ class ControllerGet
             if (Auth::isAdmin($user_id)) {
                 $data = DbUtils::getUserData($token, "session");
                 $response->getBody()->write(json_encode($data));
-                sleep(1); //simula latenza
+                //sleep(1); //simula latenza
                 return $response
                     ->withHeader('Content-Type', 'application/json')
                     ->withStatus(200);

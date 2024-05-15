@@ -34,7 +34,7 @@ export const checkAdmin = (setIsLoaded) => {
       });
 }
 
-export const LoadData = (query, setData, setIsLoaded) => {
+export const LoadData = (query, setData, setIsLoaded, setError) => {
 
     fetch(php_url + "?query=" + query, {
       method: "GET",
@@ -48,5 +48,6 @@ export const LoadData = (query, setData, setIsLoaded) => {
       })
       .catch((error) => {
         console.error("There was an error!", error);
+          setError(true);
       });
   }

@@ -290,8 +290,9 @@ class DbStore
             $stmt->execute();
         }
 
-        if ($stmt->affected_rows > 0) return true;
-        return false;
+        if ($stmt->error) return $stmt->error;
+        if ($stmt->affected_rows > 0) return 'success';
+        return 'error';
     }
 
     /*--------------------------------------OTHER----------------------------------------*/

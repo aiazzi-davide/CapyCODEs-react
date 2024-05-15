@@ -177,6 +177,11 @@ class DbUtils
      */
     static function getPrice($id)
     {
+        //elimina gli sconti scaduti
+        $stmt = DB::conn()->prepare("UPDATE ProductPrices SET Discount = 0 WHERE DateEffectiveTo < NOW()");
+        $stmt->execute();
+
+        //seleziona il prezzo dal database
         $stmt = DB::conn()->prepare("SELECT * FROM ProductPrices WHERE ProductID = ?");
         $stmt->bind_param("s", $id);
         $stmt->execute();
