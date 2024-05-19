@@ -56,6 +56,19 @@ footer{
   margin: 0 auto;
 }
 
+.right-container{
+  width: 30%;
+  background-color: #210750;
+  color: #aa85d4;
+  margin: 0 auto;
+  border: 2px solid #aa85d4;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.664);
+}
+
 .pink-page{
   display: flex;
   justify-content: center;

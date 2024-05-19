@@ -53,6 +53,7 @@ All default values mentioned above are configurable in .env file
 - ~~cart animations~~
 - ~~slideshow~~ 
 - ~~post game page~~
+- buy system
 - css register ecc...
 - profile page features
 - news letter

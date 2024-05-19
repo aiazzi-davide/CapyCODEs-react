@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { php_url, react_url} from '../vars';
 import '../css/App.css';
+import { useEffect } from 'react';
+import Loading from '../components/Loading';
+
 const ResetPasswordPage = () => {
     const [email, setEmail] = useState('');
     const [otp, setOtp] = useState('');
     const [emailSent, setEmailSent] = useState(0); // 0 = not sent, 200 = sent, 401 = not found
     const [error, setError] = useState(null);
     const [cooldown, setCooldown] = useState(false);
+    const [data, setData] = useState({});
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const handleResetPassword = (e) => {
         e.preventDefault();
@@ -64,16 +69,41 @@ const ResetPasswordPage = () => {
         
     }
 
+    function loadProfile() {
+        fetch(php_url + '/profile', {
+            method: 'GET',
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setData(data);
+                setIsLoaded(true);
+                setEmail(data.Email);
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+    }
+
+    useEffect(() => {
+        loadProfile();
+    }, []);
+
     return (
         <div className='cdiv'>
             <h1>Forgot password?</h1> <br />
             <form>
-                <input
-                    placeholder="Email or Username"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                {
+                    isLoaded ?
+                    <input
+                        placeholder="Email or Username"
+                        type="email"
+                        value={data.Email ? data.Email : email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    /> :
+                        <Loading type={'wm'} />
+                }
                 <button onClick={sendCode} disabled={cooldown}>
                     {emailSent == 200 ? <span>resend code</span> : <span>send code</span>}
                 </button>
