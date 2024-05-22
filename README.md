@@ -43,7 +43,7 @@ All default values mentioned above are configurable in .env file
 - ~~google auth~~ R
 - ~~get game page~~ R
 - ~~cart managment~~ R 
-- ~~profile page~~ 
+- ~~profile page~~ R
 # post React
 
 - ~~reserach system~~
@@ -53,9 +53,9 @@ All default values mentioned above are configurable in .env file
 - ~~cart animations~~
 - ~~slideshow~~ 
 - ~~post game page~~
+- ~~profile page features~~
 - buy system
 - css register ecc...
-- profile page features
 - news letter
 - security emails
 - errors and exceptions managment (try catch)
