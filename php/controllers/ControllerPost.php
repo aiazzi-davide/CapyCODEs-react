@@ -73,7 +73,7 @@ class ControllerPost
 
                 // salvo l'email in sessione per il controllo dell'OTP
                 //$_SESSION['emailOTP'] = $email;
-
+                
                 //salvo il token in sessione 
                 //$_SESSION['tokenTemp'] = $token;
 
@@ -296,12 +296,77 @@ class ControllerPost
         $token = $_COOKIE['CapycodesTkn'] ?? null;
         if ($user_id = Auth::isTokenValid($token, "session")) {
             DbStore::removeFromCart($user_id, $game_id);
-            header("Location: /cart"); //-------------> PER IMPLEMENTAZIONE CON REACT: rendere un json con codice di stato per rirenderizzare la pagina da cui è stato chiamato con "removed successfully" o "error removing from cart"
-            exit;
-
+            $response->getBody()->write(json_encode(["message" => "Game removed from cart", "status" => "200"]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
         } else {
-            header("Location: /login");
-            exit;
+            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401", "game_id" => $game_id]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(401);
+        }
+    }
+
+    public function editProfile(Request $request, Response $response, $args) //reacted
+    {
+        $contents = $request->getBody()->getContents();
+        $data = json_decode($contents, true);
+        $token = $_COOKIE['CapycodesTkn'];
+        $user_id = Auth::isTokenValid($token, "session");
+
+        if ($user_id) {
+            switch(DbStore::editProfile($user_id, $data)){
+                case 0: //username già in uso
+                    $response->getBody()->write(json_encode(["message" => "Username already in use", "status" => "401"]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(401);
+                case 1: //email già in uso
+                    $response->getBody()->write(json_encode(["message" => "Email already in use", "status" => "401"]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(401);
+                case 2: //errore generico
+                    $response->getBody()->write(json_encode(["message" => "Error", "status" => "401"]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(401);
+                case 100: //successo
+                    $response->getBody()->write(json_encode(["message" => "Profile updated", "status" => "200"]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(200);
+                default:
+                    $response->getBody()->write(json_encode(["message" => "500 Error", "status" => "401"]));
+                    return $response
+                        ->withHeader('Content-Type', 'application/json')
+                        ->withStatus(401);
+            }
+        } else {
+            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401"]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(401);
+        }
+    }
+
+    public function DeleteAccount(Request $request, Response $response, $args) //reacted
+    {
+        $token = $_COOKIE['CapycodesTkn'];
+        $user_id = Auth::isTokenValid($token, "session");
+
+        if ($user_id) {
+            DbStore::deleteAccount($user_id);
+            $response->getBody()->write(json_encode(["message" => "Account deleted", "status" => "200"]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(200);
+        } else {
+            $response->getBody()->write(json_encode(["message" => "User not logged in", "status" => "401"]));
+            return $response
+                ->withHeader('Content-Type', 'application/json')
+                ->withStatus(401);
         }
     }
 }

@@ -57,7 +57,7 @@ function Login(props) {
     return response;
   } else {
     return (
-      <div className='login'>
+      <div>
         <Loading type={'wm'}/>
       </div>
     );

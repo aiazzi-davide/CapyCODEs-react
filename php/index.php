@@ -69,7 +69,7 @@ $app->addRoutingMiddleware();
     $app->post('/admin/setprice', 'ControllerAdmin:setPrice');
 
     // ------------------------ PROFILE ------------------------
-    //$app->post('/profile', 'ControllerPost:postProfile'); //PUT
+    $app->post('/editProfile', 'ControllerPost:editProfile'); //PUT
 
     // ------------------------ CART ------------------------
     //$app->post('/cart/add/{id_game}/{id_platform}', 'ControllerPost:AddToCart');   //id platform da rimuovere (il sito vende solo key per PC)
@@ -95,6 +95,7 @@ $app->addRoutingMiddleware();
     
         // ------------------------ AUTH ------------------------
         $app->delete('/logout', 'ControllerGet:DeleteLogout');
+        $app->delete('/delete-account', 'ControllerPost:DeleteAccount');
 
         // ------------------------ CART ------------------------
         //$app->delete('/cart', 'ControllerPost:EmptyCart');

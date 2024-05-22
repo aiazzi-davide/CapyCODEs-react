@@ -62,8 +62,8 @@ class DbStore
         $userData = DbUtils::getTempUserData($tokenTemp);
 
         $datetime = date("Y-m-d H:i:s");
-        if (isset($args['Password'])) 
-            $hashpsw = Crypt::encrypt($args['Password']); //con la regisrazione con google viene passata la password
+        if (isset($args['Password'])) {
+            $hashpsw = Crypt::encrypt($args['Password']);} //con la regisrazione con google viene passata la password
 
         //aggiorno i dati dell'utente se sono stati passati
         $userData['Password'] = $hashpsw ?? $userData['Password'];
@@ -87,7 +87,7 @@ class DbStore
         $stmt->execute();
 
         //cancello i dati temporanei dell'utente
-        DbUtils::delTempUserData($userData['Email']);
+        //DbUtils::delTempUserData($userData['Email']);
 
         return $userID;
     }
@@ -359,6 +359,97 @@ class DbStore
         $stmt->bind_param("ss", $new_discount, $game_id);
         $stmt->execute();
     }
+
+    /**
+     * editProfile($user_id, $data) Modifica il profilo dell'utente
+     * @param mixed $user_id
+     * @param mixed $data
+     * @return int
+     */
+
+    static function editProfile($user_id, $data)
+    {
+        $field = $data['field'];
+        $value = $data['value'];
+
+        //aggiorno il profilo dell'utente
+        if($field == 0) //username
+        {
+            //controllo se l'username è già presente nel database
+            $stmt = DB::conn()->prepare("SELECT * FROM Users WHERE Username = ?");
+            $stmt->bind_param("s", $value);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                return 0; //errore: username già presente nel database
+            }
+        
+            //aggiorno l'username
+            $stmt = DB::conn()->prepare("UPDATE Users SET Username = ? WHERE ID = ?");
+            $stmt->bind_param("ss", $value, $user_id);
+            $stmt->execute();
+        }
+        else if($field == 1) //email
+        {
+            //controllo se l'email è già presente nel database
+            $stmt = DB::conn()->prepare("SELECT * FROM Users WHERE Email = ?");
+            $stmt->bind_param("s", $value);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            if ($result->num_rows > 0) {
+                return 1; //errore: email già presente nel database
+            }
+
+            //aggiorno l'email
+            $stmt = DB::conn()->prepare("UPDATE Users SET Email = ? WHERE ID = ?");
+            $stmt->bind_param("ss", $value, $user_id);
+            $stmt->execute();
+        }
+        else if($field == 2) //nome
+        {
+            $stmt = DB::conn()->prepare("UPDATE UserData SET Nome = ? WHERE ID_User = ?");
+            $stmt->bind_param("ss", $value, $user_id);
+            $stmt->execute();
+        }
+        else if($field == 3) //cognome
+        {
+            $stmt = DB::conn()->prepare("UPDATE UserData SET Cognome = ? WHERE ID_User = ?");
+            $stmt->bind_param("ss", $value, $user_id);
+            $stmt->execute();
+        }
+        else if($field == 4) //data di nascita
+        {
+            $stmt = DB::conn()->prepare("UPDATE UserData SET DataDiNascita = ? WHERE ID_User = ?");
+            $stmt->bind_param("ss", $value, $user_id);
+            $stmt->execute();
+        }
+
+        if ($stmt->affected_rows > 0) return 100; //successo
+        return 2; //errore
+    }
+
+    /**
+     * deleteAccount($user_id) Cancella l'account dell'utente
+     * @param mixed $user_id
+     * @return void
+     */
+    static function deleteAccount($user_id)
+    {
+        //cancello i dati dell'utente
+        $stmt = DB::conn()->prepare("DELETE FROM UserData WHERE ID_User = ?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+
+        //cancello l'account dell'utente
+        $stmt = DB::conn()->prepare("DELETE FROM Users WHERE ID = ?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+
+        //cancello i token dell'utente
+        DbUtils::delToken($user_id);
+    }
+
+
 
 
 }

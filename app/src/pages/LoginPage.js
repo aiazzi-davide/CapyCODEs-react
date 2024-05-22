@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { php_url, react_url, checkLogin } from "../vars";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
+import { faHome } from '@fortawesome/free-solid-svg-icons'
 import Loading from "../components/Loading";
 import '../css/LoginPage.css';
 import '../css/Navbar.css';
-import { Link } from "react-router-dom";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -45,27 +45,6 @@ const LoginPage = () => {
             });
     };
 
-    const resetPassword = () => {
-        fetch(php_url + '/reset-password', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({
-                email: email,
-            }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success:', data);
-                data.message === 'Email sent' ? alert('Email sent') : alert('Email not sent');
-            })
-            .catch((error) => {
-                console.error('There was an error!', error);
-            });
-    }
-
     useEffect(() => {
         checkLogin(setIsLoaded);
     }, []);
@@ -74,23 +53,22 @@ const LoginPage = () => {
         isLoaded ?
             <div className="pink-page">
                 <div className="login-form">
-                    <h1>Login Page</h1>
-                    <form>
+                    <h1 className="h1">Login to CapyCODEs</h1>
+                    <div className="left-container login">
                         <input type="email" value={email} onChange={handleEmailChange} placeholder="Email" className="input" />
-                        <br />
                         <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" className="input" />
-                        <br />
                         <div className="buttons1">
                             <div className="login-button button" type="submit" onClick={handleSubmit}>Login</div>
                             <div className="button" onClick={() => window.location.href = react_url + '/register'}>SignUp</div>
                         </div>
-                        <div className="buttons2">
-                            <div className="login-button button" onClick={() => window.location.href = '/login/google'}>
-                                Login with <FontAwesomeIcon icon={faGoogle} size='lg' />
-                            </div>
-                            <div className="button" onClick={() => window.location.href = '/reset-password'}>Forgot password?</div>
+                    </div>
+                    <div className="right-container buttons2">
+                        <div className="button login-button" onClick={() => window.location.href = '/login/google'}>
+                            Login with <FontAwesomeIcon icon={faGoogle} size='lg' />
                         </div>
-                    </form>
+                        <div className="button login-button" onClick={() => window.location.href = '/reset-password'}>Forgot password?</div>
+                        <div className="button login-button" onClick={() => window.location.href = '/'}><FontAwesomeIcon icon={faHome} size='lg' /></div>
+                    </div>
                 </div>
             </div>
         :

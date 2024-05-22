@@ -17,6 +17,7 @@ CREATE TABLE Users (
     Password VARCHAR(100),
     Admin BOOLEAN default 0,
     DataCreazione DATE
+
 );
 
 CREATE TABLE UserData (
@@ -26,8 +27,8 @@ CREATE TABLE UserData (
   Cognome VARCHAR(50) NOT NULL,
   DataDiNascita DATE,
   IndirizzoID INT,
-  FOREIGN KEY (IndirizzoID) REFERENCES indirizzi(ID),
-  FOREIGN KEY (ID_User) REFERENCES Users(ID)
+  FOREIGN KEY (IndirizzoID) REFERENCES indirizzi(ID) ON DELETE CASCADE,
+  FOREIGN KEY (ID_User) REFERENCES Users(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE TempUserData (
@@ -52,7 +53,7 @@ CREATE TABLE Session_Tokens(
     DataScadenza DATETIME,
     Token VARCHAR(100),
 
-    FOREIGN KEY (ID_Utente) REFERENCES Users(ID)
+    FOREIGN KEY (ID_Utente) REFERENCES Users(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE OTP_tokens(
@@ -73,7 +74,7 @@ CREATE TABLE Cart (
     ID_User INT,
     DataCreazione DATETIME,
 
-    FOREIGN KEY (ID_User) REFERENCES Users(ID)
+    FOREIGN KEY (ID_User) REFERENCES Users(ID) ON DELETE CASCADE
 );
 
 CREATE TABLE CartItems (
@@ -84,7 +85,7 @@ CREATE TABLE CartItems (
     ID_Platform INT,
     Amount INT,
 
-    FOREIGN KEY (ID_Cart) REFERENCES Cart(ID_Cart)
+    FOREIGN KEY (ID_Cart) REFERENCES Cart(ID_Cart) ON DELETE CASCADE
 );
 
 CREATE TABLE ProductPrices (
