@@ -70,10 +70,12 @@ nav {
     color: #aa85d4;
     border: 3px solid #5f11b7bb;
     transition: all 0.2s;
+    transition: all 0.2s;
+    font-family: 'Roboto', sans-serif;
 }
 
 .input-search:focus {
-    border: #aa85d4;
+    border: 3px solid #9b51f0;
     outline: none;
 }
 .search-bar input::placeholder {

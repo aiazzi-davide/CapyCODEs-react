@@ -1,0 +1,39 @@
+.left{
+    width: 40%;
+
+}
+
+.right{
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.register{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 10px;
+    width: 80%;
+}
+
+.buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-top: 10px;
+    width: 80%;
+}
+
+.foot{
+    margin: 0 auto;
+}
+
+a{
+    color: #aa85d4;
+}

@@ -191,7 +191,7 @@ class ControllerPost
         }
 
         if (Auth::IsUserRegistered($email)) {
-            Mailer::sendConfirmationEmail($email, false); // commentata per debug
+            MyPhpMailer::sendConfirmationEmail($email, false); // commentata per debug
             //DbStore::GenerateOTP($email);  // da commentare per non debug (genro OTP senza inviare email), otp visibile nel db
             //$_SESSION['resetPswEmail'] = $email;
             $response->getBody()->write(json_encode(["message" => "OTP sent", "status" => "200"]));
