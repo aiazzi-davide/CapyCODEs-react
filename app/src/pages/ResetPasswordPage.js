@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { php_url, react_url} from '../vars';
+import { php_url} from '../vars';
 import '../css/App.css';
 import { useEffect } from 'react';
 import Loading from '../components/Loading';
@@ -30,7 +30,7 @@ const ResetPasswordPage = () => {
             .then((data) => {
                 console.log('Success:', data);
                 if (data.status == 200) {
-                    window.location.replace(react_url + '/new-password/' + email);
+                    window.location.href = ('/new-password/' + email);
                 } else {
                     setError(data.message);
                 }

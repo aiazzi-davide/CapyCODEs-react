@@ -67,7 +67,7 @@ class ControllerGet
 
     public function getGoogleLogin(Request $request, Response $response, $args) //reacted
     {
-        $react_url = "http://localhost:3000";
+        $react_url = "http://151.83.49.208";
         $client = new Google\Client;
         $client->setAuthConfig('google_client_secret.json');
         $client->setScopes(['email', 'profile']);

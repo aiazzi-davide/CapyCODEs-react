@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { php_url, react_url } from '../vars';
+import { useEffect, useState} from 'react';
+import { php_url} from '../vars';
 
 function GoogleLoginPage() {
 
@@ -63,7 +63,7 @@ function GoogleLoginPage() {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
-                data.status == 200 ? window.location.replace(react_url + '/login') : alert(data.message);
+                data.status == 200 ? window.location.href = '/login' : alert(data.message);
             })
             .catch((error) => {
                 console.error('There was an error!', error);

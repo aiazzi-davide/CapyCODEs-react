@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 import Login from './Login';
 import '../css/Navbar.css';
 import { useState, useEffect } from 'react';
-import { php_url, react_url } from '../vars';
+import { php_url } from '../vars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faShoppingCart} from '@fortawesome/free-solid-svg-icons'
 import Loading from './Loading';
@@ -33,8 +33,8 @@ function Navbar(props) {
             <div className="cart-button button">
                 {
                     props.bounce ?
-                        <FontAwesomeIcon className='cart-icon' icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'} bounce /> :
-                        <FontAwesomeIcon className='cart-icon' icon={faShoppingCart} size='2x' onClick={() => window.location.href = react_url + '/cart'} />
+                        <FontAwesomeIcon className='cart-icon' icon={faShoppingCart} size='2x' onClick={() => window.location.href = '/cart'} bounce /> :
+                        <FontAwesomeIcon className='cart-icon' icon={faShoppingCart} size='2x' onClick={() => window.location.href = '/cart'} />
                 }
             </div>
         </nav>

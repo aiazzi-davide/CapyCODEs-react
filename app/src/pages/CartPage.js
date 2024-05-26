@@ -1,6 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
-import { php_url, react_url } from "../vars";
+import { php_url} from "../vars";
 import Loading from "../components/Loading";
 import "../css/CartPage.css";
 import Amount from "../components/Amount";
@@ -21,7 +21,7 @@ function CartPage() {
       .then((response) => response.json())
       .then((data) => {
         if (data.message == "User not logged in") {
-          window.location.href = react_url + "/login";
+          window.location.href = "/login";
         }
         setCartItems(data.items);
         console.log("Success:", data);
@@ -98,13 +98,13 @@ function CartPage() {
           <p className="totale">Totale: {totale}€</p> <br />
           <div
             className="button"
-            onClick={() => (window.location.href = react_url + "/checkout")}
+            onClick={() => (window.location.href = "/checkout")}
           >
             Checkout
           </div>
           <div
             className="button"
-            onClick={() => (window.location.href = react_url + "/")}
+            onClick={() => (window.location.href = "/")}
           >
             Continua a comprare
           </div>

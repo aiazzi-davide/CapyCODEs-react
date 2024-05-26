@@ -1,9 +1,8 @@
 import React from 'react';
-import { react_url } from '../vars';
 
 const Item = ({ item }) => {
     const redirectToGame = (id) => {
-        window.location.href = react_url + '/game/' + id;
+        window.location.href = '/game/' + id;
       }
     return (
         <div className='item-container' onClick={redirectToGame.bind(this, item.game.id)}>

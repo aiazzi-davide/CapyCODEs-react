@@ -7,7 +7,6 @@ import Slideshow from "../components/Slideshow";
 import Loading from "../components/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
-import { react_url } from "../vars";
 import Price from "../components/Price";
 
 function GamePage() {
@@ -91,7 +90,7 @@ function GamePage() {
               className="cart-icon"
               icon={faShoppingCart}
               size="2x"
-              onClick={() => (window.location.href = react_url + "/cart")}
+              onClick={() => (window.location.href = "/cart")}
               bounce
             />
           ) : (
@@ -99,7 +98,7 @@ function GamePage() {
               className="cart-icon"
               icon={faShoppingCart}
               size="2x"
-              onClick={() => (window.location.href = react_url + "/cart")}
+              onClick={() => (window.location.href = "/cart")}
             />
           )}
         </div>

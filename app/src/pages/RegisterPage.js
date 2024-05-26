@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { php_url, react_url, checkLogin } from "../vars";
+import { useState, useEffect} from 'react';
+import { php_url, checkLogin } from "../vars";
 import '../css/RegisterPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
@@ -78,7 +78,7 @@ function RegisterPage() {
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Success:', data);
-                    data.status == 200 ? window.location.replace(react_url + `/verify/${email}`) : setError(data.message);
+                    data.status == 200 ? window.location.href = `/verify/${email}` : setError(data.message);
                 })
                 .catch((error) => {
                     console.error('There was an error!', error);

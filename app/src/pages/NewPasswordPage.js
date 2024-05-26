@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { php_url, react_url } from '../vars';
+import { php_url} from '../vars';
 import { useParams } from 'react-router-dom';
 const NewPasswordPage = () => {
     const [password, setPassword] = useState('');
@@ -38,7 +38,7 @@ const NewPasswordPage = () => {
                     console.log('Success:', data);
                     setIsLoaded(true);
                     if (data.status == 200) {
-                        window.location.replace(react_url + '/login');
+                        window.location.href = '/login';
                     } else {
                         alert(data.message);
                     }

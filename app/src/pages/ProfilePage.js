@@ -4,7 +4,6 @@ import { php_url } from '../vars';
 import Loading from '../components/Loading';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPen, faPlus, faHouse, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
 import '../css/ProfilePage.css';
 
 const ProfilePage = () => {
@@ -38,9 +37,8 @@ const ProfilePage = () => {
         setDataDiNascita(e.target.value);
     }
 
-    let navigate = useNavigate();
     function changePassword() {
-        navigate('/reset-password');
+        window.location.href = '/reset-password';
     }
 
 
@@ -90,7 +88,7 @@ const ProfilePage = () => {
     }
 
     function redirectHome() {
-        navigate('/');
+        window.location.href = '/';
     }
 
     function setShowInputNull() {
@@ -109,7 +107,7 @@ const ProfilePage = () => {
                 console.log('Success:', data);
                 setData(data);
                 setIsLoaded(true);
-                data.message == 'User not logged in' && navigate('/login');
+                data.message == 'User not logged in' && window.location.replace('/login');
             })
             .catch(error => {
                 console.error('There was an error!', error);

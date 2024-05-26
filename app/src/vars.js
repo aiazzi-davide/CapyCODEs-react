@@ -1,5 +1,5 @@
-export const php_url = 'http://localhost:81';
-export const react_url = 'http://localhost:3000';
+export const php_url = 'http://151.83.49.208:81';
+
 
 export const checkLogin = (setIsLoaded) => {
     fetch(php_url + '/login', {
@@ -11,7 +11,7 @@ export const checkLogin = (setIsLoaded) => {
             
             setIsLoaded(true);
             console.log('Success:', data);
-            data.message === 'User already logged in' && window.location.replace(react_url + '/');
+            data.message === 'User already logged in' && window.location.replace('/');
         })
         .catch((error) => {
             console.error('There was an error!', error);
@@ -27,7 +27,7 @@ export const checkAdmin = (setIsLoaded) => {
       .then((data) => {
           setIsLoaded(true);
           console.log('Success:', data);
-          data.message === 'User is not an admin' && window.location.replace(react_url + '/');
+          data.message === 'User is not an admin' && window.location.replace('/');
       })
       .catch((error) => {
           console.error('There was an error!', error);

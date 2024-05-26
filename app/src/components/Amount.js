@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { php_url, react_url } from '../vars';
+import { php_url} from '../vars';
 
 const Amount = ({item, trigger, setTrigger}) => {
 

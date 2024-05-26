@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { php_url, react_url, checkLogin } from "../vars";
+import { useState, useEffect} from 'react';
+import { php_url, checkLogin } from "../vars";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faGoogle } from '@fortawesome/free-brands-svg-icons'
 import { faHome } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +38,7 @@ const LoginPage = () => {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
-                data.message === 'Login successful' ? window.location.replace(react_url): alert('Login failed');
+                data.message === 'Login successful' ? window.location.href = '/' : alert(data.message);
             })
             .catch((error) => {
                 console.error('There was an error!', error);
@@ -59,7 +59,7 @@ const LoginPage = () => {
                         <input type="password" value={password} onChange={handlePasswordChange} placeholder="Password" className="input" />
                         <div className="buttons1">
                             <div className="login-button button" type="submit" onClick={handleSubmit}>Login</div>
-                            <div className="button" onClick={() => window.location.href = react_url + '/register'}>SignUp</div>
+                            <div className="button" onClick={() => window.location.href = '/register'}>SignUp</div>
                         </div>
                     </div>
                     <div className="right-container buttons2">

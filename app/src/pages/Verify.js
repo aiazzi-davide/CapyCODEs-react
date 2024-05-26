@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { php_url, react_url, checkLogin } from '../vars';
+import { php_url, checkLogin } from '../vars';
 import { useParams } from 'react-router-dom';
 
 function Verify() {
@@ -34,7 +34,7 @@ function Verify() {
                 console.log('Success:', data);
                 if (data.status == 200) {
                     alert('Verification successful');
-                    window.location.replace(react_url + '/login');
+                    window.location.href = '/login';
                 } else {
                     alert(data.message);
                 }

@@ -42,8 +42,7 @@ class DbStore
         setcookie("CapycodesTkn", $token, [
             'expires' => time() + (86400 * 30),
             'path' => '/',
-            'samesite' => 'None',
-            'secure' => true,  // SameSite=None requires the Secure attribute
+            'SameSite' => 'Lax',
         ]);
     }
 

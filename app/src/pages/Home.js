@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import Loading from "../components/Loading";
 import SearchResults from "../components/SearchResults";
 import { useState, useEffect } from "react";
-import { php_url, LoadData, react_url} from "../vars";
+import { php_url, LoadData} from "../vars";
 import "../css/App.css";
 import ServerErrorPage from "./errors/ServerErrorPage";
 
