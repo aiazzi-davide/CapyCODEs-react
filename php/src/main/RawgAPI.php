@@ -17,13 +17,14 @@ class RawgAPI
         $this->client = new GuzzleHttp\Client();
     }
 
-    public function getGames($query)
+    public function getGames($query, $page)
     {
         $this->api_url = $this->base_url . "games";
         $this->api_params = [
             'key' => $this->api_key,
             'search' => $query,
-            'page_size' => 24
+            'page_size' => 24,
+            'page' => $page
         ];
         $this->api_response = $this->client->request('GET', $this->api_url, ['query' => $this->api_params]);
         $this->api_data = json_decode($this->api_response->getBody(), true);

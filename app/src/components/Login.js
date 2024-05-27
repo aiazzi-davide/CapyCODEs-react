@@ -29,7 +29,6 @@ function Login(props) {
   //console.log(props);
   if (props['isLoaded']) {
     if (props['profile']) {
-      console.log(props);
       response = (
         <div className='profile' >
           <div className='name button' onClick={redirectProfile}>{props['profile'].Username} </div>

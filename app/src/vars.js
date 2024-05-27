@@ -34,9 +34,9 @@ export const checkAdmin = (setIsLoaded) => {
       });
 }
 
-export const LoadData = (query, setData, setIsLoaded, setError) => {
+export const LoadData = (query, page, setData, setIsLoaded, setError) => {
 
-    fetch(php_url + "?query=" + query, {
+    fetch(php_url + "?query=" + query + "&page=" + page, {
       method: "GET",
       credentials: "include", // Include cookies
     })

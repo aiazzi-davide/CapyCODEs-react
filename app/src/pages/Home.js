@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { php_url, LoadData} from "../vars";
 import "../css/App.css";
 import ServerErrorPage from "./errors/ServerErrorPage";
+import Pager from "../components/Pager";
 
 function Home() {
   const [data, setData] = useState({});
@@ -14,10 +15,13 @@ function Home() {
   const [triggerCart, setTriggerCart] = useState(false);
   const [triggerError, setTriggerError] = useState(false);
   const [error, setError] = useState(false);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    LoadData(query, setData, setIsLoaded, setError);
-  }, [query]);
+    setIsLoaded(false);
+    LoadData(query, page, setData, setIsLoaded, setError);
+    console.log('page: ', page);
+  }, [query, page]);
 
 
   if (error) {
@@ -54,7 +58,8 @@ function Home() {
     <div>
       <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} isLoaded={isLoaded} bounce={triggerCart} setBounce={setTriggerCart} />
       <Spacer />
-      <SearchResults data={data} query={query} addToCart={addToCart} triggerError={triggerError} setTriggerError={setTriggerError} isLoaded = {isLoaded}/>
+      <SearchResults data={data} query={query} addToCart={addToCart} triggerError={triggerError} setTriggerError={setTriggerError} isLoaded={isLoaded} />
+      <Pager page={page} setPage={setPage} />
     </div>
   );
 

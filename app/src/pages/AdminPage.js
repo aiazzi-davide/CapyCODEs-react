@@ -61,7 +61,7 @@ function AdminPage() {
     useEffect(() => {
         // Check if the user is logged in
         checkAdmin(setIsLoadedAUTH);
-        LoadData(query, setData, setIsLoadedData, setError);
+        LoadData(query, 1, setData, setIsLoadedData, setError);
     }, [query]);
 
     // Check if the user is logged in and the data is loaded

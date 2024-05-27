@@ -8,8 +8,10 @@ class ControllerGet
     public function getHome(Request $request, Response $response, $args) //reacted
     {
         $search = $request->getQueryParams()['query'] ?? null;
+        $page = $request->getQueryParams()['page'] ?? 1;
         //aggiungo a data i dati dei giochi da stampare in homepage
-        $data['games'] = DbUtils::getGames($search);
+        $data['games'] = DbUtils::getGames($search, $page);
+  
 
         if (isset($_COOKIE['CapycodesTkn'])) {
 

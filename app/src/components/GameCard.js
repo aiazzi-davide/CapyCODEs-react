@@ -20,7 +20,6 @@ function GameCard(props) {
                 background_image: false
             });
             setPriceData({ Price: '' });
-            console.log('loading')
         }
 
         //controllo se c'è stato un errore
@@ -38,7 +37,6 @@ function GameCard(props) {
             //setto game e priceData
             setGame(props.game);
             setPriceData(props.game.priceData);
-            console.log('loaded', props.game);
 
             //calcolo prezzo finale
             if (priceData.Price == 'Not available') {

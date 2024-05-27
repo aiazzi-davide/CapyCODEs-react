@@ -139,10 +139,10 @@ class DbUtils
      * getGames() Restituisce i giochi
      * @return array
      */
-    static function getGames($query)
+    static function getGames($query, $page)
     {
         $rawg = new RawgAPI();
-        $games = $rawg->getGames($query);
+        $games = $rawg->getGames($query, $page);
 
         // Aggiunge il prezzo a ciascun gioco
         foreach ($games as $key => $game) {
