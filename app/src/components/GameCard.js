@@ -7,46 +7,53 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import Loading from './Loading';
 
 function GameCard(props) {
-    const priceData = props.game.priceData;
-    const [finalPrice, setFinalPrice] = useState('N');
+    const [priceData, setPriceData] = useState(''); 
+    const [finalPrice, setFinalPrice] = useState('');
     const [game, setGame] = useState(props.game);
 
     let final = 0;
     useEffect(() => {
         if (!props.isLoaded) {
             setGame({
-                id: props.key,
-                name: <Loading type='skeleton' />,
+                id: props.id,
+                name: '',
                 background_image: false
             });
-        } else {
-            setGame(props.game);
+            setPriceData({ Price: '' });
+            console.log('loading')
         }
+
+        //controllo se c'è stato un errore
         if (props.errorId == game.id) {
             setTimeout(() => {
                 props.setErrorId(null);
             }, 1000);
         }
+    }, [props.isLoaded, props.errorId, props.game]);
 
-        //controllo se priceData esiste
-        if (priceData == undefined) {
-            setFinalPrice('');
-        } else {
+
+    useEffect(() => {
+        if (props.isLoaded) {
+
+            //setto game e priceData
+            setGame(props.game);
+            setPriceData(props.game.priceData);
+            console.log('loaded', props.game);
+
+            //calcolo prezzo finale
             if (priceData.Price == 'Not available') {
                 setFinalPrice('Not available');
             } else {
                 final = (priceData.Price - (priceData.Price * (priceData.Discount / 100))).toFixed(2);
-                console.log(final);
                 setFinalPrice(final);
             }
         }
-    }, [props.isLoaded, props.errorId]);
-
+    }, [props.isLoaded, props.game, priceData]);
 
     return (
         <div className="game-card-container">
             <div
-                key={props.key}
+                key={props.id}
                 id={game.id} 
                 className="game-card"
                 onClick={() => (window.location.href = "/game/" + game.id)}
@@ -68,7 +75,7 @@ function GameCard(props) {
                         <b className="price">
                             {finalPrice != priceData.Price && <s>{priceData.Price}€</s>} <span> </span>
                             {finalPrice}
-                            {priceData.Price != 'Not available' && <b>€</b>}
+                            {priceData.Price != 'Not available' && priceData.Price != '' && <b>€</b>}
                         </b>}
                 </div> 
             </div>

@@ -39,7 +39,11 @@ function Home() {
         console.log("Success:", data);
           data.status == 200 ?
             setTriggerCart(!triggerCart)
-            : setTriggerError(data.game_id);
+            : data.message == 'Game not available' ?
+              setTriggerError(data.game_id) :
+              data.message == 'User not logged in' ?
+                window.location.href = '/login' :
+                console.log('Error:', data.message);
     })
     .catch((error) => {
         console.error("Error:", error);

@@ -1,4 +1,4 @@
-export const php_url = 'http://151.83.49.208:81';
+export const php_url = 'http://capycodes.ddns.net:81';
 
 
 export const checkLogin = (setIsLoaded) => {

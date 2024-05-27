@@ -50,16 +50,14 @@ function Verify() {
 
     return (
         <div>
-            <h1>Verify Page</h1>
-            <form onSubmit={handleSubmit}>
-                <br />
-                <label>
+            <h1>Verify</h1>
+            <div >
+                <div className='left-container'>
                     OTP:
-                    <input type="text" value={otp} onChange={handleOtpChange} />
-                </label>
-                <br />
-                <button type="submit">Verify</button>
-            </form>
+                    <input className='input' type="text" value={otp} onChange={handleOtpChange} />
+                <div className='button' onClick={handleSubmit}>Verify</div>
+                </div>
+            </div>
         </div>
     );
 }
