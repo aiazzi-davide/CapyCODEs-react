@@ -3,7 +3,7 @@ class RawgAPI
 {
     private $client;
     private $base_url = "https://api.rawg.io/api/";
-    private $api_key = "c4322c43dafb4b6fb295c5a30658b095";
+    private $api_key = "0f0f9b9f6b4f4e338760f5c9d9bfc1ec";
     private $api_version = "1";
     private $api_url;
     private $api_params;
