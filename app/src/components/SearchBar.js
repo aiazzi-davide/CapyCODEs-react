@@ -8,8 +8,6 @@ const SearchBar = (props) => {
         }, 1000);
     };
 
-
-    //onChange={handleInputChange}
     return (
         <div>
             <input

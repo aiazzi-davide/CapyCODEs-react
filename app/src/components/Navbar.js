@@ -3,11 +3,9 @@ import Logo from './Logo';
 import SearchBar from './SearchBar';
 import Login from './Login';
 import '../css/Navbar.css';
-import { useState, useEffect } from 'react';
-import { php_url } from '../vars';
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faShoppingCart} from '@fortawesome/free-solid-svg-icons'
-import Loading from './Loading';
 
 function Navbar(props) {
     const redirectHome = () => {

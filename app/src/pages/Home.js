@@ -50,11 +50,7 @@ function Home() {
     <div>
       <Navbar profile={data.profile} admin={data.admin} setQuery={setQuery} isLoaded={isLoaded} bounce={triggerCart} setBounce={setTriggerCart} />
       <Spacer />
-      {isLoaded ? (
-        <SearchResults data={data} query={query} addToCart={addToCart} triggerError={triggerError} setTriggerError={setTriggerError} />
-      ) : (
-        <Loading type={'spinner'}/>
-      )}
+      <SearchResults data={data} query={query} addToCart={addToCart} triggerError={triggerError} setTriggerError={setTriggerError} isLoaded = {isLoaded}/>
     </div>
   );
 

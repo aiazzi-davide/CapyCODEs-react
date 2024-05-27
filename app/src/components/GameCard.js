@@ -1,42 +1,58 @@
 import React from 'react';
 import '../css/GameCard.css';
 import { useState, useEffect } from "react";
-import { php_url } from "../vars";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
-import { faShoppingCart, faCartPlus } from '@fortawesome/free-solid-svg-icons' 
+import { faCartPlus } from '@fortawesome/free-solid-svg-icons' 
+import 'react-loading-skeleton/dist/skeleton.css'
+import Loading from './Loading';
 
 function GameCard(props) {
-    const game = props.game;
     const priceData = props.game.priceData;
-    const [finalPrice, setFinalPrice] = useState(priceData.Price);
-
-    if (props.errorId == game.id) {
-        setTimeout(() => {
-            props.setErrorId(null);
-        }, 1000);
-    }
+    const [finalPrice, setFinalPrice] = useState('N');
+    const [game, setGame] = useState(props.game);
 
     let final = 0;
     useEffect(() => {
-        if (priceData.Price == 'Not available') {
-            setFinalPrice('Not available');
-            return;
+        if (!props.isLoaded) {
+            setGame({
+                id: props.key,
+                name: <Loading type='skeleton' />,
+                background_image: false
+            });
+        } else {
+            setGame(props.game);
         }
-        final = (priceData.Price - (priceData.Price * (priceData.Discount / 100))).toFixed(2);
-        console.log(final);
-        setFinalPrice(final);
-    }, [priceData]);
+        if (props.errorId == game.id) {
+            setTimeout(() => {
+                props.setErrorId(null);
+            }, 1000);
+        }
+
+        //controllo se priceData esiste
+        if (priceData == undefined) {
+            setFinalPrice('');
+        } else {
+            if (priceData.Price == 'Not available') {
+                setFinalPrice('Not available');
+            } else {
+                final = (priceData.Price - (priceData.Price * (priceData.Discount / 100))).toFixed(2);
+                console.log(final);
+                setFinalPrice(final);
+            }
+        }
+    }, [props.isLoaded, props.errorId]);
+
 
     return (
         <div className="game-card-container">
             <div
-                key={game.id}
+                key={props.key}
                 id={game.id} 
                 className="game-card"
                 onClick={() => (window.location.href = "/game/" + game.id)}
             >
                 <div className='img-div'>
-                    <img className='card-img' src={game.background_image} alt={game.name} />
+                    {game.background_image ? <img className='card-img' src={game.background_image} alt={game.name} /> : <Loading type='ic' />}
                 </div>
                 <div className='title-div'>
                     <b className="game-title">{game.name}</b>

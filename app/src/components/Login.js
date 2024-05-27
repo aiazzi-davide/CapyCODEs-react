@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { php_url } from '../vars';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome' // Importa FontAwesomeIcon
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
